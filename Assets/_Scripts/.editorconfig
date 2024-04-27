@@ -1,0 +1,13 @@
+# Top-most EditorConfig file
+root = true
+
+# C# files
+[*.{cs}]
+dotnet_naming_rule.camel_case_for_private_fields.severity = none
+dotnet_naming_rule.camel_case_for_private_fields.symbols = private_fields
+dotnet_naming_rule.camel_case_for_private_fields.style = camel_case_underscore_style
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case
