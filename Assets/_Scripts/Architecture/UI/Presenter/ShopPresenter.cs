@@ -39,18 +39,18 @@ public class ShopPresenter : MonoBehaviour
 
     void OnEnable() 
     {
-        // eventsManager.StartListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
+        eventsManager.StartListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
         // eventsManager.StartListening(GameEvent.ShopViewModelEvent.UPDATE_SHOP_DETAILS, SetTexts);
     }
     void Start()
     {
-        shopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
+        // shopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
 
         // .Subscribe( detail => 
         //     shopDetails.Value = detail
         // );
 
-        InitializeShopUI();
+        // InitializeShopUI();
         // eventsManager.StartListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
         // Subscribe to shop details once and handle all UI updates here
         // shopDetails = shopViewModel.shopDetails;
@@ -96,6 +96,16 @@ public class ShopPresenter : MonoBehaviour
         critRateBuyButton.onClick.AddListener(shopViewModel.BuyCritRate);
         critDamageBuyButton.onClick.AddListener(shopViewModel.BuyCritDamage);
 
+        shopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
+
+        // shopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
+
+
+        // .Subscribe( detail => 
+        //     shopDetails.Value = detail
+        // );
+
+        // InitializeShopUI();
         // SetTexts();
     }
 
@@ -143,7 +153,7 @@ public class ShopPresenter : MonoBehaviour
 
     public void Cleanup()
     {
-        // eventsManager.StopListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
+        eventsManager.StopListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
         // eventsManager.StopListening(GameEvent.ShopViewModelEvent.UPDATE_SHOP_DETAILS, SetTexts);
     }
 }

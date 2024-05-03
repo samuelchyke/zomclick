@@ -94,10 +94,10 @@ public class Projectile : MonoBehaviour
             damageable.TakeDamage(playerViewModel.playerStats.totalDamage);
             Destroy(gameObject);
         }
-        else if (other.gameObject.CompareTag("Floor"))
-        {
-            isSpinning = true;
-            projectileSpeed *= 0.5f;
-        }
+        // else if (other.gameObject.CompareTag("Floor"))
+        // {
+        //     isSpinning = true;
+        //     projectileSpeed *= 0.5f;
+        // }
     }
 }
