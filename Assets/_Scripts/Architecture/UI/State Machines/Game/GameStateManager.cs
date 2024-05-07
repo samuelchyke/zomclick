@@ -1,6 +1,7 @@
 using UnityEngine;
 using Zenject;
 using TMPro;
+using System.Collections;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class GameStateManager : MonoBehaviour
 
     public int round = 1;
     float timeElapsed = 0;
-    [SerializeField] int nextRoundScreenDisplayTime = 50;
+    [SerializeField] int nextRoundScreenDisplayTime = 3;
+    public const float ROUND_TEXT_TIMER = 2;
+
     bool incrementRound;
     
     void Awake() 
@@ -25,7 +28,7 @@ public class GameStateManager : MonoBehaviour
     void OnEnable()
     {
         eventsManager.StartListening(GameEvent.GameViewModelEvent.GAME_OVER, DisplayGameOverScreen);
-        eventsManager.StartListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, DisplayNextRoundScreen);
+        eventsManager.StartListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, NextRound);
     }
 
     void SetRoundText(){
@@ -36,22 +39,23 @@ public class GameStateManager : MonoBehaviour
 
     void Start()
     {
+            // roundText = GameObject.Find("round_text").GetComponent<TextMeshProUGUI>();
     }
 
     void Update()
     {
-        if (!incrementRound) return;
+        // if (!incrementRound) return;
     
-        if (timeElapsed < nextRoundScreenDisplayTime)
-        {
-            timeElapsed += Time.deltaTime;
-        }
-        else
-        {
-            timeElapsed = 0;
-            incrementRound = false;
-            nextRoundScreen.SetActive(false);
-        }
+        // if (timeElapsed < nextRoundScreenDisplayTime)
+        // {
+        //     timeElapsed += Time.deltaTime;
+        // }
+        // else
+        // {
+        //     timeElapsed = 0;
+        //     incrementRound = false;
+        //     nextRoundScreen.SetActive(false);
+        // }
     }
 
     public void NextWave ()
@@ -59,12 +63,21 @@ public class GameStateManager : MonoBehaviour
         incrementRound = true;
     }
 
-    public void DisplayNextRoundScreen()
+    public void NextRound()
     {
+        // nextRoundScreen.SetActive(true);
+        // roundText = GameObject.Find("round_text").GetComponent<TextMeshProUGUI>();
+        // SetRoundText();
+        // incrementRound = true;
         nextRoundScreen.SetActive(true);
-        roundText = GameObject.Find("round_text").GetComponent<TextMeshProUGUI>();
         SetRoundText();
-        incrementRound = true;
+        StartCoroutine(DisplayNextRoundScreen());
+    }
+
+    IEnumerator DisplayNextRoundScreen()
+    {
+        yield return new WaitForSeconds(3);
+        nextRoundScreen.SetActive(false);
     }
 
     public void DisplayGameOverScreen()
@@ -75,6 +88,6 @@ public class GameStateManager : MonoBehaviour
     void OnDisable()
     {
         eventsManager.StopListening(GameEvent.GameViewModelEvent.GAME_OVER, DisplayGameOverScreen);
-        eventsManager.StopListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, DisplayNextRoundScreen);
+        eventsManager.StopListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, NextRound);
     }
 }
