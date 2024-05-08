@@ -8,6 +8,8 @@ public interface IPlayerStatsDao
     Task<PlayerStatsEntity> ReadPlayerStats();
 
     Task UpdatePlayerStats(PlayerStatsEntity playerStats);
+
+    Task UpdatePlayerGold(int goldAmount);
 }
 
 public class PlayerStatsDaoImpl : IPlayerStatsDao, IInitializable
@@ -37,5 +39,15 @@ public class PlayerStatsDaoImpl : IPlayerStatsDao, IInitializable
     public Task UpdatePlayerStats(PlayerStatsEntity playerStats)
     {
         return Task.Run(() => _db.Update(playerStats));
+    }
+
+    public Task UpdatePlayerGold(int goldAmount)
+    {
+        return Task.Run(() => 
+        {
+            string query = "UPDATE PlayerStatsEntity SET totalGold = ?";
+            _db.Execute(query, goldAmount);
+            Debug.Log("Updated player gold to: " + goldAmount);
+        });
     }
 }

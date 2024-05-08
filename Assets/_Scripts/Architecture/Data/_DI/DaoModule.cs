@@ -18,9 +18,9 @@ public class DaoModule : Installer<DaoModule>
             );
         }).AsSingle().NonLazy();
 
-        Container.BindInterfacesAndSelfTo<PlayerUpgradeShopDaoImpl>().FromMethod( ctx =>
+        Container.BindInterfacesAndSelfTo<PlayerShopDaoImpl>().FromMethod( ctx =>
         {
-            return new PlayerUpgradeShopDaoImpl(
+            return new PlayerShopDaoImpl(
                 databaseManager : ctx.Container.Resolve<DatabaseManager>()
             );
         }).AsSingle().NonLazy();

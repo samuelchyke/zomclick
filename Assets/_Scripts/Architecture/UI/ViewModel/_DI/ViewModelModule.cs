@@ -4,16 +4,17 @@ public class ViewModelModule : Installer<ViewModelModule>
 {
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<PlayerUpgradeShopViewModelImpl>()
+        Container.BindInterfacesAndSelfTo<PlayerShopViewModelImpl>()
         .FromMethod( ctx =>
             {
-                return new PlayerUpgradeShopViewModelImpl(
+                return new PlayerShopViewModelImpl(
                     readEnemyStatsUseCase: ctx.Container.Resolve<ReadEnemyStatsUseCaseImpl>(),
                     readBossStatsUseCase: ctx.Container.Resolve<ReadBossStatsUseCaseImpl>(),
                     readPlayerStatsUseCase: ctx.Container.Resolve<ReadPlayerStatsUseCaseImpl>(),
                     updatePlayerStatsUseCase: ctx.Container.Resolve<UpdatePlayerStatsUseCaseImpl>(),
                     updateShopDetailsUseCase: ctx.Container.Resolve<UpdateShopDetailsUseCaseImpl>(),
                     readShopDetailsUseCaseUseCase: ctx.Container.Resolve<ReadShopDetailsUseCaseImpl>(),
+                    addEnemyGoldUseCase: ctx.Container.Resolve<AddEnemyGoldUseCaseImpl>(),
                     eventsManager: ctx.Container.Resolve<EventsManager>()
                 );
             })

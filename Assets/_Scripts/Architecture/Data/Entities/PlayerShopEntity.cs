@@ -1,6 +1,6 @@
 using SQLite4Unity3d;
 
-public class PlayerUpgradeShopEntity
+public class PlayerShopEntity
 {
     [PrimaryKey]
     public string id { get; set; }

@@ -3,15 +3,15 @@ using Zenject;
 using Debug = UnityEngine.Debug;
 
 public interface IUpdateShopDetailsUseCase {
-    public Task Invoke(PlayerUpgradeShopDetails shopDetails);
+    public Task Invoke(PlayerShopDetails shopDetails);
 }
 
 public class UpdateShopDetailsUseCaseImpl : IUpdateShopDetailsUseCase, IInitializable
 {
-    IPlayerUpgradeShopRepository shopRepository;
+    IPlayerShopRepository shopRepository;
 
     [Inject]
-    public UpdateShopDetailsUseCaseImpl(IPlayerUpgradeShopRepository shopRepository)
+    public UpdateShopDetailsUseCaseImpl(IPlayerShopRepository shopRepository)
     {
         this.shopRepository = shopRepository;
     }
@@ -21,7 +21,7 @@ public class UpdateShopDetailsUseCaseImpl : IUpdateShopDetailsUseCase, IInitiali
         Debug.Log("UpdateAndFetchShopDetailsUseCaseImpl Initialized");
     }
 
-    public async Task Invoke(PlayerUpgradeShopDetails shopDetails)
+    public async Task Invoke(PlayerShopDetails shopDetails)
     {
         await shopRepository.UpdateShopDetails(shopDetails);
     }

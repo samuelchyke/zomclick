@@ -4,15 +4,15 @@ using Zenject;
 using Debug = UnityEngine.Debug;
 
 public interface IObservePlayerUpgradeShopDetailsUseCase {
-    public Observable<PlayerUpgradeShopDetails> Invoke();
+    public Observable<PlayerShopDetails> Invoke();
 }
 
 public class ObservePlayerUpgradeShopDetailsUseCaseImpl : IObservePlayerUpgradeShopDetailsUseCase, IInitializable
 {
-    IPlayerUpgradeShopRepository shopRepository;
+    IPlayerShopRepository shopRepository;
 
     [Inject]
-    public ObservePlayerUpgradeShopDetailsUseCaseImpl(IPlayerUpgradeShopRepository shopRepository)
+    public ObservePlayerUpgradeShopDetailsUseCaseImpl(IPlayerShopRepository shopRepository)
     {
         this.shopRepository = shopRepository;
     }
@@ -22,7 +22,7 @@ public class ObservePlayerUpgradeShopDetailsUseCaseImpl : IObservePlayerUpgradeS
         Debug.Log("ObserveEnemyStatsUseCase Initialized");
     }
 
-    public Observable<PlayerUpgradeShopDetails> Invoke()
+    public Observable<PlayerShopDetails> Invoke()
     {
         return shopRepository.ObserveShopDetails();
     }

@@ -6,7 +6,7 @@ using Debug = UnityEngine.Debug;
 public class Seeding
 {
     PlayerStatsEntity DefaultPlayerStats { get; set; }
-    PlayerUpgradeShopEntity DefaultShopDetails { get; set; }
+    PlayerShopEntity DefaultShopDetails { get; set; }
     EnemyStatsEntity DefaultEnemyStats { get; set; }
     BossStatsEntity DefaultBossStats { get; set; }
     EnemyWaveEntity DefaultEnemyWave { get; set; }
@@ -29,7 +29,7 @@ public class Seeding
             totalGold = 5000
         };
 
-        DefaultShopDetails = new PlayerUpgradeShopEntity
+        DefaultShopDetails = new PlayerShopEntity
         {
             id = Guid.NewGuid().ToString(),
             wallHealthCost = 10,

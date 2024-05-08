@@ -52,7 +52,7 @@ public class DatabaseManager : IInitializable
         dbConnection.CreateTable<EnemyStatsEntity>();
         dbConnection.CreateTable<EnemyWaveEntity>();
         dbConnection.CreateTable<BossStatsEntity>();
-        dbConnection.CreateTable<PlayerUpgradeShopEntity>();
+        dbConnection.CreateTable<PlayerShopEntity>();
         dbConnection.CreateTable<AllyStatsEntity>();
     }
 
@@ -75,7 +75,7 @@ public class DatabaseManager : IInitializable
         if (!resetDb) return; 
         dbConnection.DropTable<DatabaseVersionEntity>();
         dbConnection.DropTable<PlayerStatsEntity>();
-        dbConnection.DropTable<PlayerUpgradeShopEntity>();
+        dbConnection.DropTable<PlayerShopEntity>();
         dbConnection.DropTable<EnemyStatsEntity>();
         dbConnection.DropTable<BossStatsEntity>();
         dbConnection.DropTable<EnemyWaveEntity>();

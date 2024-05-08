@@ -40,7 +40,6 @@ public class EnemyViewModelImpl : IEnemyViewModel, IInitializable
         this.eventsManager = eventsManager;
     }
 
-    PlayerStats _playerStats { get; set; }
     EnemyStats _enemyStats { get; set; }
     EnemyWaveDetails _enemyWaveDetails { get; set; }
 
@@ -49,12 +48,10 @@ public class EnemyViewModelImpl : IEnemyViewModel, IInitializable
 
     public async void Initialize()
     {
-        _playerStats = await readPlayerStatsUseCase.Invoke();
         _enemyStats = await readEnemyStatsUseCase.Invoke();
         _enemyWaveDetails = await readEnemyWaveDetailsUseCase.Invoke();
 
         eventsManager.TriggerEvent(GameEvent.EnemyViewModelEvent.ENEMY_VM_SETUP_COMPLETE);
-        eventsManager.StartListening(GameEvent.ShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
         Debug.Log("Enemy ViewModel Initialized");
     }
 
@@ -104,18 +101,8 @@ public class EnemyViewModelImpl : IEnemyViewModel, IInitializable
         UpdateEnemyStats();
     }
 
-    async void UpdatePlayerStatsEvent()
-    {
-        var newPlayerStats = await readPlayerStatsUseCase.Invoke();
-        if (newPlayerStats != _playerStats)
-        {
-            _playerStats = newPlayerStats;
-        }
-    }
-
     public void Cleanup()
     {
         eventsManager.StopListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, IncrementRound);
-        eventsManager.StopListening(GameEvent.ShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
     }
 }

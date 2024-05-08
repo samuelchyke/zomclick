@@ -68,7 +68,7 @@ public class UseCaseModule : Installer<UseCaseModule>
             .FromMethod( ctx =>
                 {
                     return new ObservePlayerUpgradeShopDetailsUseCaseImpl(
-                        shopRepository: ctx.Container.Resolve<PlayerUpgradeShopRepositoryImpl>()
+                        shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
                     );
                 })
             .AsSingle()
@@ -78,17 +78,27 @@ public class UseCaseModule : Installer<UseCaseModule>
             .FromMethod( ctx =>
                 {
                     return new ReadShopDetailsUseCaseImpl(
-                        shopRepository: ctx.Container.Resolve<PlayerUpgradeShopRepositoryImpl>()
+                        shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
                     );
                 })
             .AsSingle()
             .NonLazy();
 
+        Container.BindInterfacesAndSelfTo<AddEnemyGoldUseCaseImpl>()
+        .FromMethod( ctx =>
+            {
+                return new AddEnemyGoldUseCaseImpl(
+                    shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
+                );
+            })
+        .AsSingle()
+        .NonLazy();
+
         Container.BindInterfacesAndSelfTo<UpdateShopDetailsUseCaseImpl>()
             .FromMethod( ctx =>
                 {
                     return new UpdateShopDetailsUseCaseImpl(
-                        shopRepository: ctx.Container.Resolve<PlayerUpgradeShopRepositoryImpl>()
+                        shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
                     );
                 })
             .AsSingle()

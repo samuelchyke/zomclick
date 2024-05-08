@@ -7,9 +7,9 @@ using R3;
 public class ShopPresenter : MonoBehaviour
 {
     [Inject] EventsManager eventsManager;
-    [Inject] readonly IPlayerUpgradeShopViewModel shopViewModel;
+    [Inject] readonly IPlayerShopViewModel shopViewModel;
     // Observable<PlayerUpgradeShopDetails> shopDetails;
-    ReadOnlyReactiveProperty<PlayerUpgradeShopDetails> shopDetails;
+    ReadOnlyReactiveProperty<PlayerShopDetails> shopDetails;
 
     public TextMeshProUGUI goldText;
     public Button playerUpgradeShopButton;
@@ -78,9 +78,9 @@ public class ShopPresenter : MonoBehaviour
         // damageCostText.text = shopDetails.CurrentValue.damageCost.ToString();
     }
 
-    private void UpdateUI(PlayerUpgradeShopDetails details)
+    private void UpdateUI(PlayerShopDetails details)
     {
-        // goldText.text = details.totalGold.ToString();
+        goldText.text = details.totalGold.ToString();
         wallHealthCostText.text = details.wallHealthCost.ToString();
         damageCostText.text = details.damageCost.ToString();
         critRateCostText.text = details.critRateCost.ToString();

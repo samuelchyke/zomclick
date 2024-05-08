@@ -4,11 +4,13 @@ public class RepositoryModule : Installer<RepositoryModule>
 {
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<PlayerUpgradeShopRepositoryImpl>()
+        Container.BindInterfacesAndSelfTo<PlayerShopRepositoryImpl>()
             .FromMethod( ctx =>
                 {
-                    return new PlayerUpgradeShopRepositoryImpl(
-                        shopDao: ctx.Container.Resolve<PlayerUpgradeShopDaoImpl>()
+                    return new PlayerShopRepositoryImpl(
+                        playerShopDao: ctx.Container.Resolve<PlayerShopDaoImpl>(),
+                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>(),
+                        enemyDao: ctx.Container.Resolve<EnemyDaoImpl>()
                     );
                 })
             .AsSingle()

@@ -1,20 +1,21 @@
-public class PlayerUpgradeShopDetailsBuilder
+public class PlayerShopDetailsBuilder
 {
-    public PlayerUpgradeShopDetails ToDomain(PlayerUpgradeShopEntity shopEntity)
+    public PlayerShopDetails ToDomain(PlayerShopEntity shopEntity, int totalGold)
     {
-        return new PlayerUpgradeShopDetails 
+        return new PlayerShopDetails 
         {
             id = shopEntity.id,
             wallHealthCost = shopEntity.wallHealthCost,
             damageCost = shopEntity.damageCost,
             critDamageCost = shopEntity.critDamageCost,
             critRateCost = shopEntity.critRateCost,
+            totalGold = totalGold
         };
     }
 
-    public PlayerUpgradeShopEntity ToEntity(PlayerUpgradeShopDetails shopStats)
+    public PlayerShopEntity ToEntity(PlayerShopDetails shopStats)
     {
-        return new PlayerUpgradeShopEntity 
+        return new PlayerShopEntity 
         {
             id = shopStats.id,
             wallHealthCost = shopStats.wallHealthCost,
