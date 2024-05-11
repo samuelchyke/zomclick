@@ -15,20 +15,17 @@ public class BossViewModelImpl : IBossViewModel, IInitializable
 {
     IReadPlayerStatsUseCase readPlayerStatsUseCase;
     IReadBossStatsUseCase readBossStatsUseCase;
-    IUpdateBossStatsUseCase updateBossStatsUseCase;
     EventsManager eventsManager;
 
     [Inject]
     public BossViewModelImpl(
         IReadPlayerStatsUseCase readPlayerStatsUseCase,
         IReadBossStatsUseCase readBossStatsUseCase,
-        IUpdateBossStatsUseCase updateBossStatsUseCase,
         EventsManager eventsManager       
         )
     {
         this.readPlayerStatsUseCase = readPlayerStatsUseCase;
         this.readBossStatsUseCase = readBossStatsUseCase;
-        this.updateBossStatsUseCase = updateBossStatsUseCase;
         this.eventsManager = eventsManager;
     }
 
@@ -48,7 +45,6 @@ public class BossViewModelImpl : IBossViewModel, IInitializable
 
     public async void UpdateBossStats()
     {
-        await updateBossStatsUseCase.Invoke(_bossStats);
         _bossStats = await readBossStatsUseCase.Invoke();
         eventsManager.TriggerEvent(GameEvent.BossViewModelEvent.UPDATE_BOSS_STATS);
     }

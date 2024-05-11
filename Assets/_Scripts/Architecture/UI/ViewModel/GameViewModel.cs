@@ -12,17 +12,19 @@ public class GameViewModelImpl : IGameViewModel, IInitializable
 {
     IReadPlayerStatsUseCase readPlayerStatsUseCase;
     IReadEnemyWaveDetailsUseCase readEnemyWaveDetailsUseCase;
+    IIncrementRoundUseCase incrementRoundUseCase;
     EventsManager eventsManager;
-
 
     public GameViewModelImpl(
         IReadPlayerStatsUseCase readPlayerStatsUseCase,
         IReadEnemyWaveDetailsUseCase readEnemyWaveDetailsUseCase,
+        IIncrementRoundUseCase incrementRoundUseCase,
         EventsManager eventsManager
         )
     {
         this.readPlayerStatsUseCase = readPlayerStatsUseCase;
         this.readEnemyWaveDetailsUseCase = readEnemyWaveDetailsUseCase;
+        this.incrementRoundUseCase = incrementRoundUseCase;
         this.eventsManager = eventsManager;
     }
 
@@ -36,7 +38,7 @@ public class GameViewModelImpl : IGameViewModel, IInitializable
         _enemyWaveDetails = await readEnemyWaveDetailsUseCase.Invoke();
         
         eventsManager.StartListening(GameEvent.PlayerViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
-        eventsManager.StartListening(GameEvent.EnemyViewModelEvent.UPDATE_ENEMY_WAVE_DETAILS, UpdateEnemyWaveDetailsEvent);
+        eventsManager.StartListening(GameEvent.EnemyViewModelEvent.ON_DEATH, UpdateEnemyWaveDetails);
 
         Debug.Log("Game ViewModel Initialized");
     }
@@ -44,16 +46,6 @@ public class GameViewModelImpl : IGameViewModel, IInitializable
     public void StartNextRound()
     {
         eventsManager.TriggerEvent(GameEvent.GameViewModelEvent.START_NEXT_ROUND);
-    }
-
-    public void StartBossRoundCheck ()
-    {
-        Debug.Log($"Current Round: {_enemyWaveDetails.round}");
-        if (_enemyWaveDetails.round % 10 == 0)
-        {
-            Debug.Log($"Current Round: {_enemyWaveDetails.round % 10}");
-            eventsManager.TriggerEvent(GameEvent.GameViewModelEvent.START_BOSS_ROUND);
-        }
     }
 
     public void GameOver()
@@ -73,14 +65,31 @@ public class GameViewModelImpl : IGameViewModel, IInitializable
         }
     }
 
-    async void UpdateEnemyWaveDetailsEvent()
+    public async void UpdateEnemyWaveDetails()
     {
-        var newEnemyWaveDetails = await readEnemyWaveDetailsUseCase.Invoke();
-        if (newEnemyWaveDetails != _enemyWaveDetails)
+        _enemyWaveDetails = await readEnemyWaveDetailsUseCase.Invoke();
+
+        if (_enemyWaveDetails.enemiesKilled == _enemyWaveDetails.spawnLimit)
         {
-            _enemyWaveDetails = newEnemyWaveDetails;
-            StartNextRound();
-            StartBossRoundCheck();
+            IncrementRound();
+        }
+    }
+
+    public async void IncrementRound()
+    {
+        await incrementRoundUseCase.Invoke();
+         _enemyWaveDetails = await readEnemyWaveDetailsUseCase.Invoke();
+        StartBossRoundCheck();
+        eventsManager.TriggerEvent(GameEvent.GameViewModelEvent.START_NEXT_ROUND);
+    }
+
+    public void StartBossRoundCheck()
+    {
+        Debug.Log($"Current Round: {_enemyWaveDetails.round}");
+        if (_enemyWaveDetails.round % 10 == 0)
+        {
+            Debug.Log($"Current Round: {_enemyWaveDetails.round % 10}");
+            eventsManager.TriggerEvent(GameEvent.GameViewModelEvent.START_BOSS_ROUND);
         }
     }
 }

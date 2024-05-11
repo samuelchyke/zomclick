@@ -9,18 +9,15 @@ public interface IPlayerViewModel
 public class PlayerViewModelImpl : IPlayerViewModel, IInitializable
 {
     readonly IReadPlayerStatsUseCase readPlayerStatsUseCase;
-    readonly IUpdatePlayerStatsUseCase updatePlayerStatsUseCase;
     readonly EventsManager eventsManager;
 
     [Inject]
     public PlayerViewModelImpl(
         IReadPlayerStatsUseCase readPlayerStatsUseCase, 
-        IUpdatePlayerStatsUseCase updatePlayerStatsUseCase,
         EventsManager eventsManager
         )
     {
         this.readPlayerStatsUseCase = readPlayerStatsUseCase;
-        this.updatePlayerStatsUseCase = updatePlayerStatsUseCase;
         this.eventsManager = eventsManager;
     }
 
@@ -39,7 +36,7 @@ public class PlayerViewModelImpl : IPlayerViewModel, IInitializable
 
     public async void UpdatePlayerStats()
     {
-        await updatePlayerStatsUseCase.Invoke(_playerStats);
+        // await updatePlayerStatsUseCase.Invoke(_playerStats);
         _playerStats = await readPlayerStatsUseCase.Invoke();
     }
     

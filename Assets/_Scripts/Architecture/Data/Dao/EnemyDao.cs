@@ -8,7 +8,7 @@ public interface IEnemyDao
     Task<EnemyStatsEntity> ReadEnemyEntity();
     public Task UpdateEnemyStats(EnemyStatsEntity enemyEntity);
     Task<EnemyWaveEntity> ReadEnemyWaveEntity();
-    public Task UpdateEnemyWaveDetails(EnemyWaveEntity enemyWaveEntity);
+    public Task UpdateEnemyWaveEntity(EnemyWaveEntity enemyWaveEntity);
     Task<BossStatsEntity> ReadBossStatsEntity();
     public Task UpdateBossStats(BossStatsEntity enemyWaveEntity);
 }
@@ -51,7 +51,7 @@ public class EnemyDaoImpl : IEnemyDao, IInitializable
         return Task.Run(() => _db.Table<EnemyWaveEntity>().First());
     }
 
-    public Task UpdateEnemyWaveDetails(EnemyWaveEntity enemyWaveEntity)
+    public Task UpdateEnemyWaveEntity(EnemyWaveEntity enemyWaveEntity)
     {
         return Task.Run(() =>_db.Update(enemyWaveEntity));
     }

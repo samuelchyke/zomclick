@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Zenject;
+using R3;
 
 public class EnemySpawnManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class EnemySpawnManager : MonoBehaviour
     [Inject] EventsManager eventsManager;
     [Inject] IEnemyViewModel enemyViewModel;
 
-    EnemyWaveDetails enemyWaveDetails;
+    ReadOnlyReactiveProperty<EnemyWaveDetails> enemyWaveDetails;
     bool setUpComplete = false;
 
     private float timeElapsed = 0;
@@ -26,7 +27,7 @@ public class EnemySpawnManager : MonoBehaviour
     void OnEnable()
     {
         eventsManager.StartListening(GameEvent.EnemyViewModelEvent.ENEMY_VM_SETUP_COMPLETE, SetUp);
-        eventsManager.StartListening(GameEvent.EnemyViewModelEvent.UPDATE_ENEMY_WAVE_DETAILS, UpdateEnemyWaveDetails);
+        eventsManager.StartListening(GameEvent.GameViewModelEvent.UPDATE_ENEMY_WAVE_DETAILS, UpdateEnemyWaveDetails);
         eventsManager.StartListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, Reset);
     }
 
@@ -67,7 +68,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
-        while (spawnTotal < enemyWaveDetails.spawnLimit)
+        while (spawnTotal < enemyWaveDetails.CurrentValue.spawnLimit)
         {
             yield return new WaitForSeconds(SPAWN_TIMER);
             SpawnEnemyAtRandomPoint();
@@ -123,7 +124,7 @@ public class EnemySpawnManager : MonoBehaviour
     void OnDisable()
     {
         eventsManager.StopListening(GameEvent.EnemyViewModelEvent.ENEMY_VM_SETUP_COMPLETE, SetUp);
-        eventsManager.StopListening(GameEvent.EnemyViewModelEvent.UPDATE_ENEMY_WAVE_DETAILS, UpdateEnemyWaveDetails);
+        eventsManager.StopListening(GameEvent.GameViewModelEvent.UPDATE_ENEMY_WAVE_DETAILS, UpdateEnemyWaveDetails);
         eventsManager.StopListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, Reset);
     }
 }

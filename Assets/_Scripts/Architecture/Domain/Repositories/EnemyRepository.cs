@@ -5,21 +5,26 @@ using Debug = UnityEngine.Debug;
 public interface IEnemyRepository
 {
     Task<EnemyStats> ReadEnemyStats();
-    Task UpdateEnemyStats(EnemyStats enemyStats);
     Task<EnemyWaveDetails> ReadEnemyWaveDetails();
-    Task UpdateEnemyWaveDetails(EnemyWaveDetails waveDetails);
     Task<BossStats> ReadBossStats();
-    Task UpdateBossStats(BossStats enemyStats);
+    Task InflictDamage();
+    Task OnEnemyDeath();
+    Task IncrementRound();
 }
 
 public class EnemyRepositoryImpl : IEnemyRepository, IInitializable
 {
     IEnemyDao enemyDao;
+    IPlayerStatsDao playerStatsDao;
 
     [Inject]
-    public EnemyRepositoryImpl(IEnemyDao enemyDao)
+    public EnemyRepositoryImpl(
+        IEnemyDao enemyDao,
+        IPlayerStatsDao playerStatsDao
+        )
     {
         this.enemyDao = enemyDao;
+        this.playerStatsDao = playerStatsDao;
     }
 
     public void Initialize()
@@ -50,7 +55,7 @@ public class EnemyRepositoryImpl : IEnemyRepository, IInitializable
     public async Task UpdateEnemyWaveDetails(EnemyWaveDetails waveDetails)
     {
         EnemyWaveEntity entity = new EnemyWaveDetailsBuilder().ToEntity(waveDetails);
-        await enemyDao.UpdateEnemyWaveDetails(entity);
+        await enemyDao.UpdateEnemyWaveEntity(entity);
     }
 
     public async Task<BossStats> ReadBossStats()
@@ -64,5 +69,48 @@ public class EnemyRepositoryImpl : IEnemyRepository, IInitializable
     {
         BossStatsEntity entity = new BossStatsBuilder().ToEntity(bossStats);
         await enemyDao.UpdateBossStats(entity);
+    }
+
+    public async Task InflictDamage()
+    {
+        var playerStats = await playerStatsDao.ReadPlayerStats();
+        var bossStats = await enemyDao.ReadBossStatsEntity();
+        playerStats.wallHealth -= bossStats.damage;
+        await playerStatsDao.UpdatePlayerStats(playerStats);
+    }
+
+    public async Task OnEnemyDeath()
+    {
+        await IncrementPlayerGold();
+        var enemyWaveEntity = await enemyDao.ReadEnemyWaveEntity();
+        enemyWaveEntity.enemiesKilled += 1;
+        await enemyDao.UpdateEnemyWaveEntity(enemyWaveEntity);
+    }
+
+    async Task IncrementPlayerGold()
+    {
+        var playerStats = await playerStatsDao.ReadPlayerStats();
+        var enemyStats = await enemyDao.ReadEnemyEntity();
+        playerStats.totalGold += enemyStats.goldDropAmount;
+        await playerStatsDao.UpdatePlayerStats(playerStats);
+    }
+
+    public async Task IncrementRound()
+    {
+        await IncrementEnemyStats();
+
+        var enemyWaveEntity = await enemyDao.ReadEnemyWaveEntity();
+        enemyWaveEntity.enemiesKilled = 0;
+        enemyWaveEntity.round += 9;
+        enemyWaveEntity.spawnLimit += 2;
+        await enemyDao.UpdateEnemyWaveEntity(enemyWaveEntity);
+    }
+
+    async Task IncrementEnemyStats()
+    {
+        var enemyStats = await enemyDao.ReadEnemyEntity();
+        enemyStats.totalHealth += 2;
+        enemyStats.movementSpeed += 0.01f;
+        await enemyDao.UpdateEnemyStats(enemyStats);
     }
 }

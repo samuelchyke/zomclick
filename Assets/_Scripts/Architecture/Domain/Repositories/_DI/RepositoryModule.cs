@@ -30,6 +30,18 @@ public class RepositoryModule : Installer<RepositoryModule>
             .FromMethod( ctx =>
                 {
                     return new EnemyRepositoryImpl(
+                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>(),
+                        enemyDao: ctx.Container.Resolve<EnemyDaoImpl>()
+                    );
+                })
+            .AsSingle()
+            .NonLazy();
+
+        Container.BindInterfacesAndSelfTo<GameRepositoryImpl>()
+            .FromMethod( ctx =>
+                {
+                    return new GameRepositoryImpl(
+                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>(),
                         enemyDao: ctx.Container.Resolve<EnemyDaoImpl>()
                     );
                 })

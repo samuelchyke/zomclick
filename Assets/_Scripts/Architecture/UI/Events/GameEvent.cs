@@ -6,6 +6,7 @@ public static class GameEvent {
         public const string GAME_OVER = eventId + "GAME_OVER";
         public const string START_NEXT_ROUND = eventId + "NEXT_ROUND";
         public const string START_BOSS_ROUND = eventId + "START_BOSS_ROUND";
+        public const string UPDATE_ENEMY_WAVE_DETAILS = eventId + "UPDATE_ENEMY_WAVE_DETAILS";
         public const string RESTART_ROUND = eventId + "RESTART_ROUND";
     }
 
@@ -15,8 +16,8 @@ public static class GameEvent {
         const string eventId = "EnemyViewModelEvent/";
         public const string ENEMY_VM_SETUP_COMPLETE = eventId + "ENEMY_VM_SETUP_COMPLETE";
         public const string UPDATE_ENEMY_STATS = eventId + "UPDATE_ENEMY_STATS";
-        public const string UPDATE_ENEMY_STATS_MANAGER = eventId + "UPDATE_ENEMY_STATS_MANAGER";
         public const string UPDATE_ENEMY_WAVE_DETAILS = eventId + "UPDATE_ENEMY_WAVE_DETAILS";
+        public const string UPDATE_ENEMY_STATS_MANAGER = eventId + "UPDATE_ENEMY_STATS_MANAGER";
         public const string INFLICT_DAMAGE = eventId + "INFLICT_DAMAGE";
         public const string ON_DEATH = eventId + "ON_DEATH";
     }

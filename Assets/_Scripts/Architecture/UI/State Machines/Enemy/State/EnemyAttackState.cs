@@ -31,7 +31,6 @@ public class EnemyAttackState : EnemyBaseState
     private void OnAttack(EnemyStateManager enemyContext)
     {
         animator.SetTrigger(ATTACK_TRIGGER);
-        enemyContext.enemyViewModel.InflictDamage();
-        attackTimer = enemyContext.enemyViewModel.enemyStats.attackSpeed;
+        attackTimer = enemyContext.enemyViewModel.enemyStats.CurrentValue.attackSpeed;
     }
 }

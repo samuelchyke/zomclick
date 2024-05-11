@@ -1,13 +1,14 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
+using R3;
 
 public class EnemyStateManager : MonoBehaviour, IDamageable
 {
     [Inject] EnemyStateFactory enemyStateFactory;
     [Inject] EventsManager eventsManager;
     [Inject] public IEnemyViewModel enemyViewModel;
-    EnemyStats enemyStats;
+    ReadOnlyReactiveProperty<EnemyStats> enemyStats;
 
     EnemyBaseState currentState;
     public EnemyWalkState walkState;
@@ -23,7 +24,7 @@ public class EnemyStateManager : MonoBehaviour, IDamageable
     void Start()
     {
         enemyStats = enemyViewModel.enemyStats; 
-        currentHealth = enemyStats.totalHealth;
+        currentHealth = enemyStats.CurrentValue.totalHealth;
         
         walkState = enemyStateFactory.CreateWalkState();
         attackState = enemyStateFactory.CreateAttackState();
