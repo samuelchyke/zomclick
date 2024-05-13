@@ -18,13 +18,12 @@ public class EnemyStateManager : MonoBehaviour, IDamageable
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.EnemyViewModelEvent.UPDATE_ENEMY_STATS_MANAGER, UpdateEnemyStats);
+        // eventsManager.StartListening(GameEvent.EnemyViewModelEvent.UPDATE_ENEMY_STATS_MANAGER, UpdateEnemyStats);
     }
     
     void Start()
     {
-        enemyStats = enemyViewModel.enemyStats; 
-        currentHealth = enemyStats.CurrentValue.totalHealth;
+        currentHealth = enemyViewModel.enemyStats.CurrentValue.totalHealth;
         
         walkState = enemyStateFactory.CreateWalkState();
         attackState = enemyStateFactory.CreateAttackState();
@@ -56,7 +55,8 @@ public class EnemyStateManager : MonoBehaviour, IDamageable
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            SwitchState(deadState);
+            currentState = deadState;
+            currentState.EnterState(this);
         }
     }
 

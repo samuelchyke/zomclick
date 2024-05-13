@@ -39,6 +39,7 @@ public class GameStateManager : MonoBehaviour
 
     void Start()
     {
+        enemyWaveDetails = gameViewModel.enemyWaveDetails;
             // roundText = GameObject.Find("round_text").GetComponent<TextMeshProUGUI>();
     }
 

@@ -8,32 +8,25 @@ public interface IPlayerShopRepository
 {
     Task<PlayerShopDetails> ReadShopDetails();
 
-    Observable<PlayerShopDetails> ObserveShopDetails();
-
-    Task AddEnemyGold();
     Task BuyDamage();
     Task BuyCritDamage();
     Task BuyCritRate();
     Task BuyHealth();
     
-    Task UpdateShopDetails(PlayerShopDetails shopDetails);
 }
 
 public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
 {
     IPlayerShopDao playerShopDao;
-    IEnemyDao enemyDao;
     IPlayerStatsDao playerStatsDao;
 
     [Inject]
     public PlayerShopRepositoryImpl(
         IPlayerShopDao playerShopDao,
-        IEnemyDao enemyDao,
         IPlayerStatsDao playerStatsDao
         )
     {
         this.playerShopDao = playerShopDao;
-        this.enemyDao = enemyDao;
         this.playerStatsDao = playerStatsDao;
     }
 
@@ -52,14 +45,6 @@ public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
             shopEntity: playerShop,
             totalGold: playerStats.totalGold
         );
-    }
-
-    public async Task AddEnemyGold()
-    {
-        var playerStats = await playerStatsDao.ReadPlayerStats();
-        var enemyStats = await enemyDao.ReadEnemyEntity();
-        playerStats.totalGold += enemyStats.goldDropAmount;
-        await playerStatsDao.UpdatePlayerStats(playerStats);
     }
 
     public async Task BuyDamage()
@@ -86,6 +71,7 @@ public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
         
         await playerShopDao.UpdateShopDetails(playerShop);
         await playerStatsDao.UpdatePlayerStats(playerStats);
+        // Debug.Log("Shop Repository - BuyCritRate");
     }
     
     public async Task BuyCritDamage()
@@ -99,6 +85,7 @@ public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
 
         await playerShopDao.UpdateShopDetails(playerShop);
         await playerStatsDao.UpdatePlayerStats(playerStats);
+        // Debug.Log("Shop Repository - BuyCritDamage");
     }
     
     public async Task BuyHealth()
@@ -112,22 +99,5 @@ public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
 
         await playerShopDao.UpdateShopDetails(playerShop);
         await playerStatsDao.UpdatePlayerStats(playerStats);
-    }
-
-
-    public Observable<PlayerShopDetails> ObserveShopDetails()
-    {
-        return playerShopDao.ObserveShopDetails()
-        .Select(entity =>
-        {
-            Debug.Log("Shop Repository - ReadShopDetails: " + entity.id);
-            return new PlayerShopDetailsBuilder().ToDomain(entity, 0);
-        });
-    }
-
-    public async Task UpdateShopDetails(PlayerShopDetails shopDetails)
-    {
-        PlayerShopEntity entity = new PlayerShopDetailsBuilder().ToEntity(shopDetails);
-        await playerShopDao.UpdateShopDetails(entity);
     }
 }

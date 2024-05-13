@@ -38,9 +38,6 @@ public class EnemyViewModelImpl : IEnemyViewModel, IInitializable
     public ReadOnlyReactiveProperty<EnemyStats> enemyStats => _enemyStats;
     public ReadOnlyReactiveProperty<EnemyWaveDetails> enemyWaveDetails => _enemyWaveDetails;
 
-    private ReactiveProperty<PlayerShopDetails> _shopDetails = new ();
-    public ReadOnlyReactiveProperty<PlayerShopDetails> shopDetails => _shopDetails;
-
     public async void Initialize()
     {
         _enemyStats.Value = await readEnemyStatsUseCase.Invoke();
@@ -56,7 +53,7 @@ public class EnemyViewModelImpl : IEnemyViewModel, IInitializable
     public async void UpdateEnemyStats()
     {
         _enemyStats.Value = await readEnemyStatsUseCase.Invoke();
-        eventsManager.TriggerEvent(GameEvent.EnemyViewModelEvent.UPDATE_ENEMY_STATS);
+        // eventsManager.TriggerEvent(GameEvent.EnemyViewModelEvent.UPDATE_ENEMY_STATS);
     }
 
     public async void UpdateEnemyWaveDetails()
@@ -74,6 +71,7 @@ public class EnemyViewModelImpl : IEnemyViewModel, IInitializable
 
     public void Cleanup()
     {
-        // eventsManager.StopListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, IncrementRound);
+        eventsManager.StopListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, UpdateEnemyStats);
+        eventsManager.StopListening(GameEvent.GameViewModelEvent.START_NEXT_ROUND, UpdateEnemyWaveDetails);
     }
 }

@@ -26,7 +26,7 @@ public class GameRepositoryImpl : IGameRepository, IInitializable
     {
         Debug.Log("Enemy Repository Initialized");
     }
-
+    
     public async Task IncrementRound()
     {
         await IncrementEnemyStats();

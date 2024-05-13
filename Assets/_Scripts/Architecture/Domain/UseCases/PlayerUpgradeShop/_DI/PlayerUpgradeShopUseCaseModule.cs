@@ -54,15 +54,5 @@ public class PlayerUpgradeShopUseCaseModule : Installer<PlayerUpgradeShopUseCase
             })
         .AsSingle()
         .NonLazy();
-
-        Container.BindInterfacesAndSelfTo<UpdateShopDetailsUseCaseImpl>()
-            .FromMethod( ctx =>
-                {
-                    return new UpdateShopDetailsUseCaseImpl(
-                        shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
-                    );
-                })
-            .AsSingle()
-            .NonLazy();
     }
 }

@@ -18,5 +18,8 @@ public class StateMachineModule : Installer<StateMachineModule>
         Container.BindInterfacesAndSelfTo<BossStateManager>().AsTransient().Lazy();
         Container.BindInterfacesAndSelfTo<BossStateFactory>().AsSingle().Lazy();
         Container.BindInterfacesAndSelfTo<BossSpawnManager>().AsSingle().Lazy();
+
+        Container.BindInterfacesAndSelfTo<ShopStateManager>().AsSingle().Lazy();
+        Container.BindInterfacesAndSelfTo<ShopStateFactory>().AsSingle().Lazy();
     }
 }

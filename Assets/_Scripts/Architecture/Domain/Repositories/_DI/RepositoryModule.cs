@@ -9,8 +9,7 @@ public class RepositoryModule : Installer<RepositoryModule>
                 {
                     return new PlayerShopRepositoryImpl(
                         playerShopDao: ctx.Container.Resolve<PlayerShopDaoImpl>(),
-                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>(),
-                        enemyDao: ctx.Container.Resolve<EnemyDaoImpl>()
+                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>()
                     );
                 })
             .AsSingle()
