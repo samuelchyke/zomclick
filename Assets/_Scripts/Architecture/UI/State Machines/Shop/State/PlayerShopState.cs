@@ -18,17 +18,17 @@ public class PlayerShopState : ShopBaseState
 
     public override void EnterState(ShopStateManager shopContext)
     {
-        wallHealthCostText = shopContext.wallHealthCostText;
-        damageCostText = shopContext.damageCostText;
-        critRateCostText = shopContext.critRateCostText;
-        critDamageCostText = shopContext.critRateCostText;
-
-        wallHealthBuyButton = shopContext.wallHealthBuyButton;
-        damageBuyButton = shopContext.damageBuyButton;
-        critRateBuyButton = shopContext.critRateBuyButton;
-        critDamageBuyButton = shopContext.critDamageBuyButton;
-
         shopContext.playerUpgradeShop.SetActive(true);
+
+        wallHealthCostText = GameObject.Find("health_gold_text").GetComponent<TextMeshProUGUI>();
+        damageCostText = GameObject.Find("damage_gold_text").GetComponent<TextMeshProUGUI>();
+        critRateCostText = GameObject.Find("crit_rate_gold_text").GetComponent<TextMeshProUGUI>();
+        critDamageCostText = GameObject.Find("crit_damage_gold_text").GetComponent<TextMeshProUGUI>();
+
+        wallHealthBuyButton = GameObject.Find("health_buy_button").GetComponent<Button>();
+        damageBuyButton = GameObject.Find("damage_buy_button").GetComponent<Button>();
+        critRateBuyButton = GameObject.Find("crit_rate_buy_button").GetComponent<Button>();
+        critDamageBuyButton = GameObject.Find("crit_damage_buy_button").GetComponent<Button>();
 
         shopContext.playerShopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
 

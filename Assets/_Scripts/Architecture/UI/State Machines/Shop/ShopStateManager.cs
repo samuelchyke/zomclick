@@ -27,15 +27,10 @@ public class ShopStateManager : MonoBehaviour
     public GameObject allyShop;
     public GameObject shopTab;
 
-    public TextMeshProUGUI wallHealthCostText;
-    public TextMeshProUGUI damageCostText;
-    public TextMeshProUGUI critRateCostText;
-    public TextMeshProUGUI critDamageCostText;
+    public TextMeshProUGUI johnCostText;
 
-    public Button wallHealthBuyButton;
-    public Button damageBuyButton;
-    public Button critRateBuyButton;
-    public Button critDamageBuyButton;
+    public Button johnBuyButton;
+
 
     void Awake()
     {
@@ -53,17 +48,7 @@ public class ShopStateManager : MonoBehaviour
 
     private void InitializeShopUI()
     {
-        // playerShopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
         playerShopViewModel.shopDetails.Subscribe(details => goldText.text = details.totalGold.ToString());
-    }
-
-    private void UpdateUI(PlayerShopDetails details)
-    {
-        goldText.text = details.totalGold.ToString();
-        wallHealthCostText.text = details.wallHealthCost.ToString();
-        damageCostText.text = details.damageCost.ToString();
-        critRateCostText.text = details.critRateCost.ToString();
-        critDamageCostText.text = details.critDamageCost.ToString();
     }
 
     void Start()
@@ -71,9 +56,8 @@ public class ShopStateManager : MonoBehaviour
         currentState = shopTabState;
         currentState.EnterState(this);
 
-        // playerShopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
         playerUpgradeShopButton.onClick.AddListener(() => SwitchStates(playerShopState)); 
-        // allyShopButton.onClick.AddListener(() => SwitchState(allyShopState)); 
+        allyShopButton.onClick.AddListener(() => SwitchStates(allyShopState)); 
     }
 
     public void Cleanup()
@@ -82,7 +66,7 @@ public class ShopStateManager : MonoBehaviour
     }
 
     protected void SwitchStates(ShopBaseState newState){
-        if (currentState == shopTabState)
+        if (currentState != newState)
         {
             currentState.ExitState(this);
             currentState = newState;
