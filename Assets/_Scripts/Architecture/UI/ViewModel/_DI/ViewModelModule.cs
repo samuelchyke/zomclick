@@ -19,6 +19,20 @@ public class ViewModelModule : Installer<ViewModelModule>
         .AsSingle()
         .NonLazy();
 
+        Container.BindInterfacesAndSelfTo<AllyShopViewModelImpl>()
+        .FromMethod( ctx =>
+            {
+                return new AllyShopViewModelImpl(
+                    readAlliesStatsUseCase : ctx.Container.Resolve<ReadAlliesStatsUseCaseImpl>(),
+                    readAllyStatsUseCase : ctx.Container.Resolve<ReadAllyStatsUseCaseImpl>(),
+                    unlockAllyUseCase : ctx.Container.Resolve<UnlockAllyUseCaseImpl>(),
+                    upgradeAllyStatsUseCase : ctx.Container.Resolve<UpgradeAllyStatsUseCaseImpl>(),
+                    eventsManager : ctx.Container.Resolve<EventsManager>()
+                );
+            })
+        .AsSingle()
+        .NonLazy();
+
         Container.BindInterfacesAndSelfTo<EnemyViewModelImpl>()
         .FromMethod( ctx =>
             {
@@ -67,6 +81,36 @@ public class ViewModelModule : Installer<ViewModelModule>
         })
         .AsSingle()
         .NonLazy();
+
+        // Container.Bind<IAllyViewModel>()
+        //     .FromMethod(ctx =>
+        //     {
+        //         return new AllyViewModelImpl(
+        //             readAllyStatsUseCase: ctx.Container.Resolve<IReadAllyStatsUseCase>(),
+        //             eventsManager: ctx.Container.Resolve<EventsManager>()
+        //             // allyId: "john_id"
+        //         );
+        //     })
+        //     .AsTransient()
+        //     // .WithArguments(allyId)
+        //     .NonLazy();
+
+        BindAllyViewModel("john_id");
     }
 
+    private void BindAllyViewModel(string allyId)
+    {
+        Container.Bind<IAllyViewModel>()
+            .FromMethod(ctx =>
+            {
+                return new AllyViewModelImpl(
+                    readAllyStatsUseCase: ctx.Container.Resolve<IReadAllyStatsUseCase>(),
+                    eventsManager: ctx.Container.Resolve<EventsManager>(),
+                    allyId: allyId 
+                );
+            })
+            .AsTransient()
+            // .WithArguments("allyId", allyId)
+            .NonLazy();
+    }
 }

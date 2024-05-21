@@ -71,20 +71,20 @@ public class Seeding
         {
             new AllyStatsEntity
             {
-                id = Guid.NewGuid().ToString(),
-                name = "Ally One",
+                id = "john_id",
+                name = "John",
                 attackSpeed = 15,
                 baseDamage = 10,
                 critRate = 5,
                 critMultiplier = 1.5f,
                 totalDamage = 10,
-                unlockCost = 10,
+                unlockCost = 100,
                 upgradeCost = 10,
                 isUnlocked = false
             },
             new AllyStatsEntity
             {
-                id = Guid.NewGuid().ToString(),
+                id = "doe_id",
                 name = "Ally Two",
                 attackSpeed = 12,
                 baseDamage = 15,

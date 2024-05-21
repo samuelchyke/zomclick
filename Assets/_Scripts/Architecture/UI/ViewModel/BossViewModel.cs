@@ -38,7 +38,7 @@ public class BossViewModelImpl : IBossViewModel, IInitializable
         _playerStats = await readPlayerStatsUseCase.Invoke();
         _bossStats = await readBossStatsUseCase.Invoke();
 
-        eventsManager.StartListening(GameEvent.ShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
 
         Debug.Log("Boss ViewModel Initialized");
     }
@@ -78,6 +78,6 @@ public class BossViewModelImpl : IBossViewModel, IInitializable
 
     public void Cleanup()
     {
-        eventsManager.StartListening(GameEvent.ShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
     }
 }

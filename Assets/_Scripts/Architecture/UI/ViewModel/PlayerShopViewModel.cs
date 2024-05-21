@@ -51,9 +51,10 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
         _shopDetails.Value = await readShopDetailsUseCase.Invoke();
 
         Debug.Log("Shop ViewModel Initialized");
-        eventsManager.TriggerEvent(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE);
+        eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE);
         eventsManager.StartListening(GameEvent.EnemyViewModelEvent.ON_DEATH, UpdateShopDetails);
         eventsManager.StartListening(GameEvent.BossViewModelEvent.ON_DEATH, UpdateShopDetails);
+        eventsManager.StartListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES, UpdateShopDetails);
     }
 
     async void UpdateShopDetails()
@@ -116,5 +117,6 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
     {
         eventsManager.StopListening(GameEvent.EnemyViewModelEvent.ON_DEATH, UpdateShopDetails);
         eventsManager.StopListening(GameEvent.BossViewModelEvent.ON_DEATH, UpdateShopDetails);
+        eventsManager.StopListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES, UpdateShopDetails);
     }
 }

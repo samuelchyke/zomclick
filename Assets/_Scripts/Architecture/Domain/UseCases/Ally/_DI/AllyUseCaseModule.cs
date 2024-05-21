@@ -24,14 +24,24 @@ public class AllyUseCaseModule : Installer<AllyUseCaseModule>
             .AsSingle()
             .NonLazy();
 
-        Container.BindInterfacesAndSelfTo<UpdateAllyStatsUseCaseImpl>()
+        Container.BindInterfacesAndSelfTo<UnlockAllyUseCaseImpl>()
             .FromMethod(ctx =>
             {
-                return new UpdateAllyStatsUseCaseImpl(
+                return new UnlockAllyUseCaseImpl(
                     allyRepository: ctx.Container.Resolve<AllyRepositoryImpl>()
                 );
             })
             .AsSingle()
             .NonLazy();
+
+        Container.BindInterfacesAndSelfTo<UpgradeAllyStatsUseCaseImpl>()
+        .FromMethod(ctx =>
+        {
+            return new UpgradeAllyStatsUseCaseImpl(
+                allyRepository: ctx.Container.Resolve<AllyRepositoryImpl>()
+            );
+        })
+        .AsSingle()
+        .NonLazy();
     }
 }

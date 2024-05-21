@@ -22,11 +22,20 @@ public static class GameEvent {
         public const string ON_DEATH = eventId + "ON_DEATH";
     }
 
-    public static class ShopViewModelEvent
+    public static class PlayerShopViewModelEvent
     {
-        const string eventId = "ShopViewModelEvent/";
+        const string eventId = "PlayerShopViewModelEvent/";
         public const string SHOP_VM_SETUP_COMPLETE = eventId + "SHOP_VM_SETUP_COMPLETE";
         public const string UPDATE_SHOP_DETAILS = eventId + "UPDATE_SHOP_DETAILS";
+        public const string UPDATE_PLAYER_STATS = eventId + "UPDATE_PLAYER_STATS";
+        public const string UPDATE_TEXT = eventId + "UPDATE_TEXT";
+    }
+
+    public static class AllyShopViewModelEvent
+    {
+        const string eventId = "AllyShopViewModelEvent/";
+        public const string SHOP_VM_SETUP_COMPLETE = eventId + "SHOP_VM_SETUP_COMPLETE";
+        public const string UPDATE_ALLIES = eventId + "UPDATE_ALLIES";
         public const string UPDATE_PLAYER_STATS = eventId + "UPDATE_PLAYER_STATS";
         public const string UPDATE_TEXT = eventId + "UPDATE_TEXT";
     }

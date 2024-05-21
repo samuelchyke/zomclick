@@ -10,7 +10,7 @@ public class ShopStateManager : MonoBehaviour
     [Inject] EventsManager eventsManager;
     [Inject] readonly ShopStateFactory states;
     [Inject] public IPlayerShopViewModel playerShopViewModel;
-    // [Inject] public IAllyViewModel allyViewModel;
+    [Inject] public IAllyShopViewModel allyShopViewModel; 
 
     private ShopBaseState _currentState;
     public ShopBaseState currentState { get => _currentState; set { _currentState = value;} }
@@ -27,11 +27,6 @@ public class ShopStateManager : MonoBehaviour
     public GameObject allyShop;
     public GameObject shopTab;
 
-    public TextMeshProUGUI johnCostText;
-
-    public Button johnBuyButton;
-
-
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -43,7 +38,7 @@ public class ShopStateManager : MonoBehaviour
 
     void OnEnable()
     {
-        eventsManager.StartListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
     }
 
     private void InitializeShopUI()
@@ -62,7 +57,7 @@ public class ShopStateManager : MonoBehaviour
 
     public void Cleanup()
     {
-        eventsManager.StopListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
+        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
     }
 
     protected void SwitchStates(ShopBaseState newState){

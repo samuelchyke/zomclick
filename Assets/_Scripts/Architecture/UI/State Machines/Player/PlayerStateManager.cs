@@ -39,7 +39,6 @@ public class PlayerStateManager : MonoBehaviour
         eventsManager.StartListening(GameEvent.PlayerViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStats);
     }
 
-
     void Start()
     {   
         currentState = idleState;

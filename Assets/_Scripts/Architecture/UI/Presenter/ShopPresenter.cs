@@ -39,7 +39,7 @@ public class ShopPresenter : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
         // eventsManager.StartListening(GameEvent.ShopViewModelEvent.UPDATE_SHOP_DETAILS, SetTexts);
     }
     void Start()
@@ -153,7 +153,7 @@ public class ShopPresenter : MonoBehaviour
 
     public void Cleanup()
     {
-        eventsManager.StopListening(GameEvent.ShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
+        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, InitializeShopUI);
         // eventsManager.StopListening(GameEvent.ShopViewModelEvent.UPDATE_SHOP_DETAILS, SetTexts);
     }
 }

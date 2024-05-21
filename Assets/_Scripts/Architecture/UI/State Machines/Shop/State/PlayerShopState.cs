@@ -2,9 +2,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using R3;
+using System;
 
-public class PlayerShopState : ShopBaseState
+public class PlayerShopState : ShopBaseState, IDisposable
 {
+    private CompositeDisposable _disposables = new CompositeDisposable();
 
     public TextMeshProUGUI wallHealthCostText;
     public TextMeshProUGUI damageCostText;
@@ -30,7 +32,9 @@ public class PlayerShopState : ShopBaseState
         critRateBuyButton = GameObject.Find("crit_rate_buy_button").GetComponent<Button>();
         critDamageBuyButton = GameObject.Find("crit_damage_buy_button").GetComponent<Button>();
 
-        shopContext.playerShopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
+        shopContext.playerShopViewModel.shopDetails
+            .Subscribe(details => UpdateUI(details))
+            .AddTo(_disposables);
 
         wallHealthBuyButton.onClick.AddListener(shopContext.playerShopViewModel.BuyWallHealth);
         damageBuyButton.onClick.AddListener(shopContext.playerShopViewModel.BuyDamage);
@@ -46,6 +50,8 @@ public class PlayerShopState : ShopBaseState
         damageBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.BuyDamage);
         critRateBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.BuyCritRate);
         critDamageBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.BuyCritDamage);
+
+        Dispose();
     }
 
     private void UpdateUI(PlayerShopDetails details)
@@ -54,5 +60,11 @@ public class PlayerShopState : ShopBaseState
         damageCostText.text = details.damageCost.ToString();
         critRateCostText.text = details.critRateCost.ToString();
         critDamageCostText.text = details.critDamageCost.ToString();
+    }
+
+    public void Dispose()
+    {
+        _disposables.Dispose();
+        _disposables = new CompositeDisposable();
     }
 }

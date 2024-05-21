@@ -6,60 +6,51 @@ using R3;
 
 public interface IAllyViewModel
 {
-    ReadOnlyReactiveProperty<List<AllyStats>> allies { get; }
-
+    ReadOnlyReactiveProperty<AllyStats> allyStats { get; }
 }
 
 public class AllyViewModelImpl : IAllyViewModel, IInitializable
 {
+    readonly string _allyId;
     readonly IReadAllyStatsUseCase readAllyStatsUseCase;
-    readonly IReadAlliesStatsUseCase readAlliesStatsUseCase;
     readonly EventsManager eventsManager;
 
     [Inject]
     public AllyViewModelImpl(
-        IReadAlliesStatsUseCase readAlliesStatsUseCase,
+        string allyId,
         IReadAllyStatsUseCase readAllyStatsUseCase,
         EventsManager eventsManager
     )
     {
-        this.readAlliesStatsUseCase = readAlliesStatsUseCase;
+        _allyId = allyId;
         this.readAllyStatsUseCase = readAllyStatsUseCase;
         this.eventsManager = eventsManager;
+        // _allyId = "jhon";
     }
+
+    ReactiveProperty<AllyStats> _allyStats = new ();
+    public ReadOnlyReactiveProperty<AllyStats> allyStats => _allyStats;
 
     public async void Initialize()
     {
-        _allies.Value = await readAlliesStatsUseCase.Invoke(); 
+        _allyStats.Value = await readAllyStatsUseCase.Invoke(_allyId); 
 
         Debug.Log("Ally View Model Initialized");
-        // eventsManager.StartListening(GameEvent.AllyViewModelEvent.UPDATE_ALLY_STATS, UpdateAllyStatsEvent);
+        eventsManager.StartListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES, () => UpdateAllyStats(_allyId));
+        eventsManager.TriggerEvent(GameEvent.AllyShopViewModelEvent.SHOP_VM_SETUP_COMPLETE);
         // eventsManager.StartListening(GameEvent.EnemyViewModelEvent.INFLICT_DAMAGE_ON_ALLY, TakeDamage);
         // More event subscriptions can be added as needed
     }
 
-    ReactiveProperty<List<AllyStats>> _allies;
-    public ReadOnlyReactiveProperty<List<AllyStats>> allies => _allies;
-
-    async void PurchaseAllyStatsEvent(string allyId)
+    async void UpdateAllyStats(string allyId)
     {
-        var newAllyStats = await readAllyStatsUseCase.Invoke(allyId);
-        var allyStats = _allies.Value.FirstOrDefault( ally => ally.id == allyId );
-        if (newAllyStats != allyStats)
-        {
-            int index = _allies.Value.FindIndex(ally => ally.id == allyId);
-            _allies.Value[index] = newAllyStats;
-        }
+        _allyStats.Value = await readAllyStatsUseCase.Invoke(allyId);
+        Debug.Log(_allyStats.Value.isUnlocked);
+        Debug.Log("UpdateAllyStats triggered");
     }
 
-    async void UpdateAllyStatsEvent(string allyId)
+    public void Cleanup()
     {
-        var newAllyStats = await readAllyStatsUseCase.Invoke(allyId);
-        var allyStats = _allies.Value.FirstOrDefault( ally => ally.id == allyId );
-        if (newAllyStats != allyStats)
-        {
-            int index = _allies.Value.FindIndex(ally => ally.id == allyId);
-            _allies.Value[index] = newAllyStats;
-        }
+        eventsManager.StopListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES,() => UpdateAllyStats("john_id"));
     }
 }

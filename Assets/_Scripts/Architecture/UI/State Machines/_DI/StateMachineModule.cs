@@ -9,6 +9,10 @@ public class StateMachineModule : Installer<StateMachineModule>
         Container.BindInterfacesAndSelfTo<PlayerStateManager>().AsSingle().Lazy();
         Container.BindInterfacesAndSelfTo<PlayerStateFactory>().AsSingle().Lazy();
         Container.BindInterfacesAndSelfTo<Projectile>().AsTransient().Lazy();
+        
+        Container.BindInterfacesAndSelfTo<AllyStateManager>().AsTransient().Lazy();
+        Container.BindInterfacesAndSelfTo<AllyStateFactory>().AsSingle().Lazy();
+        Container.BindInterfacesAndSelfTo<AllySpawnManager>().AsSingle().Lazy();
         // Container.BindInterfacesAndSelfTo<AutoAimProjectile>().AsTransient().Lazy();
 
         Container.BindInterfacesAndSelfTo<EnemyStateManager>().AsTransient().Lazy();

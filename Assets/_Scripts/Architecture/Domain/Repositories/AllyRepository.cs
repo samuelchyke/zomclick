@@ -8,17 +8,23 @@ public interface IAllyRepository
 {
     Task<AllyStats> ReadAllyStats(string allyId);
     Task<List<AllyStats>> ReadAlliesStats();
-    Task UpdateAllyStats(AllyStats allyStats);
+    Task UnlockAlly(string allyId);
+    Task UpgradeAllyStats (string allyId);
 }
 
 public class AllyRepositoryImpl : IAllyRepository, IInitializable
 {
     private IAllyDao allyDao;
+    private IPlayerStatsDao playerDao;
 
     [Inject]
-    public AllyRepositoryImpl(IAllyDao allyDao)
+    public AllyRepositoryImpl(
+        IAllyDao allyDao,
+        IPlayerStatsDao playerDao
+        )
     {
         this.allyDao = allyDao;
+        this.playerDao = playerDao;
     }
 
     public void Initialize()
@@ -40,10 +46,33 @@ public class AllyRepositoryImpl : IAllyRepository, IInitializable
         return allyStatsList;
     }
 
-    public async Task UpdateAllyStats(AllyStats allyStats)
-    {
-        var entity = new AllyStatsBuilder().ToEntity(allyStats);
-        await allyDao.UpdateAllyStats(entity);
-        Debug.Log("Ally Repository - UpdateAllyStats: Updated stats for ID " + entity.id);
+    public async Task UnlockAlly(string allyId)
+    {   
+        var ally = await allyDao.ReadAllyEntity(allyId);
+        var playerStats = await playerDao.ReadPlayerStats();
+
+        if (playerStats.totalGold >= ally.unlockCost)
+        {
+            ally.isUnlocked = true;
+            playerStats.totalGold -= ally.unlockCost;
+        }
+        
+        await allyDao.UpdateAllyStats(ally);
+        await playerDao.UpdatePlayerStats(playerStats);
+    }
+    
+    public async Task UpgradeAllyStats(string allyId)
+    {   
+        var ally = await allyDao.ReadAllyEntity(allyId);
+        var playerStats = await playerDao.ReadPlayerStats();
+
+        if (playerStats.totalGold >= ally.upgradeCost)
+        {
+            ally.upgradeCost += 10;
+            playerStats.totalGold -= ally.upgradeCost;
+        }
+        
+        await allyDao.UpdateAllyStats(ally);
+        await playerDao.UpdatePlayerStats(playerStats);
     }
 }

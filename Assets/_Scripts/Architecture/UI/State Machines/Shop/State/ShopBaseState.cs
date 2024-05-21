@@ -5,31 +5,7 @@ using Zenject;
 public abstract class ShopBaseState : IInitializable
 {
 
-    // GameObject projectilePrefab;
-    // PlayerStateFactory playerStateFactory;
-    // IPlayerViewModel playerViewModel;
-    // DiContainer _container;
-
-    // [Inject] 
-    // public PlayerBaseState (
-    //     GameObject projectilePrefab,
-    //     PlayerStateFactory playerStateFactory,
-    //     IPlayerViewModel playerViewModel,
-    //     DiContainer _container
-    //     )
-    // {
-    //     this.projectilePrefab = projectilePrefab;
-    //     this.playerStateFactory = playerStateFactory;
-    //     this.playerViewModel = playerViewModel;
-    //     this._container = _container;
-    // }
-
-
-
-    public void Initialize()
-    {
-        
-    }
+    public void Initialize(){}
 
     public abstract void EnterState(ShopStateManager shopContext);
 
@@ -91,4 +67,3 @@ public class ShopStateFactory
         return Create<ShopTabState>();
     }
 }
-

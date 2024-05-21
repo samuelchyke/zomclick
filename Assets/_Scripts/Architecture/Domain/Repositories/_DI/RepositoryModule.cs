@@ -51,6 +51,7 @@ public class RepositoryModule : Installer<RepositoryModule>
             .FromMethod(ctx => 
             {
                 return new AllyRepositoryImpl(
+                    playerDao : ctx.Container.Resolve<PlayerStatsDaoImpl>(),
                     allyDao: ctx.Container.Resolve<AllyDaoImpl>()
                 );
             })

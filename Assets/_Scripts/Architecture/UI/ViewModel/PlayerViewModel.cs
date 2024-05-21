@@ -26,7 +26,7 @@ public class PlayerViewModelImpl : IPlayerViewModel, IInitializable
         _playerStats = await readPlayerStatsUseCase.Invoke();
 
         Debug.Log("PLayer View Model Initialized");
-        eventsManager.StartListening(GameEvent.ShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
         eventsManager.StartListening(GameEvent.EnemyViewModelEvent.INFLICT_DAMAGE, TakeDamage);
         // eventsManager.StartListening(GameEvent.GameManagerEvent.RESTART_ROUND, Reset);
     }
