@@ -40,14 +40,17 @@ public class AllyStateManager : MonoBehaviour
         // eventsManager.StartListening(GameEvent.AllyShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, SetUp);
     }
 
-    // void Start()
-    // {
-    //     // allyViewModel.allyStats.Subscribe(stats => Spawn(stats));
-    //     allyShopViewModel.allies.Subscribe(
-    //         stats => Spawn(stats, "john_id")
-    //     );
+    void Start()
+    {
+        _currentState = attackState;
+        _currentState.EnterState(this);
+        
+        // allyViewModel.allyStats.Subscribe(stats => Spawn(stats));
+        // allyShopViewModel.allies.Subscribe(
+        //     stats => Spawn(stats, "john_id")
+        // );
 
-    // }
+    }
 
     void SetUp()
     {

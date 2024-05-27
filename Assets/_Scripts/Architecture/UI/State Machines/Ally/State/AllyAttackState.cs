@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using System.Collections;
 
 public class AllyAttackState : AllyBaseState
 {
@@ -11,8 +11,9 @@ public class AllyAttackState : AllyBaseState
 
     public override void EnterState(AllyStateManager allyContext)
     {
+        allyContext.StartCoroutine(FireProjectile(allyContext));
         // playerContext.FireProjectile();
-        FireProjectile(allyContext);
+        
         // animator = playerContext.GetComponent<Animator>(); 
         // FireProjectile(playerContext);
         // playerContext.SwitchState(playerContext.idleState);
@@ -46,14 +47,30 @@ public class AllyAttackState : AllyBaseState
         CheckSwitchStates(allyContext);
     }
 
-    private void FireProjectile(AllyStateManager allyContext)
+    // private void FireProjectile(AllyStateManager allyContext)
+    // {
+        
+    //     allyContext.animator.SetTrigger(ATTACK_TRIGGER);
+    //     // var projectile = allyContext._container.InstantiatePrefab(allyContext.projectilePrefab, allyContext.launchOffest.position, allyContext.launchOffest.rotation, null);
+    //     // projectile.GetComponent<Projectile>();
+    //     // playerContext.animator.SetTrigger(ATTACK_TRIGGER);
+    //     // // playerContext.Instas();
+    //     // playerContext.pto.GetComponent<AutoAimProjectile>();
+    // }
+
+    private void StartSpawnBoss()
     {
         
-        allyContext.animator.SetTrigger(ATTACK_TRIGGER);
-        // var projectile = allyContext._container.InstantiatePrefab(allyContext.projectilePrefab, allyContext.launchOffest.position, allyContext.launchOffest.rotation, null);
-        // projectile.GetComponent<Projectile>();
-        // playerContext.animator.SetTrigger(ATTACK_TRIGGER);
-        // // playerContext.Instas();
-        // playerContext.pto.GetComponent<AutoAimProjectile>();
+    }
+
+    IEnumerator FireProjectile(AllyStateManager allyContext)
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(1);
+
+            var projectile = allyContext._container.InstantiatePrefab(allyContext.projectilePrefab, allyContext.transform.position, allyContext.transform.rotation, null);
+            projectile.GetComponent<Projectile>();
+        }
     }
 }

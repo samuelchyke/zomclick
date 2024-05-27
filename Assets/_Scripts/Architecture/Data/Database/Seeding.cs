@@ -91,7 +91,7 @@ public class Seeding
                 critRate = 10,
                 critMultiplier = 1.2f,
                 totalDamage = 15,
-                unlockCost = 10,
+                unlockCost = 200,
                 upgradeCost = 10,
                 isUnlocked = false
             }

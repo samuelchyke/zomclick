@@ -10,7 +10,10 @@ public class AllyShopState : ShopBaseState, IDisposable
     private CompositeDisposable _disposables = new CompositeDisposable();
 
     public TextMeshProUGUI johnCostText;
+    public TextMeshProUGUI doeCostText;
+
     public Button johnBuyButton;
+    public Button doeBuyButton;
 
     private Dictionary<string, TextMeshProUGUI> _allyCostTexts;
 
@@ -20,11 +23,15 @@ public class AllyShopState : ShopBaseState, IDisposable
         shopContext.allyShop.SetActive(true);
 
         johnCostText = GameObject.Find("john_cost_text").GetComponent<TextMeshProUGUI>();
+        doeCostText = GameObject.Find("doe_cost_text").GetComponent<TextMeshProUGUI>();
+
         johnBuyButton = GameObject.Find("john_buy_button").GetComponent<Button>();
+        doeBuyButton = GameObject.Find("doe_buy_button").GetComponent<Button>();
 
         _allyCostTexts = new Dictionary<string, TextMeshProUGUI>
         {
-            { "john_id", johnCostText }
+            { "john_id", johnCostText },
+            { "doe_id", doeCostText }
         };
 
         shopContext.allyShopViewModel.allies
@@ -32,6 +39,7 @@ public class AllyShopState : ShopBaseState, IDisposable
             .AddTo(_disposables);
 
         johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
+        doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
     }
 
     private void onBuy (ShopStateManager shopContext, string allyId)
