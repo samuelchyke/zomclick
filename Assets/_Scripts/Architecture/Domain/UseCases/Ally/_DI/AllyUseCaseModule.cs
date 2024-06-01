@@ -24,6 +24,16 @@ public class AllyUseCaseModule : Installer<AllyUseCaseModule>
             .AsSingle()
             .NonLazy();
 
+        Container.BindInterfacesAndSelfTo<ReadAllySkillsUseCaseImpl>()
+            .FromMethod(ctx =>
+            {
+                return new ReadAllySkillsUseCaseImpl(
+                    allyRepository: ctx.Container.Resolve<AllyRepositoryImpl>()
+                );
+            })
+            .AsSingle()
+            .NonLazy();
+
         Container.BindInterfacesAndSelfTo<UnlockAllyUseCaseImpl>()
             .FromMethod(ctx =>
             {

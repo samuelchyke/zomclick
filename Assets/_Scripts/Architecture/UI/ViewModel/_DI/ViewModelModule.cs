@@ -25,6 +25,7 @@ public class ViewModelModule : Installer<ViewModelModule>
                 return new AllyShopViewModelImpl(
                     readAlliesStatsUseCase : ctx.Container.Resolve<ReadAlliesStatsUseCaseImpl>(),
                     readAllyStatsUseCase : ctx.Container.Resolve<ReadAllyStatsUseCaseImpl>(),
+                    readAllySkillsUseCase : ctx.Container.Resolve<ReadAllySkillsUseCaseImpl>(),
                     unlockAllyUseCase : ctx.Container.Resolve<UnlockAllyUseCaseImpl>(),
                     upgradeAllyStatsUseCase : ctx.Container.Resolve<UpgradeAllyStatsUseCaseImpl>(),
                     eventsManager : ctx.Container.Resolve<EventsManager>()

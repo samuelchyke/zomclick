@@ -54,6 +54,7 @@ public class DatabaseManager : IInitializable
         dbConnection.CreateTable<BossStatsEntity>();
         dbConnection.CreateTable<PlayerShopEntity>();
         dbConnection.CreateTable<AllyStatsEntity>();
+        dbConnection.CreateTable<AllySkillsEntity>();
     }
 
     void ResetDb(string dbPath, bool resetDb)
@@ -80,5 +81,6 @@ public class DatabaseManager : IInitializable
         dbConnection.DropTable<BossStatsEntity>();
         dbConnection.DropTable<EnemyWaveEntity>();
         dbConnection.DropTable<AllyStatsEntity>();
+        dbConnection.DropTable<AllySkillsEntity>();
     }
 }

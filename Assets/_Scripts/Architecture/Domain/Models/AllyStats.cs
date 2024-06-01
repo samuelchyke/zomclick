@@ -4,6 +4,7 @@ public interface IAllyStats
 {
     string id { get; set; }
     string name { get; set; }
+    int level { get; set; }
     int attackSpeed { get; set; }
     int baseDamage { get; set; }
     int critRate { get; set; }
@@ -12,12 +13,14 @@ public interface IAllyStats
     int unlockCost { get; set; }
     int upgradeCost { get; set; }
     bool isUnlocked { get; set; }
+    string lore { get; set; }
 }
 
 public class AllyStats : IAllyStats
 {
     public string id { get; set; }
     public string name { get; set; }
+    public int level { get; set; }
     public int attackSpeed { get; set; }
     public int baseDamage { get; set; }
     public int critRate { get; set; }
@@ -26,11 +29,13 @@ public class AllyStats : IAllyStats
     public int unlockCost { get; set; }
     public int upgradeCost { get; set; }
     public bool isUnlocked { get; set; }
+    public string lore { get; set; }
 
     public override bool Equals(object obj)
     {
         return obj is AllyStats stats &&
                id == stats.id &&
+               level == stats.level &&
                name == stats.name &&
                attackSpeed == stats.attackSpeed &&
                baseDamage == stats.baseDamage &&
@@ -39,13 +44,14 @@ public class AllyStats : IAllyStats
                totalDamage == stats.totalDamage &&
                unlockCost == stats.unlockCost &&
                upgradeCost == stats.upgradeCost &&
-               isUnlocked == stats.isUnlocked;
+               isUnlocked == stats.isUnlocked &&
+               lore == stats.lore;
     }
 
     public override int GetHashCode()
     {
-        int hash1 = HashCode.Combine(id, name, attackSpeed, baseDamage, critRate, critMultiplier, totalDamage, unlockCost);
-        int hash2 = HashCode.Combine(upgradeCost, isUnlocked);
+        int hash1 = HashCode.Combine(id, name, level, attackSpeed, baseDamage, critRate, critMultiplier, totalDamage);
+        int hash2 = HashCode.Combine(unlockCost, upgradeCost, isUnlocked, lore);
 
         return HashCode.Combine(hash1, hash2);
     }

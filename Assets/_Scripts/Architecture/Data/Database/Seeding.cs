@@ -5,107 +5,20 @@ using Debug = UnityEngine.Debug;
 
 public class Seeding
 {
-    PlayerStatsEntity DefaultPlayerStats { get; set; }
-    PlayerShopEntity DefaultShopDetails { get; set; }
-    EnemyStatsEntity DefaultEnemyStats { get; set; }
-    BossStatsEntity DefaultBossStats { get; set; }
-    EnemyWaveEntity DefaultEnemyWave { get; set; }
-    List<AllyStatsEntity> allyStatsEntities{ get; set; }
-
-    private SQLiteConnection dbConnection;
-
+    private readonly SQLiteConnection dbConnection;
+    
     public Seeding(SQLiteConnection dbConnection)
     {
         this.dbConnection = dbConnection;
-        
-        DefaultPlayerStats = new PlayerStatsEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            wallHealth = 3,
-            baseDamage = 1,
-            critRate = 1,
-            critMultiplier = 1,
-            totalDamage = 1,
-            totalGold = 5000
-        };
-
-        DefaultShopDetails = new PlayerShopEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            wallHealthCost = 10,
-            damageCost = 10,
-            critRateCost = 10,
-            critDamageCost = 10
-        };
-
-        DefaultEnemyStats = new EnemyStatsEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            totalHealth = 2,
-            damage = 1,
-            attackSpeed = 1,
-            movementSpeed = 1,
-            goldDropAmount = 10
-        };
-
-        DefaultBossStats = new BossStatsEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            totalHealth = 100,
-            damage = 1,
-            attackSpeed = 1,
-            movementSpeed = 1,
-            goldDropAmount = 100
-        };
-
-        DefaultEnemyWave = new EnemyWaveEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            round = 1,
-            spawnLimit = 3,
-            spawnTotal = 0,
-            enemiesKilled = 0
-        };
-
-        allyStatsEntities = new List<AllyStatsEntity>
-        {
-            new AllyStatsEntity
-            {
-                id = "john_id",
-                name = "John",
-                attackSpeed = 15,
-                baseDamage = 10,
-                critRate = 5,
-                critMultiplier = 1.5f,
-                totalDamage = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
-                isUnlocked = false
-            },
-            new AllyStatsEntity
-            {
-                id = "doe_id",
-                name = "Ally Two",
-                attackSpeed = 12,
-                baseDamage = 15,
-                critRate = 10,
-                critMultiplier = 1.2f,
-                totalDamage = 15,
-                unlockCost = 200,
-                upgradeCost = 10,
-                isUnlocked = false
-            }
-        };
-
-
     }
 
     public void SeedDatabase(bool seedDb)
     {
-        if(!seedDb) return;
+        if (!seedDb) return;
+        
         dbConnection.RunInTransaction(() =>
         {
-            try 
+            try
             {
                 SeedPlayerStats();
                 SeedShopDetails();
@@ -113,6 +26,7 @@ public class Seeding
                 SeedEnemyWaves();
                 SeedBossStats();
                 SeedAllyStats();
+                SeedAllySkills();
             }
             catch (Exception ex)
             {
@@ -125,34 +39,165 @@ public class Seeding
 
     private void SeedPlayerStats()
     {
-        dbConnection.InsertOrReplace(DefaultPlayerStats);
+        var playerStats = new PlayerStatsEntity
+        {
+            id = Guid.NewGuid().ToString(),
+            wallHealth = 3,
+            baseDamage = 1,
+            critRate = 1,
+            critMultiplier = 1,
+            totalDamage = 1,
+            totalGold = 5000
+        };
+        
+        dbConnection.InsertOrReplace(playerStats);
     }
 
     private void SeedShopDetails()
     {
-        dbConnection.InsertOrReplace(DefaultShopDetails);
+        var shopDetails = new PlayerShopEntity
+        {
+            id = Guid.NewGuid().ToString(),
+            wallHealthCost = 10,
+            damageCost = 10,
+            critRateCost = 10,
+            critDamageCost = 10
+        };
+        
+        dbConnection.InsertOrReplace(shopDetails);
     }
 
     private void SeedEnemyStats()
     {
-       dbConnection.InsertOrReplace(DefaultEnemyStats);
+        var enemyStats = new EnemyStatsEntity
+        {
+            id = Guid.NewGuid().ToString(),
+            totalHealth = 2,
+            damage = 1,
+            attackSpeed = 1,
+            movementSpeed = 1,
+            goldDropAmount = 10
+        };
+        
+        dbConnection.InsertOrReplace(enemyStats);
     }
 
     private void SeedEnemyWaves()
     {
-       dbConnection.InsertOrReplace(DefaultEnemyWave);
+        var enemyWave = new EnemyWaveEntity
+        {
+            id = Guid.NewGuid().ToString(),
+            round = 1,
+            spawnLimit = 3,
+            spawnTotal = 0,
+            enemiesKilled = 0
+        };
+        
+        dbConnection.InsertOrReplace(enemyWave);
     }
     
     private void SeedBossStats()
     {
-       dbConnection.InsertOrReplace(DefaultBossStats);
+        var bossStats = new BossStatsEntity
+        {
+            id = Guid.NewGuid().ToString(),
+            totalHealth = 100,
+            damage = 1,
+            attackSpeed = 1,
+            movementSpeed = 1,
+            goldDropAmount = 100
+        };
+        
+        dbConnection.InsertOrReplace(bossStats);
     }
 
     private void SeedAllyStats()
     {
-        foreach (var ally in allyStatsEntities)
+        var allyStats = new List<AllyStatsEntity>
+        {
+            new AllyStatsEntity
+            {
+                id = "john_id",
+                name = "John",
+                attackSpeed = 15,
+                level = 1,
+                baseDamage = 10,
+                critRate = 5,
+                critMultiplier = 1.5f,
+                totalDamage = 10,
+                unlockCost = 100,
+                upgradeCost = 10,
+                isUnlocked = false,
+                lore = "John the gunslinger came from texas"
+            },
+            new AllyStatsEntity
+            {
+                id = "doe_id",
+                name = "Doe",
+                level = 1,
+                attackSpeed = 12,
+                baseDamage = 15,
+                critRate = 10,
+                critMultiplier = 1.2f,
+                totalDamage = 15,
+                unlockCost = 200,
+                upgradeCost = 10,
+                isUnlocked = false,
+                lore = "Johns partner in crime"
+            }
+        };
+        
+        foreach (var ally in allyStats)
         {
             dbConnection.InsertOrReplace(ally);
+        }
+    }
+
+    private void SeedAllySkills()
+    {
+        var allySkills = new List<AllySkillsEntity>
+        {
+            new AllySkillsEntity
+            {
+                id = Guid.NewGuid().ToString(),
+                allyId = "john_id",
+                isUnlocked = false,
+                description = "Unlock John Unlimited Power",
+                unlockLevel = 10,
+                buff = 10
+            },
+            new AllySkillsEntity
+            {
+                id = Guid.NewGuid().ToString(),
+                allyId = "john_id",
+                isUnlocked = false,
+                description = "Unlock John Unlimited Power 2",
+                unlockLevel = 25,
+                buff = 10
+            },
+            new AllySkillsEntity
+            {
+                id = Guid.NewGuid().ToString(),
+                allyId = "doe_id",
+                isUnlocked = false,
+                description = "Unlock Doe Unlimited Power",
+                unlockLevel = 10,
+                buff = 10
+            },
+            new AllySkillsEntity
+            {
+                id = Guid.NewGuid().ToString(),
+                allyId = "doe_id",
+                isUnlocked = false,
+                description = "Unlock Doe Unlimited Power 2",
+                unlockLevel = 25,
+                buff = 10
+            }
+        };
+        
+        foreach (var allySkill in allySkills)
+        {
+            dbConnection.InsertOrReplace(allySkill);
         }
     }
 }

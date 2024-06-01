@@ -6,6 +6,7 @@ public class AllyStatsBuilder
         {
             id = entity.id,
             name = entity.name,
+            level = entity.level,
             attackSpeed = entity.attackSpeed,
             baseDamage = entity.baseDamage,
             critRate = entity.critRate,
@@ -13,7 +14,8 @@ public class AllyStatsBuilder
             totalDamage = entity.totalDamage,
             unlockCost = entity.unlockCost,
             upgradeCost = entity.upgradeCost,
-            isUnlocked = entity.isUnlocked
+            isUnlocked = entity.isUnlocked,
+            lore = entity.lore
         };
     }
 
@@ -23,6 +25,7 @@ public class AllyStatsBuilder
         {
             id = allyStats.id,
             name = allyStats.name,
+            level = allyStats.level,
             attackSpeed = allyStats.attackSpeed,
             baseDamage = allyStats.baseDamage,
             critRate = allyStats.critRate,
@@ -30,7 +33,8 @@ public class AllyStatsBuilder
             totalDamage = allyStats.totalDamage,
             unlockCost = allyStats.unlockCost,
             upgradeCost = allyStats.upgradeCost,
-            isUnlocked = allyStats.isUnlocked
+            isUnlocked = allyStats.isUnlocked,
+            lore = allyStats.lore
         };
     }
 }

@@ -25,6 +25,7 @@ public class ShopStateManager : MonoBehaviour
 
     public GameObject playerUpgradeShop;
     public GameObject allyShop;
+    public GameObject allyStats;
     public GameObject shopTab;
 
     void Awake()
