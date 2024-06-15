@@ -9,7 +9,7 @@ public class RepositoryModule : Installer<RepositoryModule>
                 {
                     return new PlayerShopRepositoryImpl(
                         playerShopDao: ctx.Container.Resolve<PlayerShopDaoImpl>(),
-                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>()
+                        playerStatsDao: ctx.Container.Resolve<PlayerDaoImpl>()
                     );
                 })
             .AsSingle()
@@ -19,7 +19,7 @@ public class RepositoryModule : Installer<RepositoryModule>
             .FromMethod( ctx =>
                 {
                     return new PlayerRepositoryImpl(
-                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>()
+                        playerStatsDao: ctx.Container.Resolve<PlayerDaoImpl>()
                     );
                 })
             .AsSingle()
@@ -29,7 +29,7 @@ public class RepositoryModule : Installer<RepositoryModule>
             .FromMethod( ctx =>
                 {
                     return new EnemyRepositoryImpl(
-                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>(),
+                        playerStatsDao: ctx.Container.Resolve<PlayerDaoImpl>(),
                         enemyDao: ctx.Container.Resolve<EnemyDaoImpl>()
                     );
                 })
@@ -40,7 +40,7 @@ public class RepositoryModule : Installer<RepositoryModule>
             .FromMethod( ctx =>
                 {
                     return new GameRepositoryImpl(
-                        playerStatsDao: ctx.Container.Resolve<PlayerStatsDaoImpl>(),
+                        playerStatsDao: ctx.Container.Resolve<PlayerDaoImpl>(),
                         enemyDao: ctx.Container.Resolve<EnemyDaoImpl>()
                     );
                 })
@@ -51,7 +51,7 @@ public class RepositoryModule : Installer<RepositoryModule>
             .FromMethod(ctx => 
             {
                 return new AllyRepositoryImpl(
-                    playerDao : ctx.Container.Resolve<PlayerStatsDaoImpl>(),
+                    playerDao : ctx.Container.Resolve<PlayerDaoImpl>(),
                     allyDao: ctx.Container.Resolve<AllyDaoImpl>()
                 );
             })

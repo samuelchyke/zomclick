@@ -8,12 +8,12 @@ using System.Collections.Generic;
 public interface IAllyDao 
 {
     Task<List<AllyStatsEntity>> ReadAlliesStats();
-    Task<List<AllySkillsEntity>> ReadAlliesSkills();
+    Task<List<AllySkillEntity>> ReadAlliesSkills();
     Task<AllyStatsEntity> ReadAllyEntity(string allyId);
-    Task<List<AllySkillsEntity>> ReadAllySkills(string allyId);
+    Task<List<AllySkillEntity>> ReadAllySkills(string allyId);
 
     public Task UpdateAllyStats(AllyStatsEntity allyEntity);
-    public Task UpdateAllySkill(AllySkillsEntity allySkillEntity);
+    public Task UpdateAllySkill(AllySkillEntity allySkillEntity);
 }
 
 public class AllyDaoImpl : IAllyDao, IInitializable
@@ -42,21 +42,21 @@ public class AllyDaoImpl : IAllyDao, IInitializable
         });
     }
 
-    public Task<List<AllySkillsEntity>> ReadAlliesSkills()
+    public Task<List<AllySkillEntity>> ReadAlliesSkills()
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM AllySkillsEntity";
-            return _db.Query<AllySkillsEntity>(query);
+            string query = $"SELECT * FROM AllySkillEntity";
+            return _db.Query<AllySkillEntity>(query);
         });
     }
 
-    public Task<List<AllySkillsEntity>> ReadAllySkills(string allyId)
+    public Task<List<AllySkillEntity>> ReadAllySkills(string allyId)
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM AllySkillsEntity WHERE allyId = ?";
-            return _db.Query<AllySkillsEntity>(query, allyId);
+            string query = $"SELECT * FROM AllySkillEntity WHERE allyId = ?";
+            return _db.Query<AllySkillEntity>(query, allyId);
         });
     }
 
@@ -74,7 +74,7 @@ public class AllyDaoImpl : IAllyDao, IInitializable
         return Task.Run(() =>_db.Update(allyEntity));
     }
 
-    public Task UpdateAllySkill(AllySkillsEntity allySkillEntity)
+    public Task UpdateAllySkill(AllySkillEntity allySkillEntity)
     {
         return Task.Run(() =>_db.Update(allySkillEntity));
     }

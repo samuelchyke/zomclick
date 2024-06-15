@@ -2,17 +2,17 @@ using System.Threading.Tasks;
 using Zenject;
 using Debug = UnityEngine.Debug;
 
-public interface IBuyDamageUseCase
+public interface IUpgradePlayerStatsUseCase
 {
     Task Invoke();
 }
 
-public class BuyDamageUseCaseImpl : IBuyDamageUseCase, IInitializable
+public class UpgradePlayerStatsUseCaseImpl : IUpgradePlayerStatsUseCase, IInitializable
 {
     private readonly IPlayerShopRepository _shopRepository;
 
     [Inject]
-    public BuyDamageUseCaseImpl(IPlayerShopRepository shopRepository)
+    public UpgradePlayerStatsUseCaseImpl(IPlayerShopRepository shopRepository)
     {
         _shopRepository = shopRepository;
     }
@@ -24,6 +24,6 @@ public class BuyDamageUseCaseImpl : IBuyDamageUseCase, IInitializable
 
     public Task Invoke()
     {
-        return _shopRepository.BuyDamage();
+        return _shopRepository.UpgradePlayerStats();
     }
 }

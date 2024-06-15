@@ -5,14 +5,14 @@ public interface IPlayerRepository
 {
     Task<PlayerStats> ReadPlayerStats();
 
-    Task UpdatePlayerStats(PlayerStats playerStats);
+    // Task UpdatePlayerStats(PlayerStats playerStats);
 }
 
 public class PlayerRepositoryImpl : IPlayerRepository
 {
-    private readonly IPlayerStatsDao playerStatsDao;
+    private readonly IPlayerDao playerStatsDao;
 
-    public PlayerRepositoryImpl(IPlayerStatsDao playerStatsDao)
+    public PlayerRepositoryImpl(IPlayerDao playerStatsDao)
     {
         this.playerStatsDao = playerStatsDao;
     }
@@ -24,9 +24,9 @@ public class PlayerRepositoryImpl : IPlayerRepository
         return new PlayerStatsBuilder().ToDomain(entity);
     }
 
-    public async Task UpdatePlayerStats(PlayerStats playerStats)
-    {
-        PlayerStatsEntity entity = new PlayerStatsBuilder().ToEntity(playerStats);
-        await playerStatsDao.UpdatePlayerStats(entity);
-    }
+    // public async Task UpdatePlayerStats(PlayerStats playerStats)
+    // {
+    //     PlayerStatsEntity entity = new PlayerStatsBuilder().ToEntity(playerStats);
+    //     await playerStatsDao.UpdatePlayerStats(entity);
+    // }
 }

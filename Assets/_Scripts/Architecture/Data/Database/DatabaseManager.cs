@@ -49,12 +49,13 @@ public class DatabaseManager : IInitializable
         if (!setDb) return; 
         dbConnection.CreateTable<DatabaseVersionEntity>();
         dbConnection.CreateTable<PlayerStatsEntity>();
+        dbConnection.CreateTable<PlayerSkillEntity>();
         dbConnection.CreateTable<EnemyStatsEntity>();
         dbConnection.CreateTable<EnemyWaveEntity>();
         dbConnection.CreateTable<BossStatsEntity>();
         dbConnection.CreateTable<PlayerShopEntity>();
         dbConnection.CreateTable<AllyStatsEntity>();
-        dbConnection.CreateTable<AllySkillsEntity>();
+        dbConnection.CreateTable<AllySkillEntity>();
     }
 
     void ResetDb(string dbPath, bool resetDb)
@@ -81,6 +82,6 @@ public class DatabaseManager : IInitializable
         dbConnection.DropTable<BossStatsEntity>();
         dbConnection.DropTable<EnemyWaveEntity>();
         dbConnection.DropTable<AllyStatsEntity>();
-        dbConnection.DropTable<AllySkillsEntity>();
+        dbConnection.DropTable<AllySkillEntity>();
     }
 }

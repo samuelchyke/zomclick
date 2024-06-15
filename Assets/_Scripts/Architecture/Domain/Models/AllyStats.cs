@@ -40,7 +40,7 @@ public class AllyStats : IAllyStats
                attackSpeed == stats.attackSpeed &&
                baseDamage == stats.baseDamage &&
                critRate == stats.critRate &&
-               critMultiplier.Equals(stats.critMultiplier) &&
+               critMultiplier == stats.critMultiplier &&
                totalDamage == stats.totalDamage &&
                unlockCost == stats.unlockCost &&
                upgradeCost == stats.upgradeCost &&

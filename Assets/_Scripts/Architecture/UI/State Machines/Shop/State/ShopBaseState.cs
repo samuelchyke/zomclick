@@ -4,7 +4,6 @@ using Zenject;
 
 public abstract class ShopBaseState : IInitializable
 {
-
     public void Initialize(){}
 
     public abstract void EnterState(ShopStateManager shopContext);
@@ -12,16 +11,12 @@ public abstract class ShopBaseState : IInitializable
     public abstract void ExitState(ShopStateManager shopContext);
 
     protected void SwitchStates(ShopStateManager shopContext, ShopBaseState newState){
-        ExitState(shopContext);
+        shopContext.currentState.ExitState(shopContext);
 
         shopContext.currentState = newState;
 
         newState.EnterState(shopContext);
     }
-
-    protected void SetSuperState(){}
-
-    protected void SetSubState(){}
 }
 
 public class ShopStateFactory
@@ -60,6 +55,21 @@ public class ShopStateFactory
     public AllyShopState CreateAllyShopState()
     {
         return Create<AllyShopState>();
+    }
+
+    public AllyShopPageOneState CreateAllyShopPageOneState()
+    {
+        return Create<AllyShopPageOneState>();
+    }
+
+    public AllyShopPageTwoState CreateAllyShopPageTwoState()
+    {
+        return Create<AllyShopPageTwoState>();
+    }
+
+    public AllyShopPageThreeState CreateAllyShopPageThreeState()
+    {
+        return Create<AllyShopPageThreeState>();
     }
 
     public ShopTabState CreateShopTabState()

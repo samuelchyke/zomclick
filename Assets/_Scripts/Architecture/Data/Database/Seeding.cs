@@ -21,6 +21,7 @@ public class Seeding
             try
             {
                 SeedPlayerStats();
+                SeedPlayerSkills();
                 SeedShopDetails();
                 SeedEnemyStats();
                 SeedEnemyWaves();
@@ -52,6 +53,49 @@ public class Seeding
         
         dbConnection.InsertOrReplace(playerStats);
     }
+
+    private void SeedPlayerSkills()
+    {
+        var playerSkills = new List<PlayerSkillEntity>
+        {
+            new PlayerSkillEntity {
+                id = "bomb_id",
+                isUnlocked = false,
+                buff = 10,
+                unlockLevel = 10,
+                unlockCost = 100,
+                upgradeCost = 10,
+                duration = 10,
+                coolDown = 30,
+                level = 1
+            },
+            new PlayerSkillEntity {
+                id = "turret_id",
+                isUnlocked = false,
+                buff = 10,
+                unlockLevel = 10,
+                unlockCost = 100,
+                upgradeCost = 10,
+                duration = 10,
+                coolDown = 30,
+                level = 1
+            },
+            new PlayerSkillEntity {
+                id = "range_id",
+                isUnlocked = false,
+                buff = 10,
+                unlockLevel = 10,
+                unlockCost = 100,
+                upgradeCost = 10,
+                duration = 10,
+                coolDown = 30,
+                level = 1
+            },
+        };
+        
+        dbConnection.InsertOrReplace(playerSkills);
+    }
+
 
     private void SeedShopDetails()
     {
@@ -144,6 +188,66 @@ public class Seeding
                 upgradeCost = 10,
                 isUnlocked = false,
                 lore = "Johns partner in crime"
+            },
+            new AllyStatsEntity
+            {
+                id = "rod_id",
+                name = "Rod",
+                attackSpeed = 15,
+                level = 1,
+                baseDamage = 10,
+                critRate = 5,
+                critMultiplier = 1.5f,
+                totalDamage = 10,
+                unlockCost = 100,
+                upgradeCost = 10,
+                isUnlocked = false,
+                lore = "John the gunslinger came from texas"
+            },
+            new AllyStatsEntity
+            {
+                id = "don_id",
+                name = "Don",
+                level = 1,
+                attackSpeed = 12,
+                baseDamage = 15,
+                critRate = 10,
+                critMultiplier = 1.2f,
+                totalDamage = 15,
+                unlockCost = 200,
+                upgradeCost = 10,
+                isUnlocked = false,
+                lore = "Johns partner in crime"
+            },
+            new AllyStatsEntity
+            {
+                id = "joe_id",
+                name = "Joe",
+                attackSpeed = 15,
+                level = 1,
+                baseDamage = 10,
+                critRate = 5,
+                critMultiplier = 1.5f,
+                totalDamage = 10,
+                unlockCost = 100,
+                upgradeCost = 10,
+                isUnlocked = false,
+                lore = "John the gunslinger came from texas"
+            },
+            new AllyStatsEntity
+            {
+                id = "doen_id",
+                name = "Doen",
+                level = 1,
+                attackSpeed = 12,
+                baseDamage = 15,
+                critRate = 10,
+                critMultiplier = 1.2f,
+                totalDamage = 15,
+                unlockCost = 200,
+                upgradeCost = 10,
+                isUnlocked = false,
+                lore = "Johns partner in crime"
             }
         };
         
@@ -155,9 +259,9 @@ public class Seeding
 
     private void SeedAllySkills()
     {
-        var allySkills = new List<AllySkillsEntity>
+        var allySkills = new List<AllySkillEntity>
         {
-            new AllySkillsEntity
+            new AllySkillEntity
             {
                 id = Guid.NewGuid().ToString(),
                 allyId = "john_id",
@@ -166,7 +270,7 @@ public class Seeding
                 unlockLevel = 10,
                 buff = 10
             },
-            new AllySkillsEntity
+            new AllySkillEntity
             {
                 id = Guid.NewGuid().ToString(),
                 allyId = "john_id",
@@ -175,7 +279,7 @@ public class Seeding
                 unlockLevel = 25,
                 buff = 10
             },
-            new AllySkillsEntity
+            new AllySkillEntity
             {
                 id = Guid.NewGuid().ToString(),
                 allyId = "doe_id",
@@ -184,7 +288,7 @@ public class Seeding
                 unlockLevel = 10,
                 buff = 10
             },
-            new AllySkillsEntity
+            new AllySkillEntity
             {
                 id = Guid.NewGuid().ToString(),
                 allyId = "doe_id",

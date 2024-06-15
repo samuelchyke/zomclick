@@ -14,12 +14,12 @@ public interface IEnemyRepository
 public class EnemyRepositoryImpl : IEnemyRepository, IInitializable
 {
     IEnemyDao enemyDao;
-    IPlayerStatsDao playerStatsDao;
+    IPlayerDao playerStatsDao;
 
     [Inject]
     public EnemyRepositoryImpl(
         IEnemyDao enemyDao,
-        IPlayerStatsDao playerStatsDao
+        IPlayerDao playerStatsDao
         )
     {
         this.enemyDao = enemyDao;

@@ -15,40 +15,50 @@ public class PlayerUpgradeShopUseCaseModule : Installer<PlayerUpgradeShopUseCase
             .AsSingle()
             .NonLazy();
 
-        Container.BindInterfacesAndSelfTo<BuyDamageUseCaseImpl>()
+        Container.BindInterfacesAndSelfTo<UpgradePlayerStatsUseCaseImpl>()
         .FromMethod( ctx =>
             {
-                return new BuyDamageUseCaseImpl(
+                return new UpgradePlayerStatsUseCaseImpl(
                     shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
                 );
             })
         .AsSingle()
         .NonLazy();
 
-        Container.BindInterfacesAndSelfTo<BuyCritRateUseCaseImpl>()
+        Container.BindInterfacesAndSelfTo<ReadPlayerSkillUseCaseImpl>()
         .FromMethod( ctx =>
             {
-                return new BuyCritRateUseCaseImpl(
+                return new ReadPlayerSkillUseCaseImpl(
                     shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
                 );
             })
         .AsSingle()
         .NonLazy();
 
-        Container.BindInterfacesAndSelfTo<BuyCritDamageUseCaseImpl>()
+        Container.BindInterfacesAndSelfTo<ReadPlayerSkillsUseCaseImpl>()
         .FromMethod( ctx =>
             {
-                return new BuyCritDamageUseCaseImpl(
+                return new ReadPlayerSkillsUseCaseImpl(
                     shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
                 );
             })
         .AsSingle()
         .NonLazy();
 
-        Container.BindInterfacesAndSelfTo<BuyHealthUseCaseImpl>()
+        Container.BindInterfacesAndSelfTo<UnlockPlayerSkillUseCaseImpl>()
         .FromMethod( ctx =>
             {
-                return new BuyHealthUseCaseImpl(
+                return new UnlockPlayerSkillUseCaseImpl(
+                    shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
+                );
+            })
+        .AsSingle()
+        .NonLazy();
+
+        Container.BindInterfacesAndSelfTo<UpgradePlayerSkillUseCaseImpl>()
+        .FromMethod( ctx =>
+            {
+                return new UpgradePlayerSkillUseCaseImpl(
                     shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
                 );
             })

@@ -1,6 +1,6 @@
 public class AllySkillsBuilder
 {
-    public AllySkill ToDomain(AllySkillsEntity entity)
+    public AllySkill ToDomain(AllySkillEntity entity)
     {
         return new AllySkill
         {
@@ -13,9 +13,9 @@ public class AllySkillsBuilder
         };
     }
 
-    public AllySkillsEntity ToEntity(AllySkill skill)
+    public AllySkillEntity ToEntity(AllySkill skill)
     {
-        return new AllySkillsEntity
+        return new AllySkillEntity
         {
             id = skill.id,
             allyId = skill.allyId,

@@ -3,27 +3,30 @@ using R3;
 using Zenject;
 using Debug = UnityEngine.Debug;
 using System.Linq;
+using System.Collections.Generic;
 
 public interface IPlayerShopRepository
 {
     Task<PlayerShopDetails> ReadShopDetails();
 
-    Task BuyDamage();
-    Task BuyCritDamage();
-    Task BuyCritRate();
-    Task BuyHealth();
-    
+    Task UpgradePlayerStats();
+
+    Task<List<PlayerSkill>> ReadPlayerSkills();
+    Task<PlayerSkill> ReadPlayerSkill(string playerSkillId);
+
+    Task UnlockPlayerSkill (string playerSkillId);
+    Task UpgradePlayerSkill (string playerSkillId);
 }
 
 public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
 {
     IPlayerShopDao playerShopDao;
-    IPlayerStatsDao playerStatsDao;
+    IPlayerDao playerStatsDao;
 
     [Inject]
     public PlayerShopRepositoryImpl(
         IPlayerShopDao playerShopDao,
-        IPlayerStatsDao playerStatsDao
+        IPlayerDao playerStatsDao
         )
     {
         this.playerShopDao = playerShopDao;
@@ -47,57 +50,56 @@ public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
         );
     }
 
-    public async Task BuyDamage()
+    public async Task UpgradePlayerStats()
     {
         var playerStats = await playerStatsDao.ReadPlayerStats();
         var playerShop = await playerShopDao.ReadShopDetails();
-
         playerStats.totalGold -= playerShop.damageCost;
         playerStats.baseDamage += 10;
-        playerShop.damageCost += 10;
-
-        await playerShopDao.UpdateShopDetails(playerShop);
         await playerStatsDao.UpdatePlayerStats(playerStats);
     }
 
-    public async Task BuyCritRate()
+    public async Task<PlayerSkill> ReadPlayerSkill(string playerSkillId)
     {
-        var playerStats = await playerStatsDao.ReadPlayerStats();
-        var playerShop = await playerShopDao.ReadShopDetails();
-
-        playerStats.totalGold -= playerShop.critRateCost;
-        playerStats.critRate += 10;
-        playerShop.critRateCost += 10;
-        
-        await playerShopDao.UpdateShopDetails(playerShop);
-        await playerStatsDao.UpdatePlayerStats(playerStats);
-        // Debug.Log("Shop Repository - BuyCritRate");
+        var entity = await playerStatsDao.ReadPlayerSkill(playerSkillId);
+        return new PlayerSkillBuilder().ToDomain(entity);
     }
-    
-    public async Task BuyCritDamage()
+
+    public async Task<List<PlayerSkill>> ReadPlayerSkills()
     {
-        var playerStats = await playerStatsDao.ReadPlayerStats();
-        var playerShop = await playerShopDao.ReadShopDetails();
-
-        playerStats.totalGold -= playerShop.critDamageCost;
-        playerStats.critMultiplier += 10;
-        playerShop.critDamageCost += 10;
-
-        await playerShopDao.UpdateShopDetails(playerShop);
-        await playerStatsDao.UpdatePlayerStats(playerStats);
-        // Debug.Log("Shop Repository - BuyCritDamage");
+        var entities = await playerStatsDao.ReadPlayerSkills();
+        var playerSkills = entities.Select(item => new PlayerSkillBuilder().ToDomain(item)).ToList();
+        return playerSkills;
     }
-    
-    public async Task BuyHealth()
+
+    public async Task UnlockPlayerSkill(string playerSkillId)
     {
         var playerStats = await playerStatsDao.ReadPlayerStats();
-        var playerShop = await playerShopDao.ReadShopDetails();
+        var playerSkill = await playerStatsDao.ReadPlayerSkill(playerSkillId);
 
-        playerStats.totalGold -= playerShop.wallHealthCost;
-        playerStats.wallHealth += 10;
-        playerShop.wallHealthCost += 10;
+        if (playerStats.totalGold >= playerSkill.unlockCost)
+        {
+            playerStats.totalGold -= playerSkill.unlockCost;
+            playerSkill.isUnlocked = true;
 
-        await playerShopDao.UpdateShopDetails(playerShop);
-        await playerStatsDao.UpdatePlayerStats(playerStats);
+            await playerStatsDao.UpdatePlayerStats(playerStats);
+            await playerStatsDao.UpdatePlayerSkill(playerSkill);
+        }
+    }
+
+    public async Task UpgradePlayerSkill(string playerSkillId)
+    {
+        var playerStats = await playerStatsDao.ReadPlayerStats();
+        var playerSkill = await playerStatsDao.ReadPlayerSkill(playerSkillId);
+
+        if (playerStats.totalGold >= playerSkill.upgradeCost)
+        {
+            playerStats.totalGold -= playerSkill.upgradeCost;
+            playerSkill.upgradeCost += 10;
+            playerSkill.level += 1;
+            
+            await playerStatsDao.UpdatePlayerStats(playerStats);
+            await playerStatsDao.UpdatePlayerSkill(playerSkill);
+        }
     }
 }

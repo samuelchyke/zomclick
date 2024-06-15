@@ -17,12 +17,12 @@ public interface IAllyRepository
 public class AllyRepositoryImpl : IAllyRepository, IInitializable
 {
     private IAllyDao allyDao;
-    private IPlayerStatsDao playerDao;
+    private IPlayerDao playerDao;
 
     [Inject]
     public AllyRepositoryImpl(
         IAllyDao allyDao,
-        IPlayerStatsDao playerDao
+        IPlayerDao playerDao
         )
     {
         this.allyDao = allyDao;
@@ -44,15 +44,15 @@ public class AllyRepositoryImpl : IAllyRepository, IInitializable
     public async Task<List<AllyStats>> ReadAlliesStats()
     {
         var entities = await allyDao.ReadAlliesStats();
-        var allyStatsList = entities.Select(item => new AllyStatsBuilder().ToDomain(item)).ToList();
-        return allyStatsList;
+        var allyStats = entities.Select(item => new AllyStatsBuilder().ToDomain(item)).ToList();
+        return allyStats;
     }
 
     public async Task<List<AllySkill>> ReadAllySkills(string allyId)
     {
         var entities = await allyDao.ReadAllySkills(allyId);
-        var allySkillsList = entities.Select(item => new AllySkillsBuilder().ToDomain(item)).ToList();
-        return allySkillsList;
+        var allySkills = entities.Select(item => new AllySkillsBuilder().ToDomain(item)).ToList();
+        return allySkills;
     }
 
     public async Task UnlockAlly(string allyId)
@@ -64,10 +64,10 @@ public class AllyRepositoryImpl : IAllyRepository, IInitializable
         {
             ally.isUnlocked = true;
             playerStats.totalGold -= ally.unlockCost;
+
+            await allyDao.UpdateAllyStats(ally);
+            await playerDao.UpdatePlayerStats(playerStats);
         }
-        
-        await allyDao.UpdateAllyStats(ally);
-        await playerDao.UpdatePlayerStats(playerStats);
     }
     
     public async Task UpgradeAllyStats(string allyId)
@@ -83,10 +83,10 @@ public class AllyRepositoryImpl : IAllyRepository, IInitializable
             ally.level += 1;
 
             await UnlockSkill(ally);
+
+            await allyDao.UpdateAllyStats(ally);
+            await playerDao.UpdatePlayerStats(playerStats);
         }
-        
-        await allyDao.UpdateAllyStats(ally);
-        await playerDao.UpdatePlayerStats(playerStats);
     }
 
     public async Task UnlockSkill(AllyStatsEntity ally)

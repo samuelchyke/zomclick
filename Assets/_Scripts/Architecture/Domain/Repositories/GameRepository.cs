@@ -10,12 +10,12 @@ public interface IGameRepository
 public class GameRepositoryImpl : IGameRepository, IInitializable
 {
     IEnemyDao enemyDao;
-    IPlayerStatsDao playerStatsDao;
+    IPlayerDao playerStatsDao;
 
     [Inject]
     public GameRepositoryImpl(
         IEnemyDao enemyDao,
-        IPlayerStatsDao playerStatsDao
+        IPlayerDao playerStatsDao
         )
     {
         this.enemyDao = enemyDao;

@@ -26,7 +26,7 @@ public class EnemyStats : IEnemyStats
                totalHealth == stats.totalHealth &&
                damage == stats.damage &&
                attackSpeed == stats.attackSpeed &&
-               movementSpeed.Equals(stats.movementSpeed) && // Use Equals for float comparison
+               movementSpeed == stats.movementSpeed && // Use Equals for float comparison
                goldDropAmount == stats.goldDropAmount;
     }
 

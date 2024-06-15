@@ -1,6 +1,6 @@
 using SQLite4Unity3d;
 
-public class AllySkillsEntity
+public class AllySkillEntity
 {
     [PrimaryKey]
     public string id { get; set; }

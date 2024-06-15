@@ -3,6 +3,7 @@ using Zenject;
 using TMPro;
 using UnityEngine.UI;
 using R3;
+using System.Collections.Generic;
 
 public class ShopStateManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class ShopStateManager : MonoBehaviour
     public ShopTabState shopTabState;
     public PlayerShopState playerShopState;
     public AllyShopState allyShopState;
+    public AllyShopPageOneState allyShopPageOneState;
+    public AllyShopPageTwoState allyShopPageTwoState;
+    public AllyShopPageThreeState allyShopPageThreeState;
 
     public TextMeshProUGUI goldText;
     public Button playerUpgradeShopButton;
@@ -25,8 +29,24 @@ public class ShopStateManager : MonoBehaviour
 
     public GameObject playerUpgradeShop;
     public GameObject allyShop;
+
+    public GameObject allyShopPage1;
+    public TextMeshProUGUI johnCostText;
+    public Button johnBuyButton;
+    public Button johnStatsButton;
+
+    public GameObject allyShopPage2;
+    public GameObject allyShopPage3;
     public GameObject allyStats;
+
+    public bool displayAllyPage1;
+    public bool displayAllyPage2;
+    public bool displayAllyPage3;
+
     public GameObject shopTab;
+
+    Dictionary<ShopType, GameObject> shopTabs;
+    
 
     void Awake()
     {
@@ -35,6 +55,18 @@ public class ShopStateManager : MonoBehaviour
         shopTabState = states.CreateShopTabState();
         playerShopState = states.CreatePlayerShopState();
         allyShopState = states.CreateAllyShopState();
+        allyShopPageOneState = states.CreateAllyShopPageOneState();
+        allyShopPageTwoState = states.CreateAllyShopPageTwoState();
+        allyShopPageThreeState = states.CreateAllyShopPageThreeState();
+
+        shopTabs = new Dictionary<ShopType, GameObject>
+        {
+            { ShopType.ShopTab, shopTab },
+            { ShopType.PlayerShop, playerUpgradeShop },
+            { ShopType.AllyShop, allyShopPage1 },
+            { ShopType.AllyShop, allyShopPage2 },
+            { ShopType.AllyShop, allyShopPage3 }
+        };
     }
 
     void OnEnable()
@@ -53,7 +85,7 @@ public class ShopStateManager : MonoBehaviour
         currentState.EnterState(this);
 
         playerUpgradeShopButton.onClick.AddListener(() => SwitchStates(playerShopState)); 
-        allyShopButton.onClick.AddListener(() => SwitchStates(allyShopState)); 
+        allyShopButton.onClick.AddListener(() => SwitchStates(allyShopPageOneState)); 
     }
 
     public void Cleanup()
@@ -75,4 +107,11 @@ public class ShopStateManager : MonoBehaviour
             currentState.EnterState(this);
         }
     }
+}
+
+public enum ShopType
+{
+    PlayerShop,
+    AllyShop,
+    ShopTab
 }

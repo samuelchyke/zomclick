@@ -6,40 +6,36 @@ using R3;
 public interface IPlayerShopViewModel
 {
     ReadOnlyReactiveProperty<PlayerShopDetails> shopDetails { get; }
-    
-    void BuyWallHealth();
-    void BuyDamage();
-    void BuyCritRate();
-    void BuyCritDamage();
+
+    void UpgradePlayerStats();
+    void UnlockPlayerSkill(string playerSkillId);
+    void UpgradePlayerSkill(string playerSkillId);
 }
 
 public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDisposable
 {
     private CompositeDisposable _disposables = new CompositeDisposable();
 
-    readonly IReadShopDetailsUseCase readShopDetailsUseCase;    
-    readonly IBuyDamageUseCase buyDamageUseCase;
-    readonly IBuyCritDamageUseCase buyCritDamageUseCase; 
-    readonly IBuyCritRateUseCase buyCritRateUseCase; 
-    readonly IBuyHealthUseCase buyHealthUseCase; 
+    readonly IReadShopDetailsUseCase readShopDetailsUseCase;
+    readonly IUpgradePlayerStatsUseCase upgradePlayerStatsUseCase;
+    readonly IUnlockPlayerSkillUseCase unlockPlayerSkillUseCase;
+    readonly IUpgradePlayerSkillUseCase upgradePlayerSkillUseCase;
  
     readonly EventsManager eventsManager;
 
     [Inject]
     public PlayerShopViewModelImpl(
         IReadShopDetailsUseCase readShopDetailsUseCase,
-        IBuyDamageUseCase buyDamageUseCase,
-        IBuyCritRateUseCase buyCritRateUseCase,
-        IBuyCritDamageUseCase buyCritDamageUseCase,
-        IBuyHealthUseCase buyHealthUseCase,
+        IUpgradePlayerStatsUseCase upgradePlayerStatsUseCase,
+        IUnlockPlayerSkillUseCase unlockPlayerSkillUseCase,
+        IUpgradePlayerSkillUseCase upgradePlayerSkillUseCase,
         EventsManager eventsManager
         )
     {
         this.readShopDetailsUseCase = readShopDetailsUseCase;
-        this.buyCritDamageUseCase = buyCritDamageUseCase;
-        this.buyDamageUseCase = buyDamageUseCase;
-        this.buyHealthUseCase = buyHealthUseCase;
-        this.buyCritRateUseCase = buyCritRateUseCase;
+        this.upgradePlayerStatsUseCase = upgradePlayerStatsUseCase;
+        this.unlockPlayerSkillUseCase = unlockPlayerSkillUseCase;
+        this.upgradePlayerSkillUseCase = upgradePlayerSkillUseCase;
         this.eventsManager = eventsManager;
     }
 
@@ -71,41 +67,22 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
         return false;
     }
 
-    public async void BuyWallHealth()
+    public void UpgradePlayerStats()
     {
-        if (SpendGold(_shopDetails.Value.wallHealthCost))
-        {
-            await buyHealthUseCase.Invoke();
-            UpdateShopDetails();
-        }
+        upgradePlayerStatsUseCase.Invoke();
+        UpdateShopDetails();
     }
 
-    public async void BuyDamage()
+    public async void UnlockPlayerSkill(string playerSkillId)
     {
-        
-        if (SpendGold(_shopDetails.Value.damageCost))
-        {
-            await buyDamageUseCase.Invoke();
-            UpdateShopDetails();
-        }
+        await unlockPlayerSkillUseCase.Invoke(playerSkillId);
+        UpdateShopDetails();
     }
 
-    public async void BuyCritRate()
+    public async void UpgradePlayerSkill(string playerSkillId)
     {
-        if (SpendGold(_shopDetails.Value.critRateCost))
-        {
-            await buyCritRateUseCase.Invoke();
-            UpdateShopDetails();
-        }
-    }
-
-    public async void BuyCritDamage()
-    {
-        if (SpendGold(_shopDetails.Value.critDamageCost))
-        {
-            await buyCritDamageUseCase.Invoke();
-            UpdateShopDetails();
-        }
+        await upgradePlayerSkillUseCase.Invoke(playerSkillId);
+        UpdateShopDetails();
     }
 
     public void Dispose()

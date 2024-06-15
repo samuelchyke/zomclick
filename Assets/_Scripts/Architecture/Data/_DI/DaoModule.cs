@@ -4,9 +4,9 @@ public class DaoModule : Installer<DaoModule>
 {
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<PlayerStatsDaoImpl>().FromMethod( ctx =>
+        Container.BindInterfacesAndSelfTo<PlayerDaoImpl>().FromMethod( ctx =>
         {
-            return new PlayerStatsDaoImpl(
+            return new PlayerDaoImpl(
                 databaseManager : ctx.Container.Resolve<DatabaseManager>()
             );
         }).AsSingle().NonLazy();
