@@ -30,36 +30,36 @@ public class AllyShopPageOneState : ShopBaseState
 
     public override void EnterState(ShopStateManager shopContext)
     {
-        shopContext.allyShop.SetActive(true);
-        // shopContext.displayAllyPage1 = true;
-        shopContext.allyShopPage1.SetActive(true);
+        // shopContext.allyShop.SetActive(true);
+        // // shopContext.displayAllyPage1 = true;
+        // shopContext.allyShopPage1.SetActive(true);
 
-        johnCostText = GameObject.Find("john_cost_text").GetComponent<TextMeshProUGUI>();
-        johnBuyButton = GameObject.Find("john_buy_button").GetComponent<Button>();
-        johnStatsButton = GameObject.Find("john_stats_button").GetComponent<Button>();
+        // johnCostText = GameObject.Find("john_cost_text").GetComponent<TextMeshProUGUI>();
+        // johnBuyButton = GameObject.Find("john_buy_button").GetComponent<Button>();
+        // johnStatsButton = GameObject.Find("john_stats_button").GetComponent<Button>();
 
-        doeCostText = GameObject.Find("doe_cost_text").GetComponent<TextMeshProUGUI>();
-        doeBuyButton = GameObject.Find("doe_buy_button").GetComponent<Button>();
-        doeStatsButton = GameObject.Find("doe_stats_button").GetComponent<Button>();
+        // doeCostText = GameObject.Find("doe_cost_text").GetComponent<TextMeshProUGUI>();
+        // doeBuyButton = GameObject.Find("doe_buy_button").GetComponent<Button>();
+        // doeStatsButton = GameObject.Find("doe_stats_button").GetComponent<Button>();
 
-        allyCostTexts = new Dictionary<string, TextMeshProUGUI>
-        {
-            { "john_id", johnCostText },
-            { "doe_id", doeCostText }
-        };
+        // allyCostTexts = new Dictionary<string, TextMeshProUGUI>
+        // {
+        //     { "john_id", johnCostText },
+        //     { "doe_id", doeCostText }
+        // };
 
-        shopContext.allyShopViewModel.allies
-            .Subscribe(allies => UpdateUI(allies));
-            // .AddTo(_disposables);
+        // shopContext.allyShopViewModel.allies
+        //     .Subscribe(allies => UpdateUI(allies));
+        //     // .AddTo(_disposables);
 
-        shopContext.johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
-        shopContext.johnStatsButton.onClick.AddListener(() => showStats(shopContext, "john_id"));
+        // shopContext.johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
+        // shopContext.johnStatsButton.onClick.AddListener(() => showStats(shopContext, "john_id"));
 
-        // doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
-        // doeStatsButton.onClick.AddListener(() => showStats(shopContext, "doe_id"));
+        // // doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
+        // // doeStatsButton.onClick.AddListener(() => showStats(shopContext, "doe_id"));
 
-        nextPageButton = GameObject.Find("next_page_button").GetComponent<Button>();
-        nextPageButton.onClick.AddListener(() => SwitchStates(shopContext, shopContext.allyShopPageTwoState));
+        // nextPageButton = GameObject.Find("next_page_button").GetComponent<Button>();
+        // nextPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.allyShopPageTwoState));
     }
 
     private void UpdateUI(List<AllyStats> allies)
@@ -147,5 +147,45 @@ public class AllyShopPageOneState : ShopBaseState
         // shopContext.displayAllyPage1 = false;
         shopContext.allyShopPage1.SetActive(false);
         shopContext.allyShop.SetActive(false);
-    } 
+    }
+
+    public override void EnterSubState(ShopStateManager shopContext)
+    {
+        // shopContext.allyShop.SetActive(true);
+        // shopContext.displayAllyPage1 = true;
+        shopContext.allyShopPage1.SetActive(true);
+
+        johnCostText = GameObject.Find("john_cost_text").GetComponent<TextMeshProUGUI>();
+        johnBuyButton = GameObject.Find("john_buy_button").GetComponent<Button>();
+        johnStatsButton = GameObject.Find("john_stats_button").GetComponent<Button>();
+
+        doeCostText = GameObject.Find("doe_cost_text").GetComponent<TextMeshProUGUI>();
+        doeBuyButton = GameObject.Find("doe_buy_button").GetComponent<Button>();
+        doeStatsButton = GameObject.Find("doe_stats_button").GetComponent<Button>();
+
+        allyCostTexts = new Dictionary<string, TextMeshProUGUI>
+        {
+            { "john_id", johnCostText },
+            { "doe_id", doeCostText }
+        };
+
+        shopContext.allyShopViewModel.allies
+            .Subscribe(allies => UpdateUI(allies));
+            // .AddTo(_disposables);
+
+        shopContext.johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
+        shopContext.johnStatsButton.onClick.AddListener(() => showStats(shopContext, "john_id"));
+
+        // doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
+        // doeStatsButton.onClick.AddListener(() => showStats(shopContext, "doe_id"));
+
+        nextPageButton = GameObject.Find("next_page_button").GetComponent<Button>();
+        nextPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.allyShopPageTwoState));
+    }
+
+    public override void ExitSubState(ShopStateManager shopContext)
+    {
+        shopContext.allyShopPage1.SetActive(false);
+        // shopContext.allyShop.SetActive(false);
+    }
 }

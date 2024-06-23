@@ -9,6 +9,7 @@ public class ViewModelModule : Installer<ViewModelModule>
             {
                 return new PlayerShopViewModelImpl(
                     readShopDetailsUseCase: ctx.Container.Resolve<ReadShopDetailsUseCaseImpl>(),
+                    readPlayerSkillsUseCase: ctx.Container.Resolve<ReadPlayerSkillsUseCaseImpl>(),
                     upgradePlayerStatsUseCase: ctx.Container.Resolve<UpgradePlayerStatsUseCaseImpl>(),
                     unlockPlayerSkillUseCase: ctx.Container.Resolve<UnlockPlayerSkillUseCaseImpl>(),
                     upgradePlayerSkillUseCase: ctx.Container.Resolve<UpgradePlayerSkillUseCaseImpl>(),

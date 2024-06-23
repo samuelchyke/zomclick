@@ -91,10 +91,10 @@ public class ShopPresenter : MonoBehaviour
     void InitializeShopUI(){
         playerUpgradeShopButton.onClick.AddListener(TogglePlayerUpgradeShop); 
         allyShopButton.onClick.AddListener(ToggleAllyShop); 
-        wallHealthBuyButton.onClick.AddListener(shopViewModel.BuyWallHealth);
-        damageBuyButton.onClick.AddListener(shopViewModel.BuyDamage);
-        critRateBuyButton.onClick.AddListener(shopViewModel.BuyCritRate);
-        critDamageBuyButton.onClick.AddListener(shopViewModel.BuyCritDamage);
+        // wallHealthBuyButton.onClick.AddListener(shopViewModel.BuyWallHealth);
+        // damageBuyButton.onClick.AddListener(shopViewModel.BuyDamage);
+        // critRateBuyButton.onClick.AddListener(shopViewModel.BuyCritRate);
+        // critDamageBuyButton.onClick.AddListener(shopViewModel.BuyCritDamage);
 
         shopViewModel.shopDetails.Subscribe(details => UpdateUI(details));
 

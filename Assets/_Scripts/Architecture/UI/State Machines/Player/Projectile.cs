@@ -1,12 +1,21 @@
 using UnityEngine;
 using Zenject;
+using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
 public class Projectile : MonoBehaviour
 {
+    [Inject(Id = "ProjectileTextPrefab")] readonly GameObject projectileTextPrefab;
+
     public float projectileSpeed = 10f;
     public string targetTag = "EnemyHead";
 
     [Inject] readonly IPlayerViewModel playerViewModel;
+    [Inject] DiContainer container;
+
+    public float upwardForce = 0.1f;
+    public float fadeOutTime = 2f;
 
     private Vector3 direction;
     private bool hasTarget = false;
@@ -54,7 +63,7 @@ public class Projectile : MonoBehaviour
         GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTag);
         if (targets.Length > 0)
         {
-            GameObject randomTarget = targets[UnityEngine.Random.Range(0, targets.Length)];
+            GameObject randomTarget = targets[Random.Range(0, targets.Length)];
             direction = (randomTarget.transform.position - transform.position).normalized;
             hasTarget = true;
             return true; // Target was found
@@ -93,11 +102,58 @@ public class Projectile : MonoBehaviour
         {
             damageable.TakeDamage(playerViewModel.playerStats.totalDamage);
             Destroy(gameObject);
+
+            Debug.Log("Before instantiating text");
+            Canvas uiCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            // Spawn text at collision location
+
+            GameObject textObject = Instantiate(projectileTextPrefab, uiCanvas.transform);
+            
+            // Vector2 worldPosition = other.GetContact(0).point;
+            // Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPosition);
+            // RectTransformUtility.ScreenPointToLocalPointInRectangle(uiCanvas.transform as RectTransform, screenPoint, uiCanvas.worldCamera, out Vector2 canvasPos);
+
+
+            Debug.Log(other.GetContact(0).point);
+            textObject.GetComponent<RectTransform>().position = other.GetContact(0).point;
+
+            Debug.Log("After instantiating text");
+
+            
+
+            // Set the text to display the damage dealt
+            textObject.GetComponent<TextMeshProUGUI>().text = playerViewModel.playerStats.totalDamage.ToString();
+
+            // Apply upward force to the text object
+            // Rigidbody2D rb = textObject.GetComponent<Rigidbody2D>();
+            // if (rb != null)
+            // {
+            //     rb.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
+            // }
+
+            // Fade out the text object over time
+            StartCoroutine(FadeOutText(textObject, textObject.GetComponent<TextMeshProUGUI>(), fadeOutTime));
         }
         // else if (other.gameObject.CompareTag("Floor"))
         // {
         //     isSpinning = true;
         //     projectileSpeed *= 0.5f;
         // }
+    }
+
+    IEnumerator FadeOutText(GameObject m, TextMeshProUGUI text, float fadeTime)
+    {
+        float elapsedTime = 0f;
+        Color originalColor = text.color;
+
+        while (elapsedTime < fadeTime)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeTime);
+            text.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(m);
     }
 }

@@ -77,6 +77,7 @@ public class DatabaseManager : IInitializable
         if (!resetDb) return; 
         dbConnection.DropTable<DatabaseVersionEntity>();
         dbConnection.DropTable<PlayerStatsEntity>();
+        dbConnection.DropTable<PlayerSkillEntity>();
         dbConnection.DropTable<PlayerShopEntity>();
         dbConnection.DropTable<EnemyStatsEntity>();
         dbConnection.DropTable<BossStatsEntity>();

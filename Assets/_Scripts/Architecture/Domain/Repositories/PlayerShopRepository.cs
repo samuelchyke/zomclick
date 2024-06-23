@@ -52,10 +52,16 @@ public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
 
     public async Task UpgradePlayerStats()
     {
+        Debug.Log("Shop Repository - UpgradePlayerStats");
         var playerStats = await playerStatsDao.ReadPlayerStats();
         var playerShop = await playerShopDao.ReadShopDetails();
         playerStats.totalGold -= playerShop.damageCost;
+        Debug.Log(playerStats.totalGold);
         playerStats.baseDamage += 10;
+        playerShop.damageCost += 10;
+        Debug.Log("Shop Repository - UpgradePlayerStats");
+        Debug.Log(playerStats.totalGold);
+        await playerShopDao.UpdateShopDetails(playerShop);
         await playerStatsDao.UpdatePlayerStats(playerStats);
     }
 

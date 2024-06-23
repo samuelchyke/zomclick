@@ -9,8 +9,16 @@ public class ShopTabState : ShopBaseState
         shopContext.shopTab.SetActive(true);
     }
 
+    public override void EnterSubState(ShopStateManager shopContext)
+    {
+    }
+
     public override void ExitState(ShopStateManager shopContext)
     {
         shopContext.shopTab.SetActive(false);
+    }
+
+    public override void ExitSubState(ShopStateManager shopContext)
+    {
     }
 }

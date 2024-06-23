@@ -3,63 +3,99 @@ using TMPro;
 using UnityEngine.UI;
 using R3;
 using System;
+using System.Collections.Generic;
 
 public class PlayerShopState : ShopBaseState, IDisposable
 {
     private CompositeDisposable _disposables = new CompositeDisposable();
 
-    public TextMeshProUGUI wallHealthCostText;
-    public TextMeshProUGUI damageCostText;
+    public TextMeshProUGUI playerUpgradeCostText;
+    public TextMeshProUGUI bigBettyCostText;
+    public TextMeshProUGUI turretCostText;
     public TextMeshProUGUI critRateCostText;
-    public TextMeshProUGUI critDamageCostText;
 
-    public Button wallHealthBuyButton;
-    public Button damageBuyButton;
+    public Button playerUpgradeBuyButton;
+    public Button bigBettyBuyButton;
+    public Button turretBuyButton;
     public Button critRateBuyButton;
-    public Button critDamageBuyButton;
+
+    Dictionary<string, TextMeshProUGUI> skillsCostTexts;
 
     public override void EnterState(ShopStateManager shopContext)
     {
         shopContext.playerUpgradeShop.SetActive(true);
 
-        wallHealthCostText = GameObject.Find("health_gold_text").GetComponent<TextMeshProUGUI>();
-        damageCostText = GameObject.Find("damage_gold_text").GetComponent<TextMeshProUGUI>();
+        playerUpgradeCostText = GameObject.Find("player_upgrade_gold_text").GetComponent<TextMeshProUGUI>();
+        bigBettyCostText = GameObject.Find("big_betty_gold_text").GetComponent<TextMeshProUGUI>();
+        turretCostText = GameObject.Find("turret_gold_text").GetComponent<TextMeshProUGUI>();
         critRateCostText = GameObject.Find("crit_rate_gold_text").GetComponent<TextMeshProUGUI>();
-        critDamageCostText = GameObject.Find("crit_damage_gold_text").GetComponent<TextMeshProUGUI>();
 
-        wallHealthBuyButton = GameObject.Find("health_buy_button").GetComponent<Button>();
-        damageBuyButton = GameObject.Find("damage_buy_button").GetComponent<Button>();
+        playerUpgradeBuyButton = GameObject.Find("player_upgrade_buy_button").GetComponent<Button>();
+        bigBettyBuyButton = GameObject.Find("big_betty_buy_button").GetComponent<Button>();
+        turretBuyButton = GameObject.Find("turret_buy_button").GetComponent<Button>();
         critRateBuyButton = GameObject.Find("crit_rate_buy_button").GetComponent<Button>();
-        critDamageBuyButton = GameObject.Find("crit_damage_buy_button").GetComponent<Button>();
+
+        skillsCostTexts = new Dictionary<string, TextMeshProUGUI>
+        {
+            { "big_betty_id", bigBettyCostText },
+            { "turret_id", turretCostText },
+            { "crit_rate_id", critRateCostText }
+        };
 
         shopContext.playerShopViewModel.shopDetails
             .Subscribe(details => UpdateUI(details))
             .AddTo(_disposables);
 
-        wallHealthBuyButton.onClick.AddListener(shopContext.playerShopViewModel.BuyWallHealth);
-        damageBuyButton.onClick.AddListener(shopContext.playerShopViewModel.BuyDamage);
-        critRateBuyButton.onClick.AddListener(shopContext.playerShopViewModel.BuyCritRate);
-        critDamageBuyButton.onClick.AddListener(shopContext.playerShopViewModel.BuyCritDamage);
+        shopContext.playerShopViewModel.playerSkills
+            .Subscribe(details => UpdateSkillsUI(details))
+            .AddTo(_disposables);
+
+        playerUpgradeBuyButton.onClick.AddListener(shopContext.playerShopViewModel.UpgradePlayerStats);
+        bigBettyBuyButton.onClick.AddListener(() => onBuy(shopContext, "big_betty_id"));
+        turretBuyButton.onClick.AddListener(() => onBuy(shopContext, "turret_id"));
+        critRateBuyButton.onClick.AddListener(() => onBuy(shopContext, "crit_rate_id"));
+    }
+
+    private void onBuy (ShopStateManager shopContext, string playerSkillId)
+    {
+        var skillIndex = shopContext.playerShopViewModel.playerSkills.CurrentValue.FindIndex(skill => skill.id == playerSkillId);
+        var playerSkill = shopContext.playerShopViewModel.playerSkills.CurrentValue[skillIndex];
+
+        if (playerSkill.isUnlocked){
+            shopContext.playerShopViewModel.UpgradePlayerSkill(playerSkillId);
+        }
+        else
+        {
+            shopContext.playerShopViewModel.UnlockPlayerSkill(playerSkillId);
+        }
     }
 
     public override void ExitState(ShopStateManager shopContext)
     {
         shopContext.playerUpgradeShop.SetActive(false);
 
-        wallHealthBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.BuyWallHealth);
-        damageBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.BuyDamage);
-        critRateBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.BuyCritRate);
-        critDamageBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.BuyCritDamage);
+        playerUpgradeBuyButton.onClick.RemoveListener(shopContext.playerShopViewModel.UpgradePlayerStats);
+        bigBettyBuyButton.onClick.RemoveListener(() => shopContext.playerShopViewModel.UpgradePlayerSkill("big_betty"));
+        critRateBuyButton.onClick.RemoveListener(() => shopContext.playerShopViewModel.UpgradePlayerSkill("turret"));
+        turretBuyButton.onClick.RemoveListener(() => shopContext.playerShopViewModel.UpgradePlayerSkill("crit_rate"));
 
         Dispose();
     }
 
     private void UpdateUI(PlayerShopDetails details)
     {
-        wallHealthCostText.text = details.wallHealthCost.ToString();
-        damageCostText.text = details.damageCost.ToString();
-        critRateCostText.text = details.critRateCost.ToString();
-        critDamageCostText.text = details.critDamageCost.ToString();
+        playerUpgradeCostText.text = details.damageCost.ToString();
+    }
+
+    private void UpdateSkillsUI(List<PlayerSkill> playerSkills)
+    {
+        foreach (var skill in playerSkills)
+        {
+            if (skillsCostTexts.TryGetValue(skill.id, out var costText))
+            {
+                costText.text = skill.isUnlocked ? skill.upgradeCost.ToString() : skill.unlockCost.ToString();
+            }
+        }
     }
 
     public void Dispose()
@@ -67,4 +103,8 @@ public class PlayerShopState : ShopBaseState, IDisposable
         _disposables.Dispose();
         _disposables = new CompositeDisposable();
     }
+
+    public override void EnterSubState(ShopStateManager shopContext){}
+
+    public override void ExitSubState(ShopStateManager shopContext){}
 }

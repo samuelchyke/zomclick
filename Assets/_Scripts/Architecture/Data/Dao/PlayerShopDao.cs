@@ -33,7 +33,7 @@ public class PlayerShopDaoImpl : IPlayerShopDao, IInitializable
     public Task<PlayerShopEntity> ReadShopDetails()
     {
         var shopEntity = _db.Table<PlayerShopEntity>().First();
-        Debug.Log("Player Dao - Read Player Stats: " + shopEntity.id);
+        Debug.Log("Shop Dao - Read Shop Details: " + shopEntity.id);
         return Task.Run(() => shopEntity);
     }
 

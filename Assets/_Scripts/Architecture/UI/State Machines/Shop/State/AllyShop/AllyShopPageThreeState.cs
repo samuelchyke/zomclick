@@ -58,7 +58,7 @@ public class AllyShopPageThreeState : ShopBaseState
         doenStatsButton.onClick.AddListener(() => showStats(shopContext, "doen_id"));
 
         previousPageButton = GameObject.Find("previous_page_button").GetComponent<Button>();
-        previousPageButton.onClick.AddListener(() => SwitchStates(shopContext, shopContext.allyShopPageTwoState));
+        previousPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.allyShopPageTwoState));
     }
 
     private void UpdateUI(List<AllyStats> allies)
@@ -145,6 +145,45 @@ public class AllyShopPageThreeState : ShopBaseState
     {
         shopContext.allyShopPage3.SetActive(false);
         shopContext.allyShop.SetActive(false);
+    }
+
+    public override void EnterSubState(ShopStateManager shopContext)
+    {
+        // shopContext.allyShop.SetActive(true);
+        shopContext.allyShopPage3.SetActive(true);
+
+        joeCostText = GameObject.Find("joe_cost_text").GetComponent<TextMeshProUGUI>();
+        joeBuyButton = GameObject.Find("joe_buy_button").GetComponent<Button>();
+        joeStatsButton = GameObject.Find("joe_stats_button").GetComponent<Button>();
+
+        doenCostText = GameObject.Find("doen_cost_text").GetComponent<TextMeshProUGUI>();
+        doenBuyButton = GameObject.Find("doen_buy_button").GetComponent<Button>();
+        doenStatsButton = GameObject.Find("doen_stats_button").GetComponent<Button>();
+
+        allyCostTexts = new Dictionary<string, TextMeshProUGUI>
+        {
+            { "joe_id", joeCostText },
+            { "doen_id", doenCostText }
+        };
+
+        shopContext.allyShopViewModel.allies
+            .Subscribe(allies => UpdateUI(allies));
+            // .AddTo(_disposables);
+        
+        joeBuyButton.onClick.AddListener(() => onBuy(shopContext, "joe_id"));
+        joeStatsButton.onClick.AddListener(() => showStats(shopContext, "joe_id"));
+
+        doenBuyButton.onClick.AddListener(() => onBuy(shopContext, "doen_id"));
+        doenStatsButton.onClick.AddListener(() => showStats(shopContext, "doen_id"));
+
+        previousPageButton = GameObject.Find("previous_page_button").GetComponent<Button>();
+        previousPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.allyShopPageTwoState));
+    }
+
+    public override void ExitSubState(ShopStateManager shopContext)
+    {
+        shopContext.allyShopPage3.SetActive(false);
+        // shopContext.allyShop.SetActive(false);
     }
 }
 

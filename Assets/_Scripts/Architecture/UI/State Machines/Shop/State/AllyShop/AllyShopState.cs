@@ -52,7 +52,7 @@ public class AllyShopState : ShopBaseState, IDisposable
         shopContext.allyShop.SetActive(true);
 
         // shopContext.displayAllyPage1 = true;
-        SwitchStates(shopContext, shopContext.allyShopPageOneState);
+        SwitchSubStates(shopContext, shopContext.allyShopPageOneState);
 
         // previousPageButton = GameObject.Find("previous_page_button").GetComponent<Button>();
         // nextPageButton = GameObject.Find("next_page_button").GetComponent<Button>();
@@ -241,4 +241,10 @@ public class AllyShopState : ShopBaseState, IDisposable
         _disposables.Dispose();
         _disposables = new CompositeDisposable();
     }
+
+    public override void EnterSubState(ShopStateManager shopContext)
+    {}
+
+    public override void ExitSubState(ShopStateManager shopContext)
+    {}
 }

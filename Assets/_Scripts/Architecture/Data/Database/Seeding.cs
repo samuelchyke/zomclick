@@ -59,41 +59,44 @@ public class Seeding
         var playerSkills = new List<PlayerSkillEntity>
         {
             new PlayerSkillEntity {
-                id = "bomb_id",
+                id = "big_betty_id",
                 isUnlocked = false,
-                buff = 10,
                 unlockLevel = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
+                level = 1,
                 duration = 10,
                 coolDown = 30,
-                level = 1
+                buff = 10,
+                unlockCost = 100,
+                upgradeCost = 10
             },
             new PlayerSkillEntity {
                 id = "turret_id",
                 isUnlocked = false,
-                buff = 10,
                 unlockLevel = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
+                level = 1,
                 duration = 10,
                 coolDown = 30,
-                level = 1
+                buff = 10,
+                unlockCost = 200,
+                upgradeCost = 10,
             },
             new PlayerSkillEntity {
-                id = "range_id",
+                id = "crit_rate_id",
                 isUnlocked = false,
-                buff = 10,
                 unlockLevel = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
+                level = 1,
                 duration = 10,
                 coolDown = 30,
-                level = 1
-            },
+                buff = 10,
+                unlockCost = 300,
+                upgradeCost = 10,
+            }
         };
         
-        dbConnection.InsertOrReplace(playerSkills);
+        foreach (var playerSkill in playerSkills)
+        {
+            dbConnection.InsertOrReplace(playerSkill);
+        }
     }
 
 

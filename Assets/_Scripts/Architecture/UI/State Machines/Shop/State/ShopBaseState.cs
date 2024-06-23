@@ -8,6 +8,10 @@ public abstract class ShopBaseState : IInitializable
 
     public abstract void EnterState(ShopStateManager shopContext);
 
+    public abstract void EnterSubState(ShopStateManager shopContext);
+
+    public abstract void ExitSubState(ShopStateManager shopContext);
+
     public abstract void ExitState(ShopStateManager shopContext);
 
     protected void SwitchStates(ShopStateManager shopContext, ShopBaseState newState){
@@ -16,6 +20,14 @@ public abstract class ShopBaseState : IInitializable
         shopContext.currentState = newState;
 
         newState.EnterState(shopContext);
+    }
+
+    protected void SwitchSubStates(ShopStateManager shopContext, ShopBaseState newState){
+        shopContext.currentSubState?.ExitSubState(shopContext);
+
+        shopContext.currentSubState = newState;
+
+        newState.EnterSubState(shopContext);
     }
 }
 

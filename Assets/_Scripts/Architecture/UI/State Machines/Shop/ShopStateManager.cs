@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using R3;
 using System.Collections.Generic;
 
+#nullable enable
 public class ShopStateManager : MonoBehaviour
 {
 
@@ -15,6 +16,9 @@ public class ShopStateManager : MonoBehaviour
 
     private ShopBaseState _currentState;
     public ShopBaseState currentState { get => _currentState; set { _currentState = value;} }
+
+    private ShopBaseState? _currentSubState;
+    public ShopBaseState? currentSubState { get => _currentSubState; set { _currentSubState = value;} }
 
     public ShopTabState shopTabState;
     public PlayerShopState playerShopState;
@@ -59,14 +63,14 @@ public class ShopStateManager : MonoBehaviour
         allyShopPageTwoState = states.CreateAllyShopPageTwoState();
         allyShopPageThreeState = states.CreateAllyShopPageThreeState();
 
-        shopTabs = new Dictionary<ShopType, GameObject>
-        {
-            { ShopType.ShopTab, shopTab },
-            { ShopType.PlayerShop, playerUpgradeShop },
-            { ShopType.AllyShop, allyShopPage1 },
-            { ShopType.AllyShop, allyShopPage2 },
-            { ShopType.AllyShop, allyShopPage3 }
-        };
+        // shopTabs = new Dictionary<ShopType, GameObject>
+        // {
+        //     { ShopType.ShopTab, shopTab },
+        //     { ShopType.PlayerShop, playerUpgradeShop },
+        //     { ShopType.AllyShop, allyShopPage1 },
+        //     { ShopType.AllyShop, allyShopPage2 },
+        //     { ShopType.AllyShop, allyShopPage3 }
+        // };
     }
 
     void OnEnable()
@@ -84,8 +88,10 @@ public class ShopStateManager : MonoBehaviour
         currentState = shopTabState;
         currentState.EnterState(this);
 
+        // currentSubState = allyShopPageOneState;
+
         playerUpgradeShopButton.onClick.AddListener(() => SwitchStates(playerShopState)); 
-        allyShopButton.onClick.AddListener(() => SwitchStates(allyShopPageOneState)); 
+        allyShopButton.onClick.AddListener(() => SwitchStates(allyShopState)); 
     }
 
     public void Cleanup()
