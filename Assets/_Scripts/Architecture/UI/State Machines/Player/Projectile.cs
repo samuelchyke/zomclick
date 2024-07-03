@@ -100,60 +100,11 @@ public class Projectile : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(playerViewModel.playerStats.totalDamage);
-            Destroy(gameObject);
-
-            Debug.Log("Before instantiating text");
-            Canvas uiCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-            // Spawn text at collision location
-
-            GameObject textObject = Instantiate(projectileTextPrefab, uiCanvas.transform);
-            
-            // Vector2 worldPosition = other.GetContact(0).point;
-            // Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPosition);
-            // RectTransformUtility.ScreenPointToLocalPointInRectangle(uiCanvas.transform as RectTransform, screenPoint, uiCanvas.worldCamera, out Vector2 canvasPos);
-
-
-            Debug.Log(other.GetContact(0).point);
-            textObject.GetComponent<RectTransform>().position = other.GetContact(0).point;
-
-            Debug.Log("After instantiating text");
-
-            
-
-            // Set the text to display the damage dealt
-            textObject.GetComponent<TextMeshProUGUI>().text = playerViewModel.playerStats.totalDamage.ToString();
-
-            // Apply upward force to the text object
-            // Rigidbody2D rb = textObject.GetComponent<Rigidbody2D>();
-            // if (rb != null)
-            // {
-            //     rb.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
-            // }
-
-            // Fade out the text object over time
-            StartCoroutine(FadeOutText(textObject, textObject.GetComponent<TextMeshProUGUI>(), fadeOutTime));
+            damageable.TakeDamage(playerViewModel.playerStats.CurrentValue.baseDamage);
+            GameObject canvas = GameObject.Find("Canvas");
+            GameObject textObject = container.InstantiatePrefab(projectileTextPrefab, other.gameObject.transform.position, other.gameObject.transform.rotation, canvas.transform);
+            textObject.GetComponentInChildren<TextMeshProUGUI>().text = playerViewModel.playerStats.CurrentValue.baseDamage.ToString();
         }
-        // else if (other.gameObject.CompareTag("Floor"))
-        // {
-        //     isSpinning = true;
-        //     projectileSpeed *= 0.5f;
-        // }
-    }
-
-    IEnumerator FadeOutText(GameObject m, TextMeshProUGUI text, float fadeTime)
-    {
-        float elapsedTime = 0f;
-        Color originalColor = text.color;
-
-        while (elapsedTime < fadeTime)
-        {
-            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeTime);
-            text.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        Destroy(m);
+        Destroy(gameObject);
     }
 }

@@ -1,9 +1,11 @@
 using UnityEngine;
 using Zenject;
+using R3;
 
 public interface IPlayerViewModel
 {
-    PlayerStats playerStats { get; }
+    ReadOnlyReactiveProperty<PlayerStats> playerStats { get; }
+
     void OnDeath();
 }
 public class PlayerViewModelImpl : IPlayerViewModel, IInitializable
@@ -21,9 +23,12 @@ public class PlayerViewModelImpl : IPlayerViewModel, IInitializable
         this.eventsManager = eventsManager;
     }
 
+    private ReactiveProperty<PlayerStats> _playerStats = new ();
+    public ReadOnlyReactiveProperty<PlayerStats> playerStats => _playerStats;
+
     public async void Initialize()
     {
-        _playerStats = await readPlayerStatsUseCase.Invoke();
+        _playerStats.Value = await readPlayerStatsUseCase.Invoke();
 
         Debug.Log("PLayer View Model Initialized");
         eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_STATS, UpdatePlayerStatsEvent);
@@ -31,18 +36,15 @@ public class PlayerViewModelImpl : IPlayerViewModel, IInitializable
         // eventsManager.StartListening(GameEvent.GameManagerEvent.RESTART_ROUND, Reset);
     }
 
-    PlayerStats _playerStats;
-    public PlayerStats playerStats => _playerStats;
-
     public async void UpdatePlayerStats()
     {
         // await updatePlayerStatsUseCase.Invoke(_playerStats);
-        _playerStats = await readPlayerStatsUseCase.Invoke();
+        // _playerStats = await readPlayerStatsUseCase.Invoke();
     }
     
     public void TakeDamage()
     {
-        _playerStats.wallHealth -= 1;
+        // _playerStats.wallHealth -= 1;
         UpdatePlayerStats();
     }
 
@@ -53,11 +55,7 @@ public class PlayerViewModelImpl : IPlayerViewModel, IInitializable
 
     async void UpdatePlayerStatsEvent()
     {
-        var newPlayerStats = await readPlayerStatsUseCase.Invoke();
-        if (newPlayerStats != _playerStats)
-        {
-            _playerStats = newPlayerStats;
-        }
+        _playerStats.Value = await readPlayerStatsUseCase.Invoke();
     }
 }
 

@@ -86,7 +86,7 @@ public class PlayerStateManager : MonoBehaviour
 
     public void UpdatePlayerStats()
     {
-        playerStats = playerViewModel.playerStats;
+        // playerStats = playerViewModel.playerStats;
     }
 
     void OnDisable()

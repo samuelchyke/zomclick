@@ -89,7 +89,7 @@ public class AllyProjectile : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(playerViewModel.playerStats.totalDamage);
+            damageable.TakeDamage(playerViewModel.playerStats.CurrentValue.totalDamage);
             Destroy(gameObject);
         }
         // else if (other.gameObject.CompareTag("Floor"))

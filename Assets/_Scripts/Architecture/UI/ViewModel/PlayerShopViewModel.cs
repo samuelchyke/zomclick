@@ -80,6 +80,7 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
     {
         await upgradePlayerStatsUseCase.Invoke();
         UpdateShopDetails();
+        eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_STATS);
     }
 
     public async void UnlockPlayerSkill(string playerSkillId)
