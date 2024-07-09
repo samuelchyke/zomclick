@@ -74,7 +74,7 @@ public class EnemyRepositoryImpl : IEnemyRepository, IInitializable
     {
         var playerStats = await playerStatsDao.ReadPlayerStats();
         var bossStats = await enemyDao.ReadBossStatsEntity();
-        playerStats.wallHealth -= bossStats.damage;
+        // playerStats.wallHealth -= bossStats.damage;
         await playerStatsDao.UpdatePlayerStats(playerStats);
     }
 

@@ -3,7 +3,7 @@ using System;
 public interface IPlayerStats
 {
     string id { get; set; }
-    int wallHealth { get; set; }
+    int level { get; set; }
     int baseDamage { get; set; }
     int critRate { get; set; }
     float critMultiplier { get; set; }
@@ -14,7 +14,7 @@ public interface IPlayerStats
 public class PlayerStats : IPlayerStats
 {
     public string id { get; set; }
-    public int wallHealth { get; set; }
+    public int level { get; set; }
     public int baseDamage { get; set; }
     public int critRate { get; set; }
     public float critMultiplier { get; set; }
@@ -25,7 +25,7 @@ public class PlayerStats : IPlayerStats
     {
         return obj is PlayerStats entity &&
                id == entity.id &&
-               wallHealth == entity.wallHealth &&
+               level == entity.level &&
                baseDamage == entity.baseDamage &&
                critRate == entity.critRate &&
                critMultiplier == entity.critMultiplier &&
@@ -35,7 +35,7 @@ public class PlayerStats : IPlayerStats
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(id, wallHealth, baseDamage, critRate, critMultiplier, totalDamage, totalGold);
+        return HashCode.Combine(id, level, baseDamage, critRate, critMultiplier, totalDamage, totalGold);
     }
 
     public static bool operator == (PlayerStats left, PlayerStats right)

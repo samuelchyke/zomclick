@@ -5,7 +5,7 @@ public class PlayerStatsBuilder
         return new PlayerStats 
         {
             id = playerStatsEntity.id,
-            wallHealth = playerStatsEntity.wallHealth,
+            level = playerStatsEntity.level,
             baseDamage = playerStatsEntity.baseDamage,
             critRate = playerStatsEntity.critRate,
             critMultiplier = playerStatsEntity.critMultiplier,
@@ -20,7 +20,7 @@ public class PlayerStatsBuilder
         {
             id = playerStats.id,
             totalGold = playerStats.totalGold,
-            wallHealth = playerStats.wallHealth,
+            level = playerStats.level,
             baseDamage = playerStats.baseDamage,
             critRate = playerStats.critRate,
             critMultiplier = playerStats.critMultiplier,

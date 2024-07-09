@@ -64,6 +64,16 @@ public class ShopStateFactory
         return Create<PlayerShopState>();
     }
 
+    public PlayerShopPageOneState CreatePlayerShopPageOneState()
+    {
+        return Create<PlayerShopPageOneState>();
+    }
+
+    public PlayerShopPageTwoState CreatePlayerShopPageTwoState()
+    {
+        return Create<PlayerShopPageTwoState>();
+    }
+
     public AllyShopState CreateAllyShopState()
     {
         return Create<AllyShopState>();

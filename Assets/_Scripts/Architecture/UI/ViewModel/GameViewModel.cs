@@ -51,10 +51,10 @@ public class GameViewModelImpl : IGameViewModel, IInitializable
 
     public void GameOver()
     {
-        if(_playerStats.wallHealth == 0)
-        {
+        // if(_playerStats.wallHealth == 0)
+        // {
             eventsManager.TriggerEvent(GameEvent.GameViewModelEvent.GAME_OVER);
-        }
+        // }
     }
 
     async void UpdatePlayerStatsEvent()

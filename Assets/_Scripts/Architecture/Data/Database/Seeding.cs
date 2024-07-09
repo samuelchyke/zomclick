@@ -43,7 +43,7 @@ public class Seeding
         var playerStats = new PlayerStatsEntity
         {
             id = Guid.NewGuid().ToString(),
-            wallHealth = 3,
+            level = 1,
             baseDamage = 1,
             critRate = 1,
             critMultiplier = 1,
@@ -82,6 +82,39 @@ public class Seeding
             },
             new PlayerSkillEntity {
                 id = "crit_rate_id",
+                isUnlocked = false,
+                unlockLevel = 10,
+                level = 1,
+                duration = 10,
+                coolDown = 30,
+                buff = 10,
+                unlockCost = 300,
+                upgradeCost = 10,
+            },
+            new PlayerSkillEntity {
+                id = "rally_allies_id",
+                isUnlocked = false,
+                unlockLevel = 10,
+                level = 1,
+                duration = 10,
+                coolDown = 30,
+                buff = 10,
+                unlockCost = 100,
+                upgradeCost = 10
+            },
+            new PlayerSkillEntity {
+                id = "incendiary_rounds_id",
+                isUnlocked = false,
+                unlockLevel = 10,
+                level = 1,
+                duration = 10,
+                coolDown = 30,
+                buff = 10,
+                unlockCost = 200,
+                upgradeCost = 10,
+            },
+            new PlayerSkillEntity {
+                id = "midas_shot_id",
                 isUnlocked = false,
                 unlockLevel = 10,
                 level = 1,

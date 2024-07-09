@@ -22,6 +22,9 @@ public class ShopStateManager : MonoBehaviour
 
     public ShopTabState shopTabState;
     public PlayerShopState playerShopState;
+    public PlayerShopPageOneState playerShopPageOneState;
+    public PlayerShopPageTwoState playerShopPageTwoState;
+
     public AllyShopState allyShopState;
     public AllyShopPageOneState allyShopPageOneState;
     public AllyShopPageTwoState allyShopPageTwoState;
@@ -32,20 +35,19 @@ public class ShopStateManager : MonoBehaviour
     public Button allyShopButton;
 
     public GameObject playerUpgradeShop;
+    public GameObject playerShopPage1;
+    public GameObject playerShopPage2;
+
     public GameObject allyShop;
 
-    public GameObject allyShopPage1;
     public TextMeshProUGUI johnCostText;
     public Button johnBuyButton;
     public Button johnStatsButton;
 
+    public GameObject allyShopPage1;
     public GameObject allyShopPage2;
     public GameObject allyShopPage3;
     public GameObject allyStats;
-
-    public bool displayAllyPage1;
-    public bool displayAllyPage2;
-    public bool displayAllyPage3;
 
     public GameObject shopTab;
 
@@ -58,6 +60,8 @@ public class ShopStateManager : MonoBehaviour
 
         shopTabState = states.CreateShopTabState();
         playerShopState = states.CreatePlayerShopState();
+        playerShopPageOneState = states.CreatePlayerShopPageOneState();
+        playerShopPageTwoState = states.CreatePlayerShopPageTwoState();
         allyShopState = states.CreateAllyShopState();
         allyShopPageOneState = states.CreateAllyShopPageOneState();
         allyShopPageTwoState = states.CreateAllyShopPageTwoState();
