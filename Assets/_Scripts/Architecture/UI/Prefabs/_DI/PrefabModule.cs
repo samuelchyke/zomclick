@@ -9,6 +9,8 @@ public class PrefabModule : MonoInstaller<PrefabModule>
     public GameObject BossPrefab;
     public GameObject JohnPrefab;
     public GameObject DoePrefab;
+    public GameObject TurretPrefab;
+
 
     public override void InstallBindings()
     {
@@ -18,5 +20,6 @@ public class PrefabModule : MonoInstaller<PrefabModule>
         Container.Bind<GameObject>().WithId("BossPrefab").FromInstance(BossPrefab);
         Container.Bind<GameObject>().WithId("JohnPrefab").FromInstance(JohnPrefab);
         Container.Bind<GameObject>().WithId("DoePrefab").FromInstance(DoePrefab);
+        Container.Bind<GameObject>().WithId("TurretPrefab").FromInstance(TurretPrefab);
     }
 }
