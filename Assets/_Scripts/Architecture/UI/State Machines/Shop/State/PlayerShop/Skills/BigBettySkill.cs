@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class BigBettySkill : MonoBehaviour
 {
+    [Inject(Id = "BigBettyPrefab")] private GameObject bigBettyPrefab;
+    [Inject] public DiContainer container;
+
     const string ACTIVE_TRIGGER = "Active";
     const string COOLDOWN_TRIGGER = "Cooldown";
     const string OFF_COOLDOWN_TRIGGER = "Off Cooldown";
@@ -17,6 +20,7 @@ public class BigBettySkill : MonoBehaviour
     public GameObject bigBettySprite;
     public Button bigBettyButton;
     Animator animator;
+    public GameObject spawnPoint;
 
     void OnEnable() 
     {
@@ -41,6 +45,7 @@ public class BigBettySkill : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         animator.SetTrigger(ACTIVE_TRIGGER);
+        container.InstantiatePrefab(bigBettyPrefab, spawnPoint.transform.position, Quaternion.identity, null);
         StartCoroutine(Cooldown());
     }
 

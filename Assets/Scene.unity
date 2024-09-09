@@ -6379,6 +6379,7 @@ GameObject:
   - component: {fileID: 769352621}
   - component: {fileID: 769352623}
   - component: {fileID: 769352622}
+  - component: {fileID: 769352624}
   m_Layer: 5
   m_Name: big_betty_image
   m_TagString: Untagged
@@ -6502,6 +6503,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &769352624
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769352620}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ca5156886c2f24762af91da56efd7408, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &774879731
 GameObject:
   m_ObjectHideFlags: 0
@@ -10940,6 +10962,7 @@ MonoBehaviour:
   JohnPrefab: {fileID: 1480971539}
   DoePrefab: {fileID: 2001888588}
   TurretPrefab: {fileID: 3824669308565989569, guid: 2cd4897cfe6f74ced93b32a6ba243e8a, type: 3}
+  BigBettyPrefab: {fileID: 3713444753368298224, guid: e2e58843328c649cabd6b7077a64e7f7, type: 3}
 --- !u!4 &1312159970
 Transform:
   m_ObjectHideFlags: 0
@@ -11090,6 +11113,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315799494}
   m_CullTransparentMesh: 1
+--- !u!1 &1320543245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1320543246}
+  m_Layer: 0
+  m_Name: Big Betty Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1320543246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320543245}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3, y: 3.15, z: -0.09315518}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1326790293
 GameObject:
   m_ObjectHideFlags: 0
@@ -15514,6 +15568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bigBettySprite: {fileID: 769352620}
   bigBettyButton: {fileID: 1099563489}
+  spawnPoint: {fileID: 1320543245}
 --- !u!1 &1818348123
 GameObject:
   m_ObjectHideFlags: 0

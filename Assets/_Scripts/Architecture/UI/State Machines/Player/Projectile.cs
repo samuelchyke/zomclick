@@ -96,13 +96,13 @@ public class Projectile : MonoBehaviour
         return false; // No target found
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnCollisionEnter2D(Collision2D enemy)
     {
-        if (other.gameObject.TryGetComponent(out IDamageable damageable))
+        if (enemy.gameObject.TryGetComponent(out IDamageable damageable))
         {
             damageable.TakeDamage(playerViewModel.playerStats.CurrentValue.baseDamage);
             GameObject canvas = GameObject.Find("Canvas");
-            GameObject textObject = container.InstantiatePrefab(projectileTextPrefab, other.gameObject.transform.position, other.gameObject.transform.rotation, canvas.transform);
+            GameObject textObject = container.InstantiatePrefab(projectileTextPrefab, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation, canvas.transform);
             textObject.GetComponentInChildren<TextMeshProUGUI>().text = playerViewModel.playerStats.CurrentValue.baseDamage.ToString();
         }
         Destroy(gameObject);
