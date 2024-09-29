@@ -9,12 +9,12 @@ public interface IReadPlayerSkillUseCase {
 
 public class ReadPlayerSkillUseCaseImpl : IReadPlayerSkillUseCase, IInitializable
 {
-    IPlayerShopRepository shopRepository;
+    IPlayerSkillsRepository playerSkillsRepository;
 
     [Inject]
-    public ReadPlayerSkillUseCaseImpl(IPlayerShopRepository shopRepository)
+    public ReadPlayerSkillUseCaseImpl(IPlayerSkillsRepository playerSkillsRepository)
     {
-        this.shopRepository = shopRepository;
+        this.playerSkillsRepository = playerSkillsRepository;
     }
 
     public void Initialize()
@@ -24,6 +24,6 @@ public class ReadPlayerSkillUseCaseImpl : IReadPlayerSkillUseCase, IInitializabl
 
     public Task<PlayerSkill> Invoke(string playerSkillId)
     {
-        return shopRepository.ReadPlayerSkill(playerSkillId);
+        return playerSkillsRepository.ReadPlayerSkill(playerSkillId);
     }
 }

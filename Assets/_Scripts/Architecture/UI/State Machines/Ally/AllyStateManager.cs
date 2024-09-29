@@ -13,6 +13,7 @@ public class AllyStateManager : MonoBehaviour
     [Inject] readonly AllyStateFactory states;
     [Inject] public IAllyViewModel allyViewModel;
     [Inject] public IAllyShopViewModel allyShopViewModel;
+    [Inject] public IPlayerSkillsViewModel playerSkillsViewModel;
 
     AllyStats allyStats;
     public const string ATTACK_TRIGGER = "Attack";

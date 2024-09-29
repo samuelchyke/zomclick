@@ -64,6 +64,7 @@ public class EnemyViewModelImpl : IEnemyViewModel, IInitializable
 
     public async void OnDeath()
     {
+        // Debug.Log($"Enemy View Model {System.Guid.NewGuid()} OnDeath called at time {Time.time}");
         await onEnemyDeathUseCase.Invoke();
         UpdateEnemyStats();
         eventsManager.TriggerEvent(GameEvent.EnemyViewModelEvent.ON_DEATH);

@@ -67,7 +67,8 @@ public class Seeding
                 coolDown = 30,
                 buff = 10,
                 unlockCost = 100,
-                upgradeCost = 10
+                upgradeCost = 10,
+                isActive = false
             },
             new PlayerSkillEntity {
                 id = "turret_id",
@@ -79,9 +80,10 @@ public class Seeding
                 buff = 10,
                 unlockCost = 200,
                 upgradeCost = 10,
+                isActive = false
             },
             new PlayerSkillEntity {
-                id = "crit_rate_id",
+                id = "lightning_rounds_id",
                 isUnlocked = false,
                 unlockLevel = 10,
                 level = 1,
@@ -90,6 +92,7 @@ public class Seeding
                 buff = 10,
                 unlockCost = 300,
                 upgradeCost = 10,
+                isActive = false
             },
             new PlayerSkillEntity {
                 id = "rally_allies_id",
@@ -100,7 +103,8 @@ public class Seeding
                 coolDown = 30,
                 buff = 10,
                 unlockCost = 100,
-                upgradeCost = 10
+                upgradeCost = 10,
+                isActive = false
             },
             new PlayerSkillEntity {
                 id = "incendiary_rounds_id",
@@ -112,9 +116,10 @@ public class Seeding
                 buff = 10,
                 unlockCost = 200,
                 upgradeCost = 10,
+                isActive = false
             },
             new PlayerSkillEntity {
-                id = "midas_shot_id",
+                id = "midas_rounds_id",
                 isUnlocked = false,
                 unlockLevel = 10,
                 level = 1,
@@ -123,6 +128,7 @@ public class Seeding
                 buff = 10,
                 unlockCost = 300,
                 upgradeCost = 10,
+                isActive = false
             }
         };
         
@@ -131,7 +137,6 @@ public class Seeding
             dbConnection.InsertOrReplace(playerSkill);
         }
     }
-
 
     private void SeedShopDetails()
     {

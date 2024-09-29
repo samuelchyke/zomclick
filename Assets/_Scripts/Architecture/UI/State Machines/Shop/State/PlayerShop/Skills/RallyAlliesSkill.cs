@@ -12,7 +12,8 @@ public class RallyAlliesSkill : MonoBehaviour
     const string OFF_COOLDOWN_TRIGGER = "Off Cooldown";
 
     [Inject] EventsManager eventsManager;
-    [Inject] public IPlayerShopViewModel playerShopViewModel; 
+    [Inject] public IPlayerSkillsViewModel playerSkillsViewModel; 
+    PlayerSkill rallyAllies;
 
     public GameObject rallyAlliesSprite;
     public Button rallyAlliesButton;
@@ -25,29 +26,42 @@ public class RallyAlliesSkill : MonoBehaviour
 
     private void UpdateUI()
     {
-        playerShopViewModel.playerSkills.Subscribe(skills => 
+        playerSkillsViewModel.rallyAllies.Subscribe(rallyAllies => 
         {
-            if(skills.Find(skill => skill.id == "rally_allies_id").isUnlocked)
+            if(rallyAllies.isUnlocked)
             {
                 rallyAlliesSprite.SetActive(true);
                 rallyAlliesButton.gameObject.SetActive(true);
             }
         });
 
-        rallyAlliesButton.onClick.AddListener(() => OnSkillClicked());
+        rallyAlliesButton.onClick.AddListener(() => 
+            OnSkillClicked(playerSkillsViewModel.rallyAllies.CurrentValue.coolDown)
+        );
     }
 
-    void OnSkillClicked ()
+    void OnSkillClicked(int cooldownTimer)
     {
+        rallyAlliesButton.gameObject.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         animator.SetTrigger(ACTIVE_TRIGGER);
-        StartCoroutine(Cooldown());
+        playerSkillsViewModel.ToggleIsSkillActive("rally_allies_id");
+        StartCoroutine(CooldownTimer(cooldownTimer));
     }
 
-    IEnumerator Cooldown()
+    IEnumerator CooldownTimer(int cooldownTimer)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(30);
         animator.SetTrigger(COOLDOWN_TRIGGER);
+        playerSkillsViewModel.ToggleIsSkillActive("rally_allies_id");
+        StartCoroutine(OffCoolDownTimer(cooldownTimer));
+    }
+
+    IEnumerator OffCoolDownTimer(int coolDown)
+    {
+        yield return new WaitForSeconds(coolDown);
+        animator.SetTrigger(OFF_COOLDOWN_TRIGGER);
+        rallyAlliesButton.gameObject.SetActive(true);
     }
 
     void OnDisable()

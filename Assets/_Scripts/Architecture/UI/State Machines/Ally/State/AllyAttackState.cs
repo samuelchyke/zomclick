@@ -65,9 +65,15 @@ public class AllyAttackState : AllyBaseState
 
     IEnumerator FireProjectile(AllyStateManager allyContext)
     {
+        var rallyAllies = allyContext.playerSkillsViewModel.rallyAllies.CurrentValue;
+        var attackSpeed = 1f;
+        if(rallyAllies.isActive)
+        {
+            attackSpeed = 0.5f;
+        }
         while(true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(attackSpeed);
 
             var projectile = allyContext._container.InstantiatePrefab(allyContext.projectilePrefab, allyContext.transform.position, allyContext.transform.rotation, null);
             projectile.GetComponent<Projectile>();

@@ -69,6 +69,7 @@ public class GameViewModelImpl : IGameViewModel, IInitializable
     public async void UpdateEnemyWaveDetails()
     {
         _enemyWaveDetails = await readEnemyWaveDetailsUseCase.Invoke();
+        Debug.Log("Enemies killed: " + _enemyWaveDetails.enemiesKilled + " Spawn limit: " + _enemyWaveDetails.spawnLimit);
 
         if (_enemyWaveDetails.enemiesKilled == _enemyWaveDetails.spawnLimit)
         {

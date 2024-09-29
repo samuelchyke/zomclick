@@ -12,7 +12,8 @@ public class PlayerSkillBuilder
             duration = entity.duration,
             buff = entity.buff,
             unlockCost = entity.unlockCost,
-            upgradeCost = entity.upgradeCost
+            upgradeCost = entity.upgradeCost,
+            isActive = entity.isActive,
         };
     }
 
@@ -28,7 +29,8 @@ public class PlayerSkillBuilder
             duration = skill.duration,
             buff = skill.buff,
             unlockCost = skill.unlockCost,
-            upgradeCost = skill.upgradeCost
+            upgradeCost = skill.upgradeCost,
+            isActive = skill.isActive
         };
     }
 }

@@ -6,6 +6,7 @@ public class UseCaseModule : Installer<UseCaseModule>
     {
         GameUseCaseModule.Install(Container);
         PlayerUseCaseModule.Install(Container);
+        PlayerSkillsUseCaseModule.Install(Container);
         PlayerUpgradeShopUseCaseModule.Install(Container);
         AllyUseCaseModule.Install(Container);
         EnemyUseCaseModule.Install(Container);

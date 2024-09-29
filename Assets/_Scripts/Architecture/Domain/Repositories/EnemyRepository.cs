@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Zenject;
 using Debug = UnityEngine.Debug;
+using System.Transactions;
+using System.Threading;
 
 public interface IEnemyRepository
 {
@@ -78,12 +80,24 @@ public class EnemyRepositoryImpl : IEnemyRepository, IInitializable
         await playerStatsDao.UpdatePlayerStats(playerStats);
     }
 
+    private static readonly SemaphoreSlim enemyDeathSemaphore = new SemaphoreSlim(1, 1);
+
     public async Task OnEnemyDeath()
     {
-        await IncrementPlayerGold();
-        var enemyWaveEntity = await enemyDao.ReadEnemyWaveEntity();
-        enemyWaveEntity.enemiesKilled += 1;
-        await enemyDao.UpdateEnemyWaveEntity(enemyWaveEntity);
+        await enemyDeathSemaphore.WaitAsync();
+        try
+        {
+            // Critical section starts
+            await IncrementPlayerGold();
+            var enemyWaveEntity = await enemyDao.ReadEnemyWaveEntity();
+            enemyWaveEntity.enemiesKilled += 1;
+            await enemyDao.UpdateEnemyWaveEntity(enemyWaveEntity);
+            // Critical section ends
+        }
+        finally
+        {
+            enemyDeathSemaphore.Release();
+        }
     }
 
     async Task IncrementPlayerGold()

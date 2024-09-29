@@ -12,46 +12,66 @@ public class MidasRoundsSkill : MonoBehaviour
     const string OFF_COOLDOWN_TRIGGER = "Off Cooldown";
 
     [Inject] EventsManager eventsManager;
-    [Inject] public IPlayerShopViewModel playerShopViewModel; 
+    [Inject] public IPlayerSkillsViewModel playerSkillsViewModel; 
 
     public GameObject midasShotSprite;
-    public Button midasShotButton;
+    public Button midasRoundsButton;
     Animator animator;
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
     }
 
     private void UpdateUI()
     {
-        playerShopViewModel.playerSkills.Subscribe(skills => 
+        playerSkillsViewModel.midasRounds.Subscribe(midasRounds => 
         {
-            if(skills.Find(skill => skill.id == "midas_shot_id").isUnlocked)
+            if(midasRounds.isUnlocked && midasRounds.isActive == false)
             {
                 midasShotSprite.SetActive(true);
-                midasShotButton.gameObject.SetActive(true);
+                midasRoundsButton.gameObject.SetActive(true);
             }
         });
 
-        midasShotButton.onClick.AddListener(() => OnSkillClicked());
+        midasRoundsButton.onClick.AddListener(() => 
+            OnSkillClicked(playerSkillsViewModel.midasRounds.CurrentValue.coolDown)
+        );
     }
 
-    void OnSkillClicked ()
+    void OnSkillClicked(int cooldownTimer)
     {
+        midasRoundsButton.gameObject.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         animator.SetTrigger(ACTIVE_TRIGGER);
-        StartCoroutine(Cooldown());
+        StartCoroutine(ActivateSkill(cooldownTimer));
     }
 
-    IEnumerator Cooldown()
+    IEnumerator ActivateSkill(int cooldownTimer)
     {
-        yield return new WaitForSeconds(3);
+        playerSkillsViewModel.ToggleIsSkillActive(Skill.MidasRounds.id());
+        yield return new WaitForSeconds(30);
         animator.SetTrigger(COOLDOWN_TRIGGER);
+        playerSkillsViewModel.ToggleIsSkillActive(Skill.MidasRounds.id());
+        StartCoroutine(OffCoolDownTimer(cooldownTimer));
     }
+
+    IEnumerator OffCoolDownTimer(int coolDown)
+    {
+        yield return new WaitForSeconds(coolDown);
+        animator.SetTrigger(OFF_COOLDOWN_TRIGGER);
+        midasRoundsButton.gameObject.SetActive(true);
+    }
+
+    // IEnumerator Cooldown()
+    // {
+    //     yield return new WaitForSeconds(3);
+    //     playerShopViewModel.ToggleIsSkillActive("midas_rounds_id");
+    //     animator.SetTrigger(COOLDOWN_TRIGGER);
+    // }
 
     void OnDisable()
     {
-        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StopListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
     }
 }

@@ -22,15 +22,6 @@ public static class GameEvent {
         public const string ON_DEATH = eventId + "ON_DEATH";
     }
 
-    public static class PlayerShopViewModelEvent
-    {
-        const string eventId = "PlayerShopViewModelEvent/";
-        public const string SHOP_VM_SETUP_COMPLETE = eventId + "SHOP_VM_SETUP_COMPLETE";
-        public const string UPDATE_SHOP_DETAILS = eventId + "UPDATE_SHOP_DETAILS";
-        public const string UPDATE_PLAYER_STATS = eventId + "UPDATE_PLAYER_STATS";
-        public const string UPDATE_TEXT = eventId + "UPDATE_TEXT";
-    }
-
     public static class AllyShopViewModelEvent
     {
         const string eventId = "AllyShopViewModelEvent/";
@@ -48,6 +39,24 @@ public static class GameEvent {
         public const string UPDATE_PLAYER_STATS = eventId + "UPDATE_ENEMY_STATS";
         public const string UPDATE_ENEMY_STATS = eventId + "UPDATE_ENEMY_STATS";
         public const string INFLICT_DAMAGE = eventId + "INFLICT_DAMAGE";
+    }
+
+    public static class PlayerSkillViewModelEvent
+    {
+        const string eventId = "PlayerSkillViewModelEvent/";
+        public const string PLAYER_SKILL_VM_SETUP_COMPLETE = eventId + "PLAYER_SKILL_VM_SETUP_COMPLETE";
+        public const string UPDATE_PLAYER_SKILL = eventId + "UPDATE_PLAYER_SKILL";
+        public const string ON_MIDAS_ROUNDS_HIT = eventId + "ON_MIDAS_ROUNDS_HIT";
+    }
+
+    public static class PlayerShopViewModelEvent
+    {
+        const string eventId = "PlayerShopViewModelEvent/";
+        public const string SHOP_VM_SETUP_COMPLETE = eventId + "SHOP_VM_SETUP_COMPLETE";
+        public const string UPDATE_SHOP_DETAILS = eventId + "UPDATE_SHOP_DETAILS";
+        public const string UPDATE_PLAYER_STATS = eventId + "UPDATE_PLAYER_STATS";
+        public const string UPDATE_PLAYER_SKILL = eventId + "UPDATE_PLAYER_SKILL";
+        public const string UPDATE_TEXT = eventId + "UPDATE_TEXT";
     }
 
     public class BossViewModelEvent

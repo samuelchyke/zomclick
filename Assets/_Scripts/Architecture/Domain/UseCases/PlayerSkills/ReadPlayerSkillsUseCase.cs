@@ -4,17 +4,17 @@ using Zenject;
 using Debug = UnityEngine.Debug;
 
 public interface IReadPlayerSkillsUseCase {
-    public Task<List<PlayerSkill>> Invoke();
+    public Task<PlayerSkills> Invoke();
 }
 
 public class ReadPlayerSkillsUseCaseImpl : IReadPlayerSkillsUseCase, IInitializable
 {
-    IPlayerShopRepository shopRepository;
+    IPlayerSkillsRepository playerSkillRepository;
 
     [Inject]
-    public ReadPlayerSkillsUseCaseImpl(IPlayerShopRepository shopRepository)
+    public ReadPlayerSkillsUseCaseImpl(IPlayerSkillsRepository playerSkillRepository)
     {
-        this.shopRepository = shopRepository;
+        this.playerSkillRepository = playerSkillRepository;
     }
 
     public void Initialize()
@@ -22,8 +22,8 @@ public class ReadPlayerSkillsUseCaseImpl : IReadPlayerSkillsUseCase, IInitializa
         Debug.Log("ReadPlayerSkillsUseCase Initialized");
     }
 
-    public Task<List<PlayerSkill>> Invoke()
+    public Task<PlayerSkills> Invoke()
     {
-        return shopRepository.ReadPlayerSkills();
+        return playerSkillRepository.ReadPlayerSkills();
     }
 }

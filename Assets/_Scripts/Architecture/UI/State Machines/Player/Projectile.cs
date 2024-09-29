@@ -3,6 +3,7 @@ using Zenject;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using R3;
 
 public class Projectile : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class Projectile : MonoBehaviour
     public float projectileSpeed = 10f;
     public string targetTag = "EnemyHead";
 
+    [Inject] EventsManager eventsManager;
     [Inject] readonly IPlayerViewModel playerViewModel;
+    [Inject] readonly IPlayerSkillsViewModel playerSkillsViewModel;
     [Inject] DiContainer container;
 
     public float upwardForce = 0.1f;
@@ -24,15 +27,57 @@ public class Projectile : MonoBehaviour
     public float bulletDropRate = 9.81f; 
     private float timeSinceFired = 0f; 
     private bool isSpinning = false; // Flag to check if projectile is spinning
-
-
+    private int damage;
 
     void Start()
     {
+        CalculateDamage();
         if (!FindRandomTargetAndSetDirection())
         {
             Destroy(gameObject);
         }
+    }
+
+    void CalculateDamage()
+    {
+        damage = playerViewModel.playerStats.CurrentValue.baseDamage;
+        Debug.Log("projectile intial damage: " + damage);
+    
+        var lightningRounds = playerSkillsViewModel.lightningRounds.CurrentValue;
+        // Debug.Log("projectile lightingRounds activeState: " + lightingRounds.isActive);
+        var incendiaryRounds = playerSkillsViewModel.incendiaryRounds.CurrentValue;
+        // Debug.Log("projectile incendiaryRounds damage: " + lightingRounds.isActive);
+
+        if(lightningRounds.isActive)
+        {
+            Debug.Log("projectile before adding lightingRounds dmg: " + damage);
+            damage = damage + 1;
+            Debug.Log("projectile after adding lightingRounds dmg: " + damage);
+        }
+        if(incendiaryRounds.isActive)
+        {
+            Debug.Log("projectile before adding incendiaryRounds dmg: " + damage);
+            damage = damage + 1;
+            Debug.Log("projectile after adding incendiaryRounds dmg: " + damage);
+        }
+            
+        // playerShopViewModel.playerSkills.Subscribe(skills => 
+        // {
+        //     if(skills.lightningRounds.isActive)
+        //     {
+        //         Debug.Log("projectile before adding lightingRounds dmg: " + damage);
+        //         damage = damage + 1;
+        //         Debug.Log("projectile after adding lightingRounds dmg: " + damage);
+        //     }
+        //     if(skills.incendiaryRounds.isActive)
+        //     {
+        //         Debug.Log("projectile before adding incendiaryRounds dmg: " + damage);
+        //         damage = damage + 1;
+        //         Debug.Log("projectile after adding incendiaryRounds dmg: " + damage);
+        //     }
+        // });
+        Debug.Log("projectile calculated damage: " + damage);
+        // Debug.Log("projectile damage: " + damage);
     }
 
     void Update()
@@ -98,12 +143,18 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D enemy)
     {
+        var midasRounds = playerSkillsViewModel.midasRounds.CurrentValue;
+
         if (enemy.gameObject.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(playerViewModel.playerStats.CurrentValue.baseDamage);
+            if(midasRounds.isActive)
+            {
+                playerSkillsViewModel.IncreasePlayerGold();
+            }
+            damageable.TakeDamage(damage);
             GameObject canvas = GameObject.Find("Canvas");
             GameObject textObject = container.InstantiatePrefab(projectileTextPrefab, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation, canvas.transform);
-            textObject.GetComponentInChildren<TextMeshProUGUI>().text = playerViewModel.playerStats.CurrentValue.baseDamage.ToString();
+            textObject.GetComponentInChildren<TextMeshProUGUI>().text = damage.ToString();
         }
         Destroy(gameObject);
     }

@@ -12,7 +12,7 @@ public class IncendiaryRoundsSkill : MonoBehaviour
     const string OFF_COOLDOWN_TRIGGER = "Off Cooldown";
 
     [Inject] EventsManager eventsManager;
-    [Inject] public IPlayerShopViewModel playerShopViewModel; 
+    [Inject] public IPlayerSkillsViewModel playerSkillsViewModel; 
 
     public GameObject incendiaryRoundsSprite;
     public Button incendiaryRoundsButton;
@@ -25,29 +25,51 @@ public class IncendiaryRoundsSkill : MonoBehaviour
 
     private void UpdateUI()
     {
-        playerShopViewModel.playerSkills.Subscribe(skills => 
+        playerSkillsViewModel.incendiaryRounds.Subscribe(incendiaryRounds => 
         {
-            if(skills.Find(skill => skill.id == "incendiary_rounds_id").isUnlocked)
+            if(incendiaryRounds.isUnlocked && incendiaryRounds.isActive == false)
             {
                 incendiaryRoundsSprite.SetActive(true);
                 incendiaryRoundsButton.gameObject.SetActive(true);
             }
         });
 
-        incendiaryRoundsButton.onClick.AddListener(() => OnSkillClicked());
+        incendiaryRoundsButton.onClick.AddListener(() => 
+            OnSkillClicked(playerSkillsViewModel.incendiaryRounds.CurrentValue.coolDown)
+        );
     }
 
-    void OnSkillClicked ()
+    void OnSkillClicked(int cooldownTimer)
     {
+        incendiaryRoundsButton.gameObject.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         animator.SetTrigger(ACTIVE_TRIGGER);
-        StartCoroutine(Cooldown());
+        playerSkillsViewModel.ToggleIsSkillActive("incendiary_rounds_id");
+        StartCoroutine(ActivateSkill(cooldownTimer));
     }
 
     IEnumerator Cooldown()
     {
-        yield return new WaitForSeconds(3);
+        incendiaryRoundsButton.gameObject.SetActive(false);
+        yield return new WaitForSeconds(10);
         animator.SetTrigger(COOLDOWN_TRIGGER);
+        playerSkillsViewModel.ToggleIsSkillActive("incendiary_rounds_id");
+    }
+
+    IEnumerator ActivateSkill(int cooldownTimer)
+    {
+        playerSkillsViewModel.ToggleIsSkillActive("incendiary_rounds_id");
+        yield return new WaitForSeconds(30);
+        animator.SetTrigger(COOLDOWN_TRIGGER);
+        playerSkillsViewModel.ToggleIsSkillActive("incendiary_rounds_id");
+        StartCoroutine(OffCoolDownTimer(cooldownTimer));
+    }
+
+    IEnumerator OffCoolDownTimer(int coolDown)
+    {
+        yield return new WaitForSeconds(coolDown);
+        animator.SetTrigger(OFF_COOLDOWN_TRIGGER);
+        incendiaryRoundsButton.gameObject.SetActive(true);
     }
 
     void OnDisable()

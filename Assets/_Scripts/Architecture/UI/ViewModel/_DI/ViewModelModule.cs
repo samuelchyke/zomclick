@@ -83,6 +83,19 @@ public class ViewModelModule : Installer<ViewModelModule>
         .AsSingle()
         .NonLazy();
 
+        Container.BindInterfacesAndSelfTo<PlayerSkillsViewModelImpl>()
+        .FromMethod(ctx =>
+        {
+            return new PlayerSkillsViewModelImpl(
+                readPlayerSkillUseCase: ctx.Container.Resolve<IReadPlayerSkillUseCase>(),
+                toggleSkillActiveUseCase: ctx.Container.Resolve<IToggleSkillActiveUseCase>(),
+                increasePlayerGoldUseCase: ctx.Container.Resolve<IIncreasePlayerGoldUseCase>(),
+                eventsManager: ctx.Container.Resolve<EventsManager>()
+            );
+        })
+        .AsSingle()
+        .NonLazy();
+
         // Container.Bind<IAllyViewModel>()
         //     .FromMethod(ctx =>
         //     {

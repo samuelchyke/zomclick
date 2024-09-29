@@ -16,7 +16,7 @@ public interface IAllyStats
     string lore { get; set; }
 }
 
-public class AllyStats : IAllyStats
+public record AllyStats : IAllyStats
 {
     public string id { get; set; }
     public string name { get; set; }
@@ -31,38 +31,38 @@ public class AllyStats : IAllyStats
     public bool isUnlocked { get; set; }
     public string lore { get; set; }
 
-    public override bool Equals(object obj)
-    {
-        return obj is AllyStats stats &&
-               id == stats.id &&
-               level == stats.level &&
-               name == stats.name &&
-               attackSpeed == stats.attackSpeed &&
-               baseDamage == stats.baseDamage &&
-               critRate == stats.critRate &&
-               critMultiplier == stats.critMultiplier &&
-               totalDamage == stats.totalDamage &&
-               unlockCost == stats.unlockCost &&
-               upgradeCost == stats.upgradeCost &&
-               isUnlocked == stats.isUnlocked &&
-               lore == stats.lore;
-    }
+    // public override bool Equals(object obj)
+    // {
+    //     return obj is AllyStats stats &&
+    //            id == stats.id &&
+    //            level == stats.level &&
+    //            name == stats.name &&
+    //            attackSpeed == stats.attackSpeed &&
+    //            baseDamage == stats.baseDamage &&
+    //            critRate == stats.critRate &&
+    //            critMultiplier == stats.critMultiplier &&
+    //            totalDamage == stats.totalDamage &&
+    //            unlockCost == stats.unlockCost &&
+    //            upgradeCost == stats.upgradeCost &&
+    //            isUnlocked == stats.isUnlocked &&
+    //            lore == stats.lore;
+    // }
 
-    public override int GetHashCode()
-    {
-        int hash1 = HashCode.Combine(id, name, level, attackSpeed, baseDamage, critRate, critMultiplier, totalDamage);
-        int hash2 = HashCode.Combine(unlockCost, upgradeCost, isUnlocked, lore);
+    // public override int GetHashCode()
+    // {
+    //     int hash1 = HashCode.Combine(id, name, level, attackSpeed, baseDamage, critRate, critMultiplier, totalDamage);
+    //     int hash2 = HashCode.Combine(unlockCost, upgradeCost, isUnlocked, lore);
 
-        return HashCode.Combine(hash1, hash2);
-    }
+    //     return HashCode.Combine(hash1, hash2);
+    // }
 
-    public static bool operator == (AllyStats left, AllyStats right)
-    {
-        return Equals(left, right);
-    }
+    // public static bool operator == (AllyStats left, AllyStats right)
+    // {
+    //     return Equals(left, right);
+    // }
 
-    public static bool operator != (AllyStats left, AllyStats right)
-    {
-        return !Equals(left, right);
-    }
+    // public static bool operator != (AllyStats left, AllyStats right)
+    // {
+    //     return !Equals(left, right);
+    // }
 }

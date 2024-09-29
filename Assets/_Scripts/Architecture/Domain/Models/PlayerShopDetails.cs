@@ -10,7 +10,7 @@ public interface IPlayerShopDetails
     int totalGold { get; set; }
 }
 
-public class PlayerShopDetails : IPlayerShopDetails
+public record PlayerShopDetails : IPlayerShopDetails
 {
     public string id { get; set; }
     public int wallHealthCost { get; set; }
@@ -19,29 +19,29 @@ public class PlayerShopDetails : IPlayerShopDetails
     public int critRateCost { get; set; }
     public int totalGold { get; set; }
 
-    public override bool Equals(object obj)
-    {
-        return obj is PlayerShopDetails entity &&
-               id == entity.id &&
-               wallHealthCost == entity.wallHealthCost &&
-               damageCost == entity.damageCost &&
-               critDamageCost == entity.critDamageCost &&
-               critRateCost == entity.critRateCost &&
-               totalGold == entity.totalGold;
-    }
+    // public override bool Equals(object obj)
+    // {
+    //     return obj is PlayerShopDetails entity &&
+    //            id == entity.id &&
+    //            wallHealthCost == entity.wallHealthCost &&
+    //            damageCost == entity.damageCost &&
+    //            critDamageCost == entity.critDamageCost &&
+    //            critRateCost == entity.critRateCost &&
+    //            totalGold == entity.totalGold;
+    // }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(id, wallHealthCost, damageCost, critDamageCost, critRateCost, totalGold);
-    }
+    // public override int GetHashCode()
+    // {
+    //     return HashCode.Combine(id, wallHealthCost, damageCost, critDamageCost, critRateCost, totalGold);
+    // }
 
-    public static bool operator == (PlayerShopDetails left, PlayerShopDetails right)
-    {
-        return Equals(left, right);
-    }
+    // public static bool operator == (PlayerShopDetails left, PlayerShopDetails right)
+    // {
+    //     return Equals(left, right);
+    // }
 
-    public static bool operator != (PlayerShopDetails left, PlayerShopDetails right)
-    {
-        return !Equals(left, right);
-    }
+    // public static bool operator != (PlayerShopDetails left, PlayerShopDetails right)
+    // {
+    //     return !Equals(left, right);
+    // }
 }

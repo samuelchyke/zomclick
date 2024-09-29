@@ -57,5 +57,15 @@ public class RepositoryModule : Installer<RepositoryModule>
             })
             .AsSingle()
             .NonLazy();
+
+        Container.BindInterfacesAndSelfTo<PlayerSkillsRepositoryImpl>()
+            .FromMethod( ctx =>
+                {
+                    return new PlayerSkillsRepositoryImpl(
+                        playerStatsDao: ctx.Container.Resolve<PlayerDaoImpl>()
+                    );
+                })
+            .AsSingle()
+            .NonLazy();
     }
 }

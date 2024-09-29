@@ -8,6 +8,8 @@ public class EventsManager : IInitializable
 {
     private Dictionary<string, UnityEvent> eventDictionary = new Dictionary<string, UnityEvent>();
 
+    private Dictionary<string, UnityEvent<string>> eventDictionaryWithParam = new Dictionary<string, UnityEvent<string>>();
+
     public void StartListening(string eventName, UnityAction listener)
     {
         UnityEvent thisEvent = null;
@@ -23,9 +25,31 @@ public class EventsManager : IInitializable
         }
     }
 
+    public void StartListening(string eventName, UnityAction<string> listener)
+    {
+        if (eventDictionaryWithParam.TryGetValue(eventName, out UnityEvent<string> thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            thisEvent = new UnityEvent<string>();
+            thisEvent.AddListener(listener);
+            eventDictionaryWithParam.Add(eventName, thisEvent);
+        }
+    }
+
     public void StopListening(string eventName, UnityAction listener)
     {
         if (eventDictionary.TryGetValue(eventName, out UnityEvent thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
+
+    public void StopListening(string eventName, UnityAction<string> listener)
+    {
+        if (eventDictionaryWithParam.TryGetValue(eventName, out UnityEvent<string> thisEvent))
         {
             thisEvent.RemoveListener(listener);
         }
@@ -36,6 +60,14 @@ public class EventsManager : IInitializable
         if (eventDictionary.TryGetValue(eventName, out UnityEvent thisEvent))
         {
             thisEvent.Invoke();
+        }
+    }
+
+    public void TriggerEvent(string eventName, string param)
+    {
+        if (eventDictionaryWithParam.TryGetValue(eventName, out UnityEvent<string> thisEvent))
+        {
+            thisEvent.Invoke(param);
         }
     }
 

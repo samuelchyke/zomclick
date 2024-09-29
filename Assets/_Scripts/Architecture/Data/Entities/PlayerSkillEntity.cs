@@ -12,4 +12,5 @@ public class PlayerSkillEntity
     public int buff { get; set; }
     public int unlockCost { get; set; }
     public int upgradeCost { get; set; }
+    public bool isActive { get; set; }
 }

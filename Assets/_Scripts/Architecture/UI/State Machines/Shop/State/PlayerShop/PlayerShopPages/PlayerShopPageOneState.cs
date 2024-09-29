@@ -13,27 +13,28 @@ public class PlayerShopPageOneState : ShopBaseState
 
     public TextMeshProUGUI bigBettyCostText;
     public TextMeshProUGUI turretCostText;
-    public TextMeshProUGUI critRateCostText;
+    public TextMeshProUGUI lightningRoundsCostText;
 
     public Button bigBettyBuyButton;
     public Button turretBuyButton;
-    public Button critRateBuyButton;
+    public Button lightningRoundsBuyButton;
 
     Dictionary<string, TextMeshProUGUI> skillsCostTexts;
 
     public override void EnterState(ShopStateManager shopContext){}
 
-    private void onBuy (ShopStateManager shopContext, string playerSkillId)
+    private void onBuy (ShopStateManager shopContext, PlayerSkill playerSkill)
     {
-        var skillIndex = shopContext.playerShopViewModel.playerSkills.CurrentValue.FindIndex(skill => skill.id == playerSkillId);
-        var playerSkill = shopContext.playerShopViewModel.playerSkills.CurrentValue[skillIndex];
+
+        Debug.Log("onBuy: " + playerSkill.id);
+        Debug.Log("onBuy: " + playerSkill.isUnlocked);
 
         if (playerSkill.isUnlocked){
-            shopContext.playerShopViewModel.UpgradePlayerSkill(playerSkillId);
+            shopContext.playerShopViewModel.UpgradePlayerSkill(playerSkill.id);
         }
         else
         {
-            shopContext.playerShopViewModel.UnlockPlayerSkill(playerSkillId);
+            shopContext.playerShopViewModel.UnlockPlayerSkill(playerSkill.id);
         }
     }
 
@@ -42,42 +43,58 @@ public class PlayerShopPageOneState : ShopBaseState
     public override void EnterSubState(ShopStateManager shopContext)
     {
         shopContext.playerShopPage1.SetActive(true);
-        bigBettyCostText = GameObject.Find("big_betty_gold_text").GetComponent<TextMeshProUGUI>();
-        turretCostText = GameObject.Find("turret_gold_text").GetComponent<TextMeshProUGUI>();
-        critRateCostText = GameObject.Find("crit_rate_gold_text").GetComponent<TextMeshProUGUI>();
 
-        bigBettyBuyButton = GameObject.Find("big_betty_buy_button").GetComponent<Button>();
-        turretBuyButton = GameObject.Find("turret_buy_button").GetComponent<Button>();
-        critRateBuyButton = GameObject.Find("crit_rate_buy_button").GetComponent<Button>();
+        SetUI();
+
+        var playerSkills = shopContext.playerShopViewModel.playerSkills.CurrentValue;
 
         skillsCostTexts = new Dictionary<string, TextMeshProUGUI>
         {
-            { "big_betty_id", bigBettyCostText },
-            { "turret_id", turretCostText },
-            { "crit_rate_id", critRateCostText }
+            { playerSkills.bigBetty.id, bigBettyCostText },
+            { playerSkills.turret.id, turretCostText },
+            { playerSkills.lightningRounds.id, lightningRoundsCostText }
         };
 
-        shopContext.playerShopViewModel.playerSkills
-            .Subscribe(details => UpdateSkillsUI(details))
-            .AddTo(_disposables);
+        shopContext.playerShopViewModel.playerSkills.Subscribe(skills => 
+            {
+                playerSkills = skills;
+                UpdateSkillsUI(skills);
+            }
+        )
+        .AddTo(_disposables);
 
-        bigBettyBuyButton.onClick.AddListener(() => onBuy(shopContext, "big_betty_id"));
-        turretBuyButton.onClick.AddListener(() => onBuy(shopContext, "turret_id"));
-        critRateBuyButton.onClick.AddListener(() => onBuy(shopContext, "crit_rate_id"));
+        bigBettyBuyButton.onClick.AddListener(() => onBuy(shopContext, playerSkills.bigBetty));
+        turretBuyButton.onClick.AddListener(() => onBuy(shopContext, playerSkills.turret));
+        lightningRoundsBuyButton.onClick.AddListener(() => onBuy(shopContext, playerSkills.lightningRounds));
 
         nextPageButton = GameObject.Find("next_page_button").GetComponent<Button>();
         nextPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.playerShopPageTwoState));
     }
 
-    private void UpdateSkillsUI(List<PlayerSkill> playerSkills)
+    private void UpdateSkillsUI(PlayerSkills playerSkills)
     {
-        foreach (var skill in playerSkills)
+        UpdateSkillUI(playerSkills.bigBetty);
+        UpdateSkillUI(playerSkills.turret);
+        UpdateSkillUI(playerSkills.lightningRounds);
+    }
+
+    private void UpdateSkillUI(PlayerSkill skill)
+    {
+        if (skillsCostTexts.TryGetValue(skill.id, out var costText))
         {
-            if (skillsCostTexts.TryGetValue(skill.id, out var costText))
-            {
-                costText.text = skill.isUnlocked ? skill.upgradeCost.ToString() : skill.unlockCost.ToString();
-            }
+            costText.text = skill.isUnlocked ? skill.upgradeCost.ToString() : skill.unlockCost.ToString();
         }
+    }
+
+    private void SetUI()
+    {
+        bigBettyCostText = GameObject.Find("big_betty_gold_text").GetComponent<TextMeshProUGUI>();
+        turretCostText = GameObject.Find("turret_gold_text").GetComponent<TextMeshProUGUI>();
+        lightningRoundsCostText = GameObject.Find("crit_rate_gold_text").GetComponent<TextMeshProUGUI>();
+
+        bigBettyBuyButton = GameObject.Find("big_betty_buy_button").GetComponent<Button>();
+        turretBuyButton = GameObject.Find("turret_buy_button").GetComponent<Button>();
+        lightningRoundsBuyButton = GameObject.Find("crit_rate_buy_button").GetComponent<Button>();
     }
 
     public override void ExitSubState(ShopStateManager shopContext)

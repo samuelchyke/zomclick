@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public interface IPlayerShopViewModel
 {
     ReadOnlyReactiveProperty<PlayerShopDetails> shopDetails { get; }
-    ReadOnlyReactiveProperty<List<PlayerSkill>> playerSkills { get; }
+    ReadOnlyReactiveProperty<PlayerSkills> playerSkills { get; }
 
     void UpgradePlayerStats();
     void UnlockPlayerSkill(string playerSkillId);
@@ -47,8 +47,8 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
     private ReactiveProperty<PlayerShopDetails> _shopDetails = new ();
     public ReadOnlyReactiveProperty<PlayerShopDetails> shopDetails => _shopDetails;
 
-    private ReactiveProperty<List<PlayerSkill>> _playerSkills = new ();
-    public ReadOnlyReactiveProperty<List<PlayerSkill>> playerSkills => _playerSkills;
+    private ReactiveProperty<PlayerSkills> _playerSkills = new ();
+    public ReadOnlyReactiveProperty<PlayerSkills> playerSkills => _playerSkills;
 
     public async void Initialize()
     {
@@ -57,6 +57,7 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
 
         Debug.Log("Shop ViewModel Initialized");
         eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE);
+        eventsManager.StartListening(GameEvent.PlayerSkillViewModelEvent.ON_MIDAS_ROUNDS_HIT, UpdateShopDetails);
         eventsManager.StartListening(GameEvent.EnemyViewModelEvent.ON_DEATH, UpdateShopDetails);
         eventsManager.StartListening(GameEvent.BossViewModelEvent.ON_DEATH, UpdateShopDetails);
         eventsManager.StartListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES, UpdateShopDetails);
@@ -88,6 +89,7 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
         await unlockPlayerSkillUseCase.Invoke(playerSkillId);
         UpdatePlayerSkills();
         UpdateShopDetails();
+        eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_SKILL, playerSkillId);
     }
 
     public async void UpgradePlayerSkill(string playerSkillId)
@@ -100,7 +102,7 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
     async void UpdatePlayerSkills()
     {
         _playerSkills.Value = await readPlayerSkillsUseCase.Invoke();
-        // eventsManager.TriggerEvent(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES);
+        eventsManager.TriggerEvent(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES);
     }
 
     public void Dispose()

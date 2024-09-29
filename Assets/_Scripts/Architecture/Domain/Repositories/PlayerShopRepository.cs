@@ -11,9 +11,6 @@ public interface IPlayerShopRepository
 
     Task UpgradePlayerStats();
 
-    Task<List<PlayerSkill>> ReadPlayerSkills();
-    Task<PlayerSkill> ReadPlayerSkill(string playerSkillId);
-
     Task UnlockPlayerSkill (string playerSkillId);
     Task UpgradePlayerSkill (string playerSkillId);
 }
@@ -66,19 +63,6 @@ public class PlayerShopRepositoryImpl : IPlayerShopRepository, IInitializable
             await playerShopDao.UpdateShopDetails(playerShop);
             await playerStatsDao.UpdatePlayerStats(playerStats);
         }
-    }
-
-    public async Task<PlayerSkill> ReadPlayerSkill(string playerSkillId)
-    {
-        var entity = await playerStatsDao.ReadPlayerSkill(playerSkillId);
-        return new PlayerSkillBuilder().ToDomain(entity);
-    }
-
-    public async Task<List<PlayerSkill>> ReadPlayerSkills()
-    {
-        var entities = await playerStatsDao.ReadPlayerSkills();
-        var playerSkills = entities.Select(item => new PlayerSkillBuilder().ToDomain(item)).ToList();
-        return playerSkills;
     }
 
     public async Task UnlockPlayerSkill(string playerSkillId)

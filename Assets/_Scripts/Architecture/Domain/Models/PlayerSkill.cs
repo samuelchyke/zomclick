@@ -11,9 +11,10 @@ public interface IPlayerSkill
     int buff { get; set; }
     int unlockCost { get; set; }
     int upgradeCost { get; set; }
+    bool isActive { get; set; }
 }
 
-public class PlayerSkill : IPlayerSkill
+public record PlayerSkill : IPlayerSkill
 {
     public string id { get; set; }
     public bool isUnlocked { get; set; }
@@ -24,36 +25,5 @@ public class PlayerSkill : IPlayerSkill
     public int buff { get; set; }
     public int unlockCost { get; set; }
     public int upgradeCost { get; set; }
-
-    public override bool Equals(object obj)
-    {
-        return obj is PlayerSkill skill &&
-               id == skill.id &&
-               isUnlocked == skill.isUnlocked &&
-               coolDown == skill.coolDown &&
-               level == skill.level &&
-               unlockLevel == skill.unlockLevel &&
-               duration == skill.duration &&
-               buff == skill.buff &&
-               unlockCost == skill.unlockCost &&
-               upgradeCost == skill.upgradeCost;
-    }
-
-    public override int GetHashCode()
-    {
-        int hash1 = HashCode.Combine(id, isUnlocked, coolDown, level, unlockLevel, duration, buff, unlockCost);
-        int hash2 = HashCode.Combine(upgradeCost);
-
-        return HashCode.Combine(hash1 + hash2);
-    }
-
-    public static bool operator == (PlayerSkill left, PlayerSkill right)
-    {
-        return Equals(left, right);
-    }
-
-    public static bool operator != (PlayerSkill left, PlayerSkill right)
-    {
-        return !Equals(left, right);
-    }
+    public bool isActive { get; set; }
 }

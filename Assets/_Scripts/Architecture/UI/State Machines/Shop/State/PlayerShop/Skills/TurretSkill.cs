@@ -5,6 +5,7 @@ using R3;
 using Zenject;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using Zenject.SpaceFighter;
 
 public class TurretSkill : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class TurretSkill : MonoBehaviour
     const string OFF_COOLDOWN_TRIGGER = "Off Cooldown";
 
     [Inject] EventsManager eventsManager;
-    [Inject] public IPlayerShopViewModel playerShopViewModel; 
+    [Inject] public IPlayerSkillsViewModel playerSkillsViewModel; 
+    PlayerSkill turret;
 
     public GameObject turretSprite;
     public Button turretButton;
@@ -31,20 +33,18 @@ public class TurretSkill : MonoBehaviour
 
     private void UpdateUI()
     {
-        var skill = playerShopViewModel.playerSkills.CurrentValue.Find(skill => skill.id == "turret_id");
+        turret = playerSkillsViewModel.turret.CurrentValue;
 
-        playerShopViewModel.playerSkills.Subscribe(skills => 
+        playerSkillsViewModel.turret.Subscribe(turret => 
         {
-            var skill = skills.Find(skill => skill.id == "turret_id");  
-            if(skill.isUnlocked)
+            if(turret.isUnlocked)
             {
                 turretSprite.SetActive(true);
                 turretButton.gameObject.SetActive(true);
-
             }
         });
 
-        turretButton.onClick.AddListener(() => OnSkillClicked(skill.coolDown));
+        turretButton.onClick.AddListener(() => OnSkillClicked(turret.coolDown));
     }
 
     void OnSkillClicked(int coolDown)
@@ -70,8 +70,6 @@ public class TurretSkill : MonoBehaviour
         animator.SetTrigger(OFF_COOLDOWN_TRIGGER);
         turretButton.gameObject.SetActive(true);
     }
-
-
 
     void OnDisable()
     {

@@ -55,9 +55,18 @@ public class EnemyStateManager : MonoBehaviour, IDamageable
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            // OnDeath();
             currentState = deadState;
             currentState.EnterState(this);
         }
+    }
+
+    public void OnDeath()
+    {
+        Debug.Log($"Enemy {GetInstanceID()} OnDeath called at time {Time.time}");
+        enemyViewModel.OnDeath();
+        // Additional per-enemy death logic...
+        Destroy(gameObject);
     }
 
     void UpdateEnemyStats()

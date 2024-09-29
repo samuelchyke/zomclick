@@ -25,26 +25,6 @@ public class PlayerUpgradeShopUseCaseModule : Installer<PlayerUpgradeShopUseCase
         .AsSingle()
         .NonLazy();
 
-        Container.BindInterfacesAndSelfTo<ReadPlayerSkillUseCaseImpl>()
-        .FromMethod( ctx =>
-            {
-                return new ReadPlayerSkillUseCaseImpl(
-                    shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
-                );
-            })
-        .AsSingle()
-        .NonLazy();
-
-        Container.BindInterfacesAndSelfTo<ReadPlayerSkillsUseCaseImpl>()
-        .FromMethod( ctx =>
-            {
-                return new ReadPlayerSkillsUseCaseImpl(
-                    shopRepository: ctx.Container.Resolve<PlayerShopRepositoryImpl>()
-                );
-            })
-        .AsSingle()
-        .NonLazy();
-
         Container.BindInterfacesAndSelfTo<UnlockPlayerSkillUseCaseImpl>()
         .FromMethod( ctx =>
             {

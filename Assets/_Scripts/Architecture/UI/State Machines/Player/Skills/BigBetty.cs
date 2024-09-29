@@ -1,57 +1,56 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using R3;
 using Zenject;
-using UnityEngine.UI;
-using Unity.VisualScripting;
 using TMPro;
 
 public class BigBetty : MonoBehaviour
 {
-    [Inject(Id = "ProjectileTextPrefab")] readonly GameObject projectileTextPrefab;
-    [Inject] readonly IPlayerViewModel playerViewModel;
-    [Inject] DiContainer container;
+    [Inject(Id = "ProjectileTextPrefab")] private readonly GameObject projectileTextPrefab;
+    [Inject] private readonly IPlayerViewModel playerViewModel;
+    [Inject] private DiContainer container;
 
     public string targetTag = "EnemyHead";
+    public float explosionDelay = 3f; // Time before the nuke explodes
 
     void Start()
     {
-        StartCoroutine(WaitAndApplyDamage(3f)); // Start the coroutine to wait 3 seconds before applying damage
+        StartCoroutine(WaitAndApplyDamage(explosionDelay));
     }
 
-    IEnumerator WaitAndApplyDamage(float waitTime)
+    private IEnumerator WaitAndApplyDamage(float waitTime)
     {
-        yield return new WaitForSeconds(waitTime); // Wait for the specified time
+        yield return new WaitForSeconds(waitTime);
+
+        // Optionally, you can add an explosion effect here
         ApplyDamageToAllTargets();
-        Destroy(gameObject); // Destroy the nuke projectile after applying damage
+
+        // Destroy the nuke projectile after applying damage
+        Destroy(gameObject);
     }
 
-    void ApplyDamageToAllTargets()
-    {                                                                                           
+    private void ApplyDamageToAllTargets()
+    {
         GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTag);
         foreach (GameObject target in targets)
         {
-            if (target.TryGetComponent(out IDamageable damageable))
-            {
-                damageable.TakeDamage(playerViewModel.playerStats.CurrentValue.baseDamage);
+            Transform parentTransform = target.transform.parent;
 
+            if (parentTransform.TryGetComponent(out IDamageable damageable))
+            {
+                // Apply damage to the target
+                int damage = playerViewModel.playerStats.CurrentValue.baseDamage;
+                damageable.TakeDamage(damage);
+
+                // Instantiate damage text for visual feedback
                 GameObject canvas = GameObject.Find("Canvas");
-                GameObject textObject = container.InstantiatePrefab(projectileTextPrefab, target.transform.position, target.transform.rotation, canvas.transform);
-                textObject.GetComponentInChildren<TextMeshProUGUI>().text = playerViewModel.playerStats.CurrentValue.baseDamage.ToString();
+                GameObject textObject = container.InstantiatePrefab(
+                    prefab: projectileTextPrefab,
+                    position: target.transform.position,
+                    rotation: Quaternion.identity,
+                    parentTransform: canvas.transform
+                );
+                textObject.GetComponentInChildren<TextMeshProUGUI>().text = damage.ToString();
             }
         }
     }
-
-    // void OnCollisionEnter2D(Collision2D enemy)
-    // {
-    //     if (enemy.gameObject.TryGetComponent(out IDamageable damageable))
-    //     {
-    //         damageable.TakeDamage(playerViewModel.playerStats.CurrentValue.baseDamage);
-    //         GameObject canvas = GameObject.Find("Canvas");
-    //         GameObject textObject = container.InstantiatePrefab(projectileTextPrefab, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation, canvas.transform);
-    //         textObject.GetComponentInChildren<TextMeshProUGUI>().text = playerViewModel.playerStats.CurrentValue.baseDamage.ToString();
-    //     }
-        // Destroy(gameObject);
-    // }
 }

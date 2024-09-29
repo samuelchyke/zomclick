@@ -27,28 +27,29 @@ public class PlayerShopPageTwoState : ShopBaseState
     public override void EnterSubState(ShopStateManager shopContext)
     {
         shopContext.playerShopPage2.SetActive(true);
-        rallyAlliesCostText = GameObject.Find("rally_allies_gold_text").GetComponent<TextMeshProUGUI>();
-        incendiaryRoundsCostText = GameObject.Find("incendiary_rounds_gold_text").GetComponent<TextMeshProUGUI>();
-        midasShotCostText = GameObject.Find("midas_shot_gold_text").GetComponent<TextMeshProUGUI>();
 
-        rallyAlliesBuyButton = GameObject.Find("rally_allies_buy_button").GetComponent<Button>();
-        incendiaryRoundsBuyButton = GameObject.Find("incendiary_rounds_buy_button").GetComponent<Button>();
-        midasShotBuyButton = GameObject.Find("midas_shot_buy_button").GetComponent<Button>();
+        SetUI();
+
+        var playerSkills = shopContext.playerShopViewModel.playerSkills.CurrentValue;
 
         skillsCostTexts = new Dictionary<string, TextMeshProUGUI>
         {
-            { "rally_allies_id", rallyAlliesCostText },
-            { "incendiary_rounds_id", incendiaryRoundsCostText },
-            { "midas_shot_id", midasShotCostText }
+            { playerSkills.rallyAllies.id, rallyAlliesCostText },
+            { playerSkills.incendiaryRounds.id, incendiaryRoundsCostText },
+            { playerSkills.midasRounds.id, midasShotCostText }
         };
 
-        shopContext.playerShopViewModel.playerSkills
-            .Subscribe(details => UpdateSkillsUI(details))
-            .AddTo(_disposables);
+        shopContext.playerShopViewModel.playerSkills.Subscribe(skills => 
+            {
+                playerSkills = skills;
+                UpdateSkillsUI(skills);
+            }
+        )
+        .AddTo(_disposables);
 
-        rallyAlliesBuyButton.onClick.AddListener(() => onBuy(shopContext, "rally_allies_id"));
-        incendiaryRoundsBuyButton.onClick.AddListener(() => onBuy(shopContext, "incendiary_rounds_id"));
-        midasShotBuyButton.onClick.AddListener(() => onBuy(shopContext, "midas_shot_id"));
+        rallyAlliesBuyButton.onClick.AddListener(() => onBuy(shopContext, playerSkills.rallyAllies));
+        incendiaryRoundsBuyButton.onClick.AddListener(() => onBuy(shopContext, playerSkills.incendiaryRounds));
+        midasShotBuyButton.onClick.AddListener(() => onBuy(shopContext, playerSkills.midasRounds));
 
         previousPageButton = GameObject.Find("previous_page_button").GetComponent<Button>();
         previousPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.playerShopPageOneState));
@@ -59,29 +60,41 @@ public class PlayerShopPageTwoState : ShopBaseState
         shopContext.playerShopPage2.SetActive(false);
     }
 
-    private void onBuy (ShopStateManager shopContext, string playerSkillId)
+    private void onBuy (ShopStateManager shopContext, PlayerSkill playerSkill)
     {
-        var skillIndex = shopContext.playerShopViewModel.playerSkills.CurrentValue.FindIndex(skill => skill.id == playerSkillId);
-        var playerSkill = shopContext.playerShopViewModel.playerSkills.CurrentValue[skillIndex];
-
         if (playerSkill.isUnlocked){
-            shopContext.playerShopViewModel.UpgradePlayerSkill(playerSkillId);
+            shopContext.playerShopViewModel.UpgradePlayerSkill(playerSkill.id);
         }
         else
         {
-            shopContext.playerShopViewModel.UnlockPlayerSkill(playerSkillId);
+            shopContext.playerShopViewModel.UnlockPlayerSkill(playerSkill.id);
         }
     }
 
-    private void UpdateSkillsUI(List<PlayerSkill> playerSkills)
+    private void UpdateSkillsUI(PlayerSkills playerSkills)
     {
-        foreach (var skill in playerSkills)
+        UpdateSkillUI(playerSkills.rallyAllies);
+        UpdateSkillUI(playerSkills.incendiaryRounds);
+        UpdateSkillUI(playerSkills.midasRounds);
+    }
+
+    private void UpdateSkillUI(PlayerSkill skill)
+    {
+        if (skillsCostTexts.TryGetValue(skill.id, out var costText))
         {
-            if (skillsCostTexts.TryGetValue(skill.id, out var costText))
-            {
-                costText.text = skill.isUnlocked ? skill.upgradeCost.ToString() : skill.unlockCost.ToString();
-            }
+            costText.text = skill.isUnlocked ? skill.upgradeCost.ToString() : skill.unlockCost.ToString();
         }
+    }
+
+    private void SetUI()
+    {
+        rallyAlliesCostText = GameObject.Find("rally_allies_gold_text").GetComponent<TextMeshProUGUI>();
+        incendiaryRoundsCostText = GameObject.Find("incendiary_rounds_gold_text").GetComponent<TextMeshProUGUI>();
+        midasShotCostText = GameObject.Find("midas_shot_gold_text").GetComponent<TextMeshProUGUI>();
+
+        rallyAlliesBuyButton = GameObject.Find("rally_allies_buy_button").GetComponent<Button>();
+        incendiaryRoundsBuyButton = GameObject.Find("incendiary_rounds_buy_button").GetComponent<Button>();
+        midasShotBuyButton = GameObject.Find("midas_shot_buy_button").GetComponent<Button>();
     }
 
     public void Dispose()

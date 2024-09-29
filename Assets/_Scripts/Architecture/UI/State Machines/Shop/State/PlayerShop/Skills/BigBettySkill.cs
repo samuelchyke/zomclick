@@ -15,7 +15,7 @@ public class BigBettySkill : MonoBehaviour
     const string OFF_COOLDOWN_TRIGGER = "Off Cooldown";
 
     [Inject] EventsManager eventsManager;
-    [Inject] public IPlayerShopViewModel playerShopViewModel; 
+    [Inject] public IPlayerSkillsViewModel playerSkillViewModel;
 
     public GameObject bigBettySprite;
     public Button bigBettyButton;
@@ -24,39 +24,43 @@ public class BigBettySkill : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
     }
 
     private void UpdateUI()
     {
-        playerShopViewModel.playerSkills.Subscribe(skills => 
+        var bigBetty = playerSkillViewModel.bigBetty.CurrentValue;
+
+        playerSkillViewModel.bigBetty.Subscribe(bigBetty => 
         {
-            if(skills.Find(skill => skill.id == "big_betty_id").isUnlocked)
+            if(bigBetty.isUnlocked)
             {
                 bigBettySprite.SetActive(true);
                 bigBettyButton.gameObject.SetActive(true);
             }
         });
 
-        bigBettyButton.onClick.AddListener(() => OnSkillClicked());
+        bigBettyButton.onClick.AddListener(() => OnSkillClicked(bigBetty.coolDown));
     }
 
-    void OnSkillClicked ()
+    void OnSkillClicked(int cooldownTimer)
     {
+        bigBettyButton.gameObject.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         animator.SetTrigger(ACTIVE_TRIGGER);
         container.InstantiatePrefab(bigBettyPrefab, spawnPoint.transform.position, Quaternion.identity, null);
-        StartCoroutine(Cooldown());
+        StartCoroutine(Cooldown(cooldownTimer));
     }
 
-    IEnumerator Cooldown()
+    IEnumerator Cooldown(int cooldownTimer)
     {
         yield return new WaitForSeconds(3);
         animator.SetTrigger(COOLDOWN_TRIGGER);
+        bigBettyButton.gameObject.SetActive(true);
     }
 
     void OnDisable()
     {
-        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StopListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
     }
 }
