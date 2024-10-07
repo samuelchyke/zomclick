@@ -66,7 +66,7 @@ public static class DtoExtensions {
         };
     }
 
-    public static PlayerShopEntity ToEntity(this PlayerShopDto dto) {
+    public static PlayerShopEntity ToEntity(this PlayerShopDetailsDto dto) {
         return new PlayerShopEntity {
             id = dto.id,
             wallHealthCost = dto.wallHealthCost,

@@ -1,11 +1,23 @@
 using System;
 
 [Serializable]
-public class EnemyWaveDto
+public class EnemyWaveDto : SeedDto
 {
-    public string id { get; set; }
-    public int round { get; set; }
-    public int spawnLimit { get; set; }
-    public int spawnTotal { get; set; }
-    public int enemiesKilled { get; set; }
+    public string id;
+    public int round;
+    public int spawnLimit;
+    public int spawnTotal;
+    public int enemiesKilled;
+
+    public SeedEntity toEntity()    
+    {
+        return new EnemyWaveEntity
+        {
+            id = id,
+            round = round,
+            spawnLimit = spawnLimit,
+            spawnTotal = spawnTotal,
+            enemiesKilled = enemiesKilled
+        };
+    }
 }

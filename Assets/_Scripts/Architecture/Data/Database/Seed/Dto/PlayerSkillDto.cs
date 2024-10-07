@@ -1,16 +1,33 @@
 using System;
 
 [Serializable]
-public class PlayerSkillDto
+public class PlayerSkillDto : SeedDto
 {
-    public string id { get; set; }
-    public bool isUnlocked { get; set; }
-    public int unlockLevel { get; set; }
-    public int level { get; set; }
-    public int duration { get; set; }
-    public int coolDown { get; set; }
-    public int buff { get; set; }
-    public int unlockCost { get; set; }
-    public int upgradeCost { get; set; }
-    public bool isActive { get; set; }
+    public string id;
+    public bool isUnlocked;
+    public int unlockLevel;
+    public int level;
+    public int duration;
+    public int coolDown;
+    public int buff;
+    public int unlockCost;
+    public int upgradeCost;
+    public bool isActive;
+
+    public SeedEntity toEntity()
+    {
+        return new PlayerSkillEntity
+        {
+            id = id,
+            isUnlocked = isUnlocked,
+            unlockLevel = unlockLevel,
+            level = level,
+            duration = duration,
+            coolDown = coolDown,
+            buff = buff,
+            unlockCost = unlockCost,
+            upgradeCost = upgradeCost,
+            isActive = isActive
+        };
+    }
 }

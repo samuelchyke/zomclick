@@ -1,18 +1,37 @@
 using System;
 
 [Serializable]
-public class AllyStatsDto
+public class AllyStatsDto : SeedDto
 {
-    public string id { get; set; }
-    public string name { get; set; }
-    public int level { get; set; }
-    public int attackSpeed { get; set; }
-    public int baseDamage { get; set; }
-    public int critRate { get; set; }
-    public float critMultiplier { get; set; }
-    public int totalDamage { get; set; }
-    public int unlockCost { get; set; }
-    public int upgradeCost { get; set; }
-    public bool isUnlocked { get; set; }
-    public string lore { get; set; }
+    public string id;
+    public string name;
+    public int level;
+    public int attackSpeed;
+    public int baseDamage;
+    public int critRate;
+    public float critMultiplier;
+    public int totalDamage;
+    public int unlockCost;
+    public int upgradeCost;
+    public bool isUnlocked;
+    public string lore;
+
+    public SeedEntity toEntity()
+    {
+        return new AllyStatsEntity
+        {
+            id = id,
+            name = name,
+            level = level,  
+            attackSpeed = attackSpeed,
+            baseDamage = baseDamage,
+            critRate = critRate,
+            critMultiplier = critMultiplier,
+            totalDamage = totalDamage,
+            unlockCost = unlockCost,
+            upgradeCost = upgradeCost,
+            isUnlocked = isUnlocked,
+            lore = lore
+        };
+    }
 }

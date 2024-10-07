@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SQLite4Unity3d;
+using Debug = UnityEngine.Debug;
 
 public interface ISeedDao
 {
@@ -33,7 +34,7 @@ public class SeedDaoImpl : ISeedDao
         }
         catch (Exception ex)
         {
-            UnityEngine.Debug.LogError($"Error executing raw query: {ex.Message}");
+            Debug.LogError($"Error executing raw query: {ex.Message}");
             return null;
         }
     }
@@ -45,7 +46,7 @@ public class SeedDaoImpl : ISeedDao
         return (incomingDataVersion ?? -1) > (currentVersion ?? -1);
     }
 
-    // Retrieves the current data version from the database (assumes there's a metadata table with dataVersion)
+    // Retrieves the current data version from the database
     public int? DataVersionOnDevice()
     {
         try
@@ -55,7 +56,7 @@ public class SeedDaoImpl : ISeedDao
         }
         catch (Exception ex)
         {
-            UnityEngine.Debug.LogError($"Error retrieving data version: {ex.Message}");
+            Debug.LogError($"Error retrieving data version: {ex.Message}");
             return null;
         }
     }
@@ -65,22 +66,40 @@ public class SeedDaoImpl : ISeedDao
     {
         var tables = new List<(string, List<SeedEntity>)>();
 
-        // Using GetCustomAttributes to retrieve custom attributes
-        foreach (var prop in typeof(ParsedDump).GetProperties())
+        var fields = typeof(ParsedDump).GetFields();
+        if (!fields.Any())
         {
-            // Retrieve all custom attributes of type SerialNameAttribute
-            var attribute = (SerialNameAttribute)prop.GetCustomAttributes(typeof(SerialNameAttribute), false)
-                .FirstOrDefault();
+            Debug.LogError("ParsedDump has no fields.");
+            // return tables;
+        }
 
-            if (attribute != null)
+        foreach (var field in fields)
+        {
+            var value = field.GetValue(parsedDump.data);
+
+            switch (value)
             {
-                var tableName = attribute.Value;
-                var entities = (List<SeedEntity>)prop.GetValue(parsedDump.data);
-                tables.Add((tableName, entities));
+                // Handle collections
+                case IEnumerable<SeedDto> seedDtos when seedDtos.Any():
+                    tables.Add((seedDtos.First().toEntity().tableName, seedDtos.toEntities()));
+                    break;
+
+                // Handle single objects
+                case SeedDto singleSeedDto:
+                    tables.Add((singleSeedDto.toEntity().tableName, new List<SeedEntity> { singleSeedDto.toEntity() }));
+                    break;
+
+                default:
+                    Debug.LogError($"Field {field.Name} could not be processed.");
+                    break;
             }
         }
 
-        tables.Add((MetadataEntity.TableName, new List<SeedEntity> { parsedDump.metadata.ToEntity() }));
+        // Add metadata if present
+        if (parsedDump.metadata != null)
+        {
+            tables.Add((MetadataEntity.TableName, new List<SeedEntity> { parsedDump.metadata.ToEntity() }));
+        }
 
         return tables;
     }

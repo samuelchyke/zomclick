@@ -1,12 +1,25 @@
 using System;
 
 [Serializable]
-public class EnemyStatsDto
+public class EnemyStatsDto : SeedDto
 {
-    public string id { get; set; }
-    public int totalHealth { get; set; }
-    public int damage { get; set; }
-    public int attackSpeed { get; set; }
-    public float movementSpeed { get; set; }
-    public int goldDropAmount { get; set; }
+    public string id;
+    public int totalHealth;
+    public int damage;
+    public int attackSpeed;
+    public float movementSpeed;
+    public int goldDropAmount;
+
+    public SeedEntity toEntity()
+    {
+        return new EnemyStatsEntity
+        {
+            id = id,
+            totalHealth = totalHealth,
+            damage = damage,
+            attackSpeed = attackSpeed,
+            movementSpeed = movementSpeed,
+            goldDropAmount = goldDropAmount
+        };
+    }
 }

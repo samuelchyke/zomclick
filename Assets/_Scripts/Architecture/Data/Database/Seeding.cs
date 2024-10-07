@@ -2,32 +2,81 @@ using SQLite4Unity3d;
 using System;
 using System.Collections.Generic;
 using Debug = UnityEngine.Debug;
+using UnityEngine;
+using System.IO;
 
 public class Seeding
 {
     private readonly SQLiteConnection dbConnection;
+    private readonly ISeedDao seedDao;
     
     public Seeding(SQLiteConnection dbConnection)
     {
         this.dbConnection = dbConnection;
+        seedDao = new SeedDaoImpl(dbConnection);  // Initialize SeedDaoImpl
     }
 
     public void SeedDatabase(bool seedDb)
     {
         if (!seedDb) return;
+
+        string jsonFilePath = Path.Combine(Application.streamingAssetsPath, "dump.json");
+
+        Debug.Log("Loading JSON from: " + jsonFilePath);
+
+        string jsonContent = File.ReadAllText(jsonFilePath);
+
+        if (File.Exists(jsonFilePath))
+        {
+            Debug.Log("JSON Content: " + jsonContent);
+        }
+        else
+        {
+            Debug.LogError("JSON file not found: " + jsonFilePath);
+            return;
+        }
+
+        ParsedDataDump parsedData = JsonUtility.FromJson<ParsedDataDump>(jsonContent);
+
+        if (parsedData == null)
+        {
+            Debug.LogError("ParsedData is null. JSON may be malformed or not matching the DTO structure.");
+        }
+
+        if (parsedData?.metadata == null)
+        {
+            Debug.LogError("Data inside Metadata is null.");
+        }
+
+        if (parsedData?.data == null)
+        {
+            Debug.LogError("Data inside ParsedData is null.");
+        }
+
+        if (parsedData?.data?.playerStats == null)
+        {
+            Debug.LogError("PlayerStats is null inside ParsedData.");
+        }
         
+        // Debug.LogError(parsedData.data.playerStats.id);
+
         dbConnection.RunInTransaction(() =>
         {
             try
             {
-                SeedPlayerStats();
-                SeedPlayerSkills();
-                SeedShopDetails();
-                SeedEnemyStats();
-                SeedEnemyWaves();
-                SeedBossStats();
-                SeedAllyStats();
-                SeedAllySkills();
+                // Use the SeedDaoImpl to build entities and seed them
+                var entitiesToSeed = seedDao.BuildEntitiesList(parsedData);
+
+                foreach (var (tableName, entities) in entitiesToSeed)
+                {
+                    Debug.Log($"Seeding table: {tableName} with {entities.Count} entities.");
+                    foreach (var entity in entities)
+                    {
+                        dbConnection.InsertOrReplace(entity);
+                    }
+                }
+
+                Debug.Log("Seeding completed successfully.");
             }
             catch (Exception ex)
             {
@@ -38,312 +87,52 @@ public class Seeding
         });
     }
 
-    private void SeedPlayerStats()
+    private void SeedPlayerStats(PlayerStatsDto playerStats)
     {
-        var playerStats = new PlayerStatsEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            level = 1,
-            baseDamage = 1,
-            critRate = 1,
-            critMultiplier = 1,
-            totalDamage = 1,
-            totalGold = 5000
-        };
-        
-        dbConnection.InsertOrReplace(playerStats);
+        dbConnection.InsertOrReplace(playerStats.ToEntity());
     }
 
-    private void SeedPlayerSkills()
+    private void SeedPlayerSkills(List<PlayerSkillDto> playerSkills)
     {
-        var playerSkills = new List<PlayerSkillEntity>
+        foreach (var skill in playerSkills)
         {
-            new PlayerSkillEntity {
-                id = "big_betty_id",
-                isUnlocked = false,
-                unlockLevel = 10,
-                level = 1,
-                duration = 10,
-                coolDown = 30,
-                buff = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
-                isActive = false
-            },
-            new PlayerSkillEntity {
-                id = "turret_id",
-                isUnlocked = false,
-                unlockLevel = 10,
-                level = 1,
-                duration = 10,
-                coolDown = 30,
-                buff = 10,
-                unlockCost = 200,
-                upgradeCost = 10,
-                isActive = false
-            },
-            new PlayerSkillEntity {
-                id = "lightning_rounds_id",
-                isUnlocked = false,
-                unlockLevel = 10,
-                level = 1,
-                duration = 10,
-                coolDown = 30,
-                buff = 10,
-                unlockCost = 300,
-                upgradeCost = 10,
-                isActive = false
-            },
-            new PlayerSkillEntity {
-                id = "rally_allies_id",
-                isUnlocked = false,
-                unlockLevel = 10,
-                level = 1,
-                duration = 10,
-                coolDown = 30,
-                buff = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
-                isActive = false
-            },
-            new PlayerSkillEntity {
-                id = "incendiary_rounds_id",
-                isUnlocked = false,
-                unlockLevel = 10,
-                level = 1,
-                duration = 10,
-                coolDown = 30,
-                buff = 10,
-                unlockCost = 200,
-                upgradeCost = 10,
-                isActive = false
-            },
-            new PlayerSkillEntity {
-                id = "midas_rounds_id",
-                isUnlocked = false,
-                unlockLevel = 10,
-                level = 1,
-                duration = 10,
-                coolDown = 30,
-                buff = 10,
-                unlockCost = 300,
-                upgradeCost = 10,
-                isActive = false
-            }
-        };
-        
-        foreach (var playerSkill in playerSkills)
-        {
-            dbConnection.InsertOrReplace(playerSkill);
+            dbConnection.InsertOrReplace(skill.ToEntity());
         }
     }
 
-
-    private void SeedShopDetails()
+    private void SeedShopDetails(PlayerShopDetailsDto shopDetails)
     {
-        var shopDetails = new PlayerShopEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            wallHealthCost = 10,
-            damageCost = 10,
-            critRateCost = 10,
-            critDamageCost = 10
-        };
-        
-        dbConnection.InsertOrReplace(shopDetails);
+        dbConnection.InsertOrReplace(shopDetails.ToEntity());
     }
 
-    private void SeedEnemyStats()
+    private void SeedEnemyStats(EnemyStatsDto enemyStats)
     {
-        var enemyStats = new EnemyStatsEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            totalHealth = 2,
-            damage = 1,
-            attackSpeed = 1,
-            movementSpeed = 1,
-            goldDropAmount = 10
-        };
-        
-        dbConnection.InsertOrReplace(enemyStats);
+        dbConnection.InsertOrReplace(enemyStats.ToEntity());
     }
 
-    private void SeedEnemyWaves()
+    private void SeedEnemyWaves(EnemyWaveDto enemyWave)
     {
-        var enemyWave = new EnemyWaveEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            round = 1,
-            spawnLimit = 3,
-            spawnTotal = 0,
-            enemiesKilled = 0
-        };
-        
-        dbConnection.InsertOrReplace(enemyWave);
-    }
-    
-    private void SeedBossStats()
-    {
-        var bossStats = new BossStatsEntity
-        {
-            id = Guid.NewGuid().ToString(),
-            totalHealth = 100,
-            damage = 1,
-            attackSpeed = 1,
-            movementSpeed = 1,
-            goldDropAmount = 100
-        };
-        
-        dbConnection.InsertOrReplace(bossStats);
+        dbConnection.InsertOrReplace(enemyWave.ToEntity());
     }
 
-    private void SeedAllyStats()
+    private void SeedBossStats(BossStatsDto bossStats)
     {
-        var allyStats = new List<AllyStatsEntity>
-        {
-            new AllyStatsEntity
-            {
-                id = "john_id",
-                name = "John",
-                attackSpeed = 15,
-                level = 1,
-                baseDamage = 10,
-                critRate = 5,
-                critMultiplier = 1.5f,
-                totalDamage = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
-                isUnlocked = false,
-                lore = "John the gunslinger came from texas"
-            },
-            new AllyStatsEntity
-            {
-                id = "doe_id",
-                name = "Doe",
-                level = 1,
-                attackSpeed = 12,
-                baseDamage = 15,
-                critRate = 10,
-                critMultiplier = 1.2f,
-                totalDamage = 15,
-                unlockCost = 200,
-                upgradeCost = 10,
-                isUnlocked = false,
-                lore = "Johns partner in crime"
-            },
-            new AllyStatsEntity
-            {
-                id = "rod_id",
-                name = "Rod",
-                attackSpeed = 15,
-                level = 1,
-                baseDamage = 10,
-                critRate = 5,
-                critMultiplier = 1.5f,
-                totalDamage = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
-                isUnlocked = false,
-                lore = "John the gunslinger came from texas"
-            },
-            new AllyStatsEntity
-            {
-                id = "don_id",
-                name = "Don",
-                level = 1,
-                attackSpeed = 12,
-                baseDamage = 15,
-                critRate = 10,
-                critMultiplier = 1.2f,
-                totalDamage = 15,
-                unlockCost = 200,
-                upgradeCost = 10,
-                isUnlocked = false,
-                lore = "Johns partner in crime"
-            },
-            new AllyStatsEntity
-            {
-                id = "joe_id",
-                name = "Joe",
-                attackSpeed = 15,
-                level = 1,
-                baseDamage = 10,
-                critRate = 5,
-                critMultiplier = 1.5f,
-                totalDamage = 10,
-                unlockCost = 100,
-                upgradeCost = 10,
-                isUnlocked = false,
-                lore = "John the gunslinger came from texas"
-            },
-            new AllyStatsEntity
-            {
-                id = "doen_id",
-                name = "Doen",
-                level = 1,
-                attackSpeed = 12,
-                baseDamage = 15,
-                critRate = 10,
-                critMultiplier = 1.2f,
-                totalDamage = 15,
-                unlockCost = 200,
-                upgradeCost = 10,
-                isUnlocked = false,
-                lore = "Johns partner in crime"
-            }
-        };
-        
+        dbConnection.InsertOrReplace(bossStats.ToEntity());
+    }
+
+    private void SeedAllyStats(List<AllyStatsDto> allyStats)
+    {
         foreach (var ally in allyStats)
         {
-            dbConnection.InsertOrReplace(ally);
+            dbConnection.InsertOrReplace(ally.ToEntity());
         }
     }
 
-    private void SeedAllySkills()
+    private void SeedAllySkills(List<AllySkillDto> allySkills)
     {
-        var allySkills = new List<AllySkillEntity>
+        foreach (var skill in allySkills)
         {
-            new AllySkillEntity
-            {
-                id = Guid.NewGuid().ToString(),
-                allyId = "john_id",
-                isUnlocked = false,
-                description = "Unlock John Unlimited Power",
-                unlockLevel = 10,
-                buff = 10
-            },
-            new AllySkillEntity
-            {
-                id = Guid.NewGuid().ToString(),
-                allyId = "john_id",
-                isUnlocked = false,
-                description = "Unlock John Unlimited Power 2",
-                unlockLevel = 25,
-                buff = 10
-            },
-            new AllySkillEntity
-            {
-                id = Guid.NewGuid().ToString(),
-                allyId = "doe_id",
-                isUnlocked = false,
-                description = "Unlock Doe Unlimited Power",
-                unlockLevel = 10,
-                buff = 10
-            },
-            new AllySkillEntity
-            {
-                id = Guid.NewGuid().ToString(),
-                allyId = "doe_id",
-                isUnlocked = false,
-                description = "Unlock Doe Unlimited Power 2",
-                unlockLevel = 25,
-                buff = 10
-            }
-        };
-        
-        foreach (var allySkill in allySkills)
-        {
-            dbConnection.InsertOrReplace(allySkill);
+            dbConnection.InsertOrReplace(skill.ToEntity());
         }
     }
 }

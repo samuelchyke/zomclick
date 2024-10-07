@@ -1,12 +1,24 @@
 using System;
 
 [Serializable]
-public class AllySkillDto
+public class AllySkillDto : SeedDto
 {
-    public string id { get; set; }
-    public string allyId { get; set; }
-    public bool isUnlocked { get; set; }
-    public string description { get; set; }
-    public int unlockLevel { get; set; }
-    public int buff { get; set; }
+    public string id;
+    public string allyId;
+    public bool isUnlocked;
+    public string description;
+    public int unlockLevel;
+    public int buff;
+
+    public SeedEntity toEntity()
+    {
+        return new AllySkillEntity {
+            id = id,
+            allyId = allyId,
+            isUnlocked = isUnlocked,
+            description = description,
+            unlockLevel = unlockLevel,
+            buff = buff
+        };
+    }
 }

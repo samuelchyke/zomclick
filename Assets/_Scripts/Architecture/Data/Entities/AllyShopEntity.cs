@@ -4,6 +4,8 @@ using System.Reflection;
 
 public class AllyShopEntity : SeedEntity
 {
+    public const string TableName = "allyShopDetails";
+
     [PrimaryKey]
     public string id { get; set; }
     public int totalGold { get; set; }
@@ -11,7 +13,7 @@ public class AllyShopEntity : SeedEntity
 
     public AllyShopEntity()
     {
-        tableName = "allyShopDetails";
+        tableName = TableName;
     }
 
     public override List<PropertyInfo> Keys => new List<PropertyInfo>

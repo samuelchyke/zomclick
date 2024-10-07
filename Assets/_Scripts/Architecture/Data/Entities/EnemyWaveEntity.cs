@@ -4,7 +4,7 @@ using System.Reflection;
 
 public class EnemyWaveEntity : SeedEntity
 {
-    public const string TableName = "enemyWave";
+    public const string TableName = "enemyWaves";
 
     [PrimaryKey]
     public string id { get; set; }
