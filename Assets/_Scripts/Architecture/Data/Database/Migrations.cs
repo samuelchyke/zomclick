@@ -17,8 +17,8 @@ public class Migrations {
     public void ApplyMigrations(bool  applyMigrations)
     {
         if(!applyMigrations) return;
-        var dbVersionInfo = dbConnection.Table<DatabaseVersionEntity>().FirstOrDefault();
-        int dbVersion = dbVersionInfo != null ? dbVersionInfo.version : 1;
+        var dbVersionInfo = dbConnection.Table<MetadataEntity>().FirstOrDefault();
+        int dbVersion = dbVersionInfo != null ? dbVersionInfo.dataVersion : 1;
 
         while (dbVersion < currentDbVersion) 
         {
@@ -34,8 +34,8 @@ public class Migrations {
             }
 
             // After migration, update currentVersion to reflect the new database version
-            dbVersionInfo = dbConnection.Table<DatabaseVersionEntity>().FirstOrDefault();
-            dbVersion = dbVersionInfo != null ? dbVersionInfo.version : 0;
+            dbVersionInfo = dbConnection.Table<MetadataEntity>().FirstOrDefault();
+            dbVersion = dbVersionInfo != null ? dbVersionInfo.dataVersion : 0;
         }
     }
 

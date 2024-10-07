@@ -1,9 +1,24 @@
 using Zenject;
+using SQLite4Unity3d;
 
 public class DaoModule : Installer<DaoModule>
 {
     public override void InstallBindings()
     {
+        // Container.BindInterfacesAndSelfTo<SeedDaoImpl>().FromMethod( ctx =>
+        // {
+        //     return new SeedDaoImpl(
+        //         db: ctx.Container.Resolve<DatabaseManager>()
+        //     );
+        // }).AsSingle().NonLazy();
+
+        // Container.BindInterfacesAndSelfTo<ISeedEntityUpdater>().FromMethod( ctx =>
+        // {
+        //     return new SeedEntityUpdaterImpl(
+        //         database: ctx.Container.Resolve<SQLiteConnection>()
+        //     );
+        // }).AsSingle().NonLazy();
+
         Container.BindInterfacesAndSelfTo<PlayerDaoImpl>().FromMethod( ctx =>
         {
             return new PlayerDaoImpl(

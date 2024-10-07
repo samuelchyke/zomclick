@@ -13,6 +13,8 @@ public interface IPlayerDao
 
     Task UpdatePlayerStats(PlayerStatsEntity playerStats);
     Task UpdatePlayerSkill(PlayerSkillEntity playerSkillEntity);
+
+    Task IncreasePlayerGold(int goldToAdd);
 }
 
 public class PlayerDaoImpl : IPlayerDao, IInitializable
@@ -65,5 +67,47 @@ public class PlayerDaoImpl : IPlayerDao, IInitializable
     public Task UpdatePlayerSkill(PlayerSkillEntity playerSkillEntity)
     {
         return Task.Run(() => _db.Update(playerSkillEntity));
+    }
+
+    public Task IncreasePlayerGold(int goldToAdd)
+    {
+        return Task.Run(() => 
+        {
+            // SQL query to update totalGold directly in the PlayerStatsEntity table
+            // string query = @"
+            //                 UPDATE PlayerStatsEntity
+            //                 SET totalGold = totalGold + ?
+            //                 WHERE id = (
+            //                     SELECT id
+            //                     FROM PlayerStatsEntity
+            //                     LIMIT 1
+            //                 )";
+        
+            // Execute the SQL query
+            _db.Execute(
+                $@"
+                    UPDATE PlayerStatsEntity
+                    SET totalGold = totalGold + {goldToAdd}
+                    WHERE id = (
+                        SELECT id
+                        FROM PlayerStatsEntity
+                        LIMIT 1
+                    )"
+            );
+
+//             string query = @"
+//     UPDATE PlayerStatsEntity
+//     SET totalGold = totalGold + ?
+//     WHERE id = (
+//         SELECT id
+//         FROM PlayerStatsEntity
+//         LIMIT 1
+//     )";
+
+// _db.Execute(query, goldToAdd);
+
+            // Optionally return the updated PlayerStatsEntity
+            // return playerStats;
+        });
     }
 }

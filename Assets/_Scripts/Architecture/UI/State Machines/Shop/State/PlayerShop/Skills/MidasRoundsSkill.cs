@@ -20,7 +20,18 @@ public class MidasRoundsSkill : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
+    }
+
+    private void UnlockSkill(string playerSkillId)
+    {
+        var midasRounds = playerSkillsViewModel.midasRounds.CurrentValue;
+        if(midasRounds.id == playerSkillId)
+        {
+            midasShotSprite.SetActive(true);
+            midasRoundsButton.gameObject.SetActive(true);
+            midasRoundsButton.onClick.AddListener(() => OnSkillClicked(midasRounds.coolDown));
+        }
     }
 
     private void UpdateUI()
@@ -72,6 +83,6 @@ public class MidasRoundsSkill : MonoBehaviour
 
     void OnDisable()
     {
-        eventsManager.StopListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
     }
 }

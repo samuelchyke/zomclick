@@ -23,7 +23,18 @@ public class LightingRoundsSkill : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
+    }
+
+    private void UnlockSkill(string playerSkillId)
+    {
+        var lightningRounds = playerSkillsViewModel.lightningRounds.CurrentValue;
+        if (lightningRounds.id == playerSkillId)
+        {
+            lightingRoundsSprite.SetActive(true);
+            lightingRoundsButton.gameObject.SetActive(true);
+            lightingRoundsButton.onClick.AddListener(() => OnSkillClicked(lightningRounds.coolDown));
+        }
     }
 
     private void UpdateUI()
@@ -77,6 +88,6 @@ public class LightingRoundsSkill : MonoBehaviour
 
     void OnDisable()
     {
-        eventsManager.StopListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
     }
 }

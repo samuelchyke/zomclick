@@ -20,7 +20,22 @@ public class IncendiaryRoundsSkill : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
+    }
+
+
+    private void UnlockSkill(string playerSkillId)
+    {
+        var incendiaryRounds = playerSkillsViewModel.incendiaryRounds.CurrentValue;
+        Debug.Log("incendiaryRounds.id: " + incendiaryRounds.id);
+        Debug.Log("playerSkillId: " + playerSkillId);
+        // incendiaryRounds.id == playerSkillId;
+        if(incendiaryRounds.id == playerSkillId)
+        {
+            incendiaryRoundsSprite.SetActive(true);
+            incendiaryRoundsButton.gameObject.SetActive(true);
+            incendiaryRoundsButton.onClick.AddListener(() => OnSkillClicked(incendiaryRounds.coolDown));
+        }
     }
 
     private void UpdateUI()
@@ -74,6 +89,6 @@ public class IncendiaryRoundsSkill : MonoBehaviour
 
     void OnDisable()
     {
-        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UnlockSkill);
     }
 }

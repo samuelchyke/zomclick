@@ -138,6 +138,7 @@ public class Seeding
         }
     }
 
+
     private void SeedShopDetails()
     {
         var shopDetails = new PlayerShopEntity

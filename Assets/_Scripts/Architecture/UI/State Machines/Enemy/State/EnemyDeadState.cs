@@ -4,7 +4,7 @@ public class EnemyDeadState : EnemyBaseState
 {
     public override void EnterState(EnemyStateManager enemyContext)
     {
-        // Debug.Log($"Enemy {enemyContext.GetInstanceID()} OnDeath called at time {Time.time}");
+        Debug.Log($"Enemy {enemyContext.GetInstanceID()} OnDeath called at time {Time.time}");
         enemyContext.enemyViewModel.OnDeath();
         Object.Destroy(enemyContext.gameObject);
     }

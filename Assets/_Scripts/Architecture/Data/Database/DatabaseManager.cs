@@ -47,7 +47,7 @@ public class DatabaseManager : IInitializable
     void SetDb(bool setDb)
     {
         if (!setDb) return; 
-        dbConnection.CreateTable<DatabaseVersionEntity>();
+        dbConnection.CreateTable<MetadataEntity>();
         dbConnection.CreateTable<PlayerStatsEntity>();
         dbConnection.CreateTable<PlayerSkillEntity>();
         dbConnection.CreateTable<EnemyStatsEntity>();
@@ -75,7 +75,7 @@ public class DatabaseManager : IInitializable
     void ResetDb(bool resetDb)
     {
         if (!resetDb) return; 
-        dbConnection.DropTable<DatabaseVersionEntity>();
+        dbConnection.DropTable<MetadataEntity>();
         dbConnection.DropTable<PlayerStatsEntity>();
         dbConnection.DropTable<PlayerSkillEntity>();
         dbConnection.DropTable<PlayerShopEntity>();

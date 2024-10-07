@@ -90,6 +90,7 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
         UpdatePlayerSkills();
         UpdateShopDetails();
         eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_SKILL, playerSkillId);
+        eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, playerSkillId);
     }
 
     public async void UpgradePlayerSkill(string playerSkillId)
@@ -97,6 +98,7 @@ public class PlayerShopViewModelImpl : IPlayerShopViewModel, IInitializable, IDi
         await upgradePlayerSkillUseCase.Invoke(playerSkillId);
         UpdatePlayerSkills();
         UpdateShopDetails();
+        eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_SKILL, playerSkillId);
     }
 
     async void UpdatePlayerSkills()

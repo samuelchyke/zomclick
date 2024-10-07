@@ -102,9 +102,7 @@ public class EnemyRepositoryImpl : IEnemyRepository, IInitializable
 
     async Task IncrementPlayerGold()
     {
-        var playerStats = await playerStatsDao.ReadPlayerStats();
         var enemyStats = await enemyDao.ReadEnemyEntity();
-        playerStats.totalGold += enemyStats.goldDropAmount;
-        await playerStatsDao.UpdatePlayerStats(playerStats);
+        await playerStatsDao.IncreasePlayerGold(enemyStats.goldDropAmount);
     }
 }

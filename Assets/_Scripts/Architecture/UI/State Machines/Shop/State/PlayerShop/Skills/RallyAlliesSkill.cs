@@ -21,7 +21,18 @@ public class RallyAlliesSkill : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
+    }
+
+    private void UnlockSkill(string playerSkillId)
+    {
+        var rallyAllies = playerSkillsViewModel.rallyAllies.CurrentValue;
+        if(rallyAllies.id == playerSkillId)
+        {
+            rallyAlliesSprite.SetActive(true);
+            rallyAlliesButton.gameObject.SetActive(true);
+            rallyAlliesButton.onClick.AddListener(() => OnSkillClicked(rallyAllies.coolDown));
+        }
     }
 
     private void UpdateUI()
@@ -66,6 +77,6 @@ public class RallyAlliesSkill : MonoBehaviour
 
     void OnDisable()
     {
-        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StopListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
     }
 }

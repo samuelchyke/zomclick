@@ -56,6 +56,7 @@ public static class GameEvent {
         public const string UPDATE_SHOP_DETAILS = eventId + "UPDATE_SHOP_DETAILS";
         public const string UPDATE_PLAYER_STATS = eventId + "UPDATE_PLAYER_STATS";
         public const string UPDATE_PLAYER_SKILL = eventId + "UPDATE_PLAYER_SKILL";
+        public const string UNLOCK_PLAYER_SKILL = eventId + "UNLOCK_PLAYER_SKILL";
         public const string UPDATE_TEXT = eventId + "UPDATE_TEXT";
     }
 

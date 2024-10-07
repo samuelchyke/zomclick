@@ -28,7 +28,18 @@ public class TurretSkill : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
+    }
+
+     private void UnlockSkill(string playerSkillId)
+    {
+        turret = playerSkillsViewModel.turret.CurrentValue;
+        if(turret.id == playerSkillId) 
+        {
+            turretSprite.SetActive(true);
+            turretButton.gameObject.SetActive(true);
+            turretButton.onClick.AddListener(() => OnSkillClicked(turret.coolDown));
+        }
     }
 
     private void UpdateUI()

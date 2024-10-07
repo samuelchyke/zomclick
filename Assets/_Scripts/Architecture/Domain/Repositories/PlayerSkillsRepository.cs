@@ -44,12 +44,18 @@ public class PlayerSkillsRepositoryImpl : IPlayerSkillsRepository, IInitializabl
     {
         var entities = await playerStatsDao.ReadPlayerSkills();
 
-        var turret = entities.Find(skill => skill.id == "turret_id");
-        var bigBetty = entities.Find(skill => skill.id == "big_betty_id");
-        var lightningRounds = entities.Find(skill => skill.id == "lightning_rounds_id");
-        var rallyAllies = entities.Find(skill => skill.id == "rally_allies_id");
-        var incendiaryRounds = entities.Find(skill => skill.id == "incendiary_rounds_id");
-        var midasRounds = entities.Find(skill => skill.id == "midas_rounds_id");
+        var turret = entities.Find(skill => skill.id == Skill.Turret.id());
+        Debug.Log("Shop Repository - ReadPlayerSkills - Turret: " + turret.id);
+        var bigBetty = entities.Find(skill => skill.id == Skill.BigBetty.id());
+        Debug.Log("Shop Repository - ReadPlayerSkills - BigBetty: " + bigBetty.id);
+        var lightningRounds = entities.Find(skill => skill.id == Skill.LightningRounds.id());
+        Debug.Log("Shop Repository - ReadPlayerSkills - LightningRounds: " + lightningRounds.id);
+        var rallyAllies = entities.Find(skill => skill.id == Skill.RallyAllies.id());
+        Debug.Log("Shop Repository - ReadPlayerSkills - RallyAllies: " + rallyAllies.id);
+        var incendiaryRounds = entities.Find(skill => skill.id == Skill.IncendiaryRounds.id());
+        Debug.Log("Shop Repository - ReadPlayerSkills - IncendiaryRounds: " + incendiaryRounds.id);
+        var midasRounds = entities.Find(skill => skill.id == Skill.MidasRounds.id());
+        Debug.Log("Shop Repository - ReadPlayerSkills - MidasRounds: " + midasRounds.id);
 
         return new PlayerSkillsBuilder().buildFrom(
             turret: turret, 
@@ -72,8 +78,6 @@ public class PlayerSkillsRepositoryImpl : IPlayerSkillsRepository, IInitializabl
     public async Task IncreasePlayerGold()
     {
         var midasRounds = await playerStatsDao.ReadPlayerSkill("midas_rounds_id");
-        var playerStats = await playerStatsDao.ReadPlayerStats();
-        playerStats.totalGold += midasRounds.buff;
-        await playerStatsDao.UpdatePlayerStats(playerStats);
+        await playerStatsDao.IncreasePlayerGold(midasRounds.buff);
     }
 }

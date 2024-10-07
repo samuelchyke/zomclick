@@ -1,7 +1,11 @@
 using SQLite4Unity3d;
+using System.Collections.Generic;
+using System.Reflection;
 
-public class AllyStatsEntity
+public class AllyStatsEntity : SeedEntity
 {
+    public const string TableName = "allyStats";
+
     [PrimaryKey]
     public string id { get; set; }
     public string name { get; set; }
@@ -15,4 +19,14 @@ public class AllyStatsEntity
     public int upgradeCost { get; set; }
     public bool isUnlocked { get; set; }
     public string lore { get; set; }
+
+    public AllyStatsEntity()
+    {
+        tableName = TableName;
+    }
+
+    public override List<PropertyInfo> Keys => new List<PropertyInfo>
+    {
+        GetType().GetProperty(nameof(id))
+    };
 }

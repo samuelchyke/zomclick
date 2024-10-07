@@ -24,24 +24,35 @@ public class BigBettySkill : MonoBehaviour
 
     void OnEnable() 
     {
-        eventsManager.StartListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
     }
 
-    private void UpdateUI()
+    private void UnlockSkill(string playerSkillId)
     {
         var bigBetty = playerSkillViewModel.bigBetty.CurrentValue;
-
-        playerSkillViewModel.bigBetty.Subscribe(bigBetty => 
+        if(bigBetty.id == playerSkillId)
         {
-            if(bigBetty.isUnlocked)
-            {
-                bigBettySprite.SetActive(true);
-                bigBettyButton.gameObject.SetActive(true);
-            }
-        });
-
-        bigBettyButton.onClick.AddListener(() => OnSkillClicked(bigBetty.coolDown));
+            bigBettySprite.SetActive(true);
+            bigBettyButton.gameObject.SetActive(true);
+            bigBettyButton.onClick.AddListener(() => OnSkillClicked(bigBetty.coolDown));
+        }
     }
+
+    // private void UpdateUI()
+    // {
+    //     var bigBetty = playerSkillViewModel.bigBetty;
+
+    //     bigBetty.Va.isUnlocked.Subscribe(bigBetty => 
+    //     {
+    //         if(bigBetty.isUnlocked)
+    //         {
+    //             bigBettySprite.SetActive(true);
+    //             bigBettyButton.gameObject.SetActive(true);
+    //         }
+    //     });
+
+    //     bigBettyButton.onClick.AddListener(() => OnSkillClicked(bigBetty.coolDown));
+    // }
 
     void OnSkillClicked(int cooldownTimer)
     {
@@ -61,6 +72,6 @@ public class BigBettySkill : MonoBehaviour
 
     void OnDisable()
     {
-        eventsManager.StopListening(GameEvent.PlayerSkillViewModelEvent.PLAYER_SKILL_VM_SETUP_COMPLETE, UpdateUI);
+        eventsManager.StartListening(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, UnlockSkill);
     }
 }

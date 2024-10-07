@@ -113,6 +113,31 @@ public class PlayerSkillsViewModelImpl : IPlayerSkillsViewModel, IInitializable,
         };
     }
 
+    // async void UnlockPlayerSkill(string playerSkillId)
+    // {
+    //     switch(playerSkillId) 
+    //     {
+    //         case "big_betty_id":
+    //             _bigBetty.Value = await readPlayerSkillUseCase.Invoke(playerSkillId);
+    //             break;
+    //         case "turret_id":
+    //             _turret.Value = await readPlayerSkillUseCase.Invoke(playerSkillId);
+    //             break;
+    //         case "lightning_rounds_id":
+    //             _lightningRounds.Value = await readPlayerSkillUseCase.Invoke(playerSkillId);
+    //             break;
+    //         case "rally_allies_id":
+    //             _rallyAllies.Value = await readPlayerSkillUseCase.Invoke(playerSkillId);
+    //             break;
+    //         case "incendiary_rounds_id":
+    //             _incendiaryRounds.Value = await readPlayerSkillUseCase.Invoke(playerSkillId);
+    //             break;
+    //         case "midas_rounds_id":
+    //             _midasRounds.Value = await readPlayerSkillUseCase.Invoke(playerSkillId);
+    //             break;
+    //     };
+    // }
+
     public void Dispose()
     {
         _disposables.Dispose();
