@@ -37,7 +37,7 @@ public class AllyDaoImpl : IAllyDao, IInitializable
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM AllyStatsEntity";
+            string query = $"SELECT * FROM allyStats";
             return _db.Query<AllyStatsEntity>(query);
         });
     }
@@ -46,7 +46,7 @@ public class AllyDaoImpl : IAllyDao, IInitializable
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM AllySkillEntity";
+            string query = $"SELECT * FROM allySkills";
             return _db.Query<AllySkillEntity>(query);
         });
     }
@@ -55,7 +55,7 @@ public class AllyDaoImpl : IAllyDao, IInitializable
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM AllySkillEntity WHERE allyId = ?";
+            string query = $"SELECT * FROM allySkills WHERE allyId = ?";
             return _db.Query<AllySkillEntity>(query, allyId);
         });
     }
@@ -64,7 +64,7 @@ public class AllyDaoImpl : IAllyDao, IInitializable
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM AllyStatsEntity WHERE id = ?";
+            string query = $"SELECT * FROM allySkills WHERE id = ?";
             return _db.Query<AllyStatsEntity>(query, allyId).First();
         });
     }

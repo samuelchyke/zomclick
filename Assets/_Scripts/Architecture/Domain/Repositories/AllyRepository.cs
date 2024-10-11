@@ -23,8 +23,7 @@ public class AllyRepositoryImpl : IAllyRepository, IInitializable
     public AllyRepositoryImpl(
         IAllyDao allyDao,
         IPlayerDao playerDao
-        )
-    {
+    ) {
         this.allyDao = allyDao;
         this.playerDao = playerDao;
     }

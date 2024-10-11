@@ -36,16 +36,22 @@ public class PlayerDaoImpl : IPlayerDao, IInitializable
  
     public Task<PlayerStatsEntity> ReadPlayerStats()
     {
-        var playerStats = _db.Table<PlayerStatsEntity>().First();
-        Debug.Log("Player Dao - Read Player Stats: " + playerStats.id);
-        return Task.Run(() => playerStats);
+        // var playerStats = _db.Table<PlayerStatsEntity>().First();
+        // Debug.Log("Player Dao - Read Player Stats: " + playerStats.id);
+        // return Task.Run(() => playerStats);
+
+        return Task.Run(() =>
+        {
+            string query = "SELECT * FROM playerStats LIMIT 1";
+            return _db.Query<PlayerStatsEntity>(query).First();
+        });
     }
 
     public Task<List<PlayerSkillEntity>> ReadPlayerSkills()
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM PlayerSkillEntity";
+            string query = $"SELECT * FROM playerSkills";
             return _db.Query<PlayerSkillEntity>(query);
         });
     }
@@ -54,7 +60,7 @@ public class PlayerDaoImpl : IPlayerDao, IInitializable
     {
         return Task.Run(() => 
         {
-            string query = $"SELECT * FROM PlayerSkillEntity WHERE id = ?";
+            string query = $"SELECT * FROM playerSkills WHERE id = ?";
             return _db.Query<PlayerSkillEntity>(query, playerSkillId).First();
         });
     }

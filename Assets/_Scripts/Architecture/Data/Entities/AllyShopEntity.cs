@@ -1,7 +1,10 @@
 using SQLite4Unity3d;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
+[SuppressMessage("Style", "IDE0002:Simplify name")]
+[Table(AllyShopEntity.TableName)]
 public class AllyShopEntity : SeedEntity
 {
     public const string TableName = "allyShopDetails";

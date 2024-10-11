@@ -18,11 +18,11 @@ public interface ISeedDao
 
 public class SeedDaoImpl : ISeedDao
 {
-    private readonly SQLiteConnection _db;
-
-    public SeedDaoImpl(SQLiteConnection db)
+    private readonly SQLiteConnection database;
+    
+    public SeedDaoImpl(SQLiteConnection database)
     {
-        _db = db;
+        this.database = database;
     }
 
     // Executes a raw SQL query and returns the number of rows affected
@@ -30,7 +30,7 @@ public class SeedDaoImpl : ISeedDao
     {
         try
         {
-            return _db.Execute(query);
+            return database.Execute(query);
         }
         catch (Exception ex)
         {
@@ -51,7 +51,7 @@ public class SeedDaoImpl : ISeedDao
     {
         try
         {
-            var result = _db.ExecuteScalar<int>("SELECT dataVersion FROM metadata");
+            var result = database.ExecuteScalar<int>("SELECT dataVersion FROM metadata");
             return result;
         }
         catch (Exception ex)
@@ -64,43 +64,24 @@ public class SeedDaoImpl : ISeedDao
     // Builds a list of entities from the parsed data dump and returns it as a list of table names and entities
     public List<(string, List<SeedEntity>)> BuildEntitiesList(ParsedDataDump parsedDump)
     {
-        var tables = new List<(string, List<SeedEntity>)>();
+        var tables = typeof(ParsedDump).GetFields()
+            .Select(field => field.GetValue(parsedDump.data))
+            .Select(value => value 
+                switch
+                {
+                    IEnumerable<SeedDto> seedDtos => 
+                        (seedDtos.First().toEntity().tableName, seedDtos.toEntities()),
 
-        var fields = typeof(ParsedDump).GetFields();
-        if (!fields.Any())
-        {
-            Debug.LogError("ParsedDump has no fields.");
-            // return tables;
-        }
+                    SeedDto seedDto => 
+                        (seedDto.toEntity().tableName, new List<SeedEntity> { seedDto.toEntity() }),
 
-        foreach (var field in fields)
-        {
-            var value = field.GetValue(parsedDump.data);
+                    _ => throw new InvalidOperationException("Unexpected value type.")
+                }
+            )
+            .ToList();
 
-            switch (value)
-            {
-                // Handle collections
-                case IEnumerable<SeedDto> seedDtos when seedDtos.Any():
-                    tables.Add((seedDtos.First().toEntity().tableName, seedDtos.toEntities()));
-                    break;
-
-                // Handle single objects
-                case SeedDto singleSeedDto:
-                    tables.Add((singleSeedDto.toEntity().tableName, new List<SeedEntity> { singleSeedDto.toEntity() }));
-                    break;
-
-                default:
-                    Debug.LogError($"Field {field.Name} could not be processed.");
-                    break;
-            }
-        }
-
-        // Add metadata if present
-        if (parsedDump.metadata != null)
-        {
-            tables.Add((MetadataEntity.TableName, new List<SeedEntity> { parsedDump.metadata.ToEntity() }));
-        }
-
+        tables.Add((MetadataEntity.TableName, new List<SeedEntity> { parsedDump.metadata.ToEntity() }));
+        
         return tables;
     }
 }

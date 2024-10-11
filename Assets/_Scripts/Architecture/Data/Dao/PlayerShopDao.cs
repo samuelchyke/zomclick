@@ -4,6 +4,7 @@ using SQLite4Unity3d;
 using Zenject;
 using Debug = UnityEngine.Debug;
 using R3;
+using System.Linq;
 
 public interface IPlayerShopDao 
 {
@@ -32,9 +33,11 @@ public class PlayerShopDaoImpl : IPlayerShopDao, IInitializable
 
     public Task<PlayerShopEntity> ReadShopDetails()
     {
-        var shopEntity = _db.Table<PlayerShopEntity>().First();
-        Debug.Log("Shop Dao - Read Shop Details: " + shopEntity.id);
-        return Task.Run(() => shopEntity);
+        return Task.Run(() =>
+        {
+            string query = "SELECT * FROM playerShopDetails LIMIT 1";
+            return _db.Query<PlayerShopEntity>(query).First();
+        });
     }
 
     public Task UpdateShopDetails(PlayerShopEntity shopEntity)

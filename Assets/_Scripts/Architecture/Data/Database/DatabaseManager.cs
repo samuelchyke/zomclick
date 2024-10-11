@@ -17,9 +17,6 @@ public class DatabaseManager : IInitializable
 
     public void InitializeDatabase()
     {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-
         string folderPath = Path.GetDirectoryName(Application.persistentDataPath);
         if (!Directory.Exists(folderPath))
         {
@@ -32,15 +29,19 @@ public class DatabaseManager : IInitializable
 
         dbConnection = new SQLiteConnection(dbPath);
 
-        ResetDb(resetDb: true);
+        SoftResetDb(resetDb: true);
 
         SetDb(setDb: true);
         
-        new Seeding(dbConnection).SeedDatabase(seedDb: true);
+        var jsonSeeder = new JsonSeeder(
+            seedDao : new SeedDaoImpl(dbConnection),
+            seedEntityUpdater : new SeedEntityUpdaterImpl(dbConnection)
+        );
+
+        jsonSeeder.Seed("dump.json");
+
         new Migrations(dbConnection, CurrentDbVersion).ApplyMigrations(applyMigrations: false);
 
-        stopwatch.Stop();
-        Debug.Log($"Database initialized in {stopwatch.ElapsedMilliseconds} ms.");
         Debug.Log(Application.persistentDataPath);
     }
 
@@ -72,7 +73,7 @@ public class DatabaseManager : IInitializable
         }
     }
 
-    void ResetDb(bool resetDb)
+    void SoftResetDb(bool resetDb)
     {
         if (!resetDb) return; 
         dbConnection.DropTable<MetadataEntity>();

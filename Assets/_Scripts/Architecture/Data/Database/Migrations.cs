@@ -8,14 +8,12 @@ public class Migrations {
     public Migrations(
         SQLiteConnection dbConnection,
         int currentDbVersion
-        )
-    {
+    ) {
         this.dbConnection = dbConnection;
         this.currentDbVersion = currentDbVersion;
     }
 
-    public void ApplyMigrations(bool  applyMigrations)
-    {
+    public void ApplyMigrations(bool applyMigrations) {
         if(!applyMigrations) return;
         var dbVersionInfo = dbConnection.Table<MetadataEntity>().FirstOrDefault();
         int dbVersion = dbVersionInfo != null ? dbVersionInfo.dataVersion : 1;
@@ -39,8 +37,7 @@ public class Migrations {
         }
     }
 
-    public void MigrateToVersion2()
-    {
+    public void MigrateToVersion2() {
         // Example migration: adding a new column to an existing table
         // dbConnection.Execute("ALTER TABLE PlayerStatsEntity ADD COLUMN NewColumn TEXT");
 
@@ -48,8 +45,7 @@ public class Migrations {
         UpdateDatabaseVersion(2);
     }
 
-    void UpdateDatabaseVersion(int newVersion)
-    {
+    void UpdateDatabaseVersion(int newVersion){
         dbConnection.Execute($"UPDATE DatabaseVersion SET Version = {newVersion}");
     }
 }

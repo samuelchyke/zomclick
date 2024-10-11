@@ -5,6 +5,7 @@ public class ZenjectDI : MonoInstaller
     public override void InstallBindings()
     {
         DatabaseModule.Install(Container);
+        // SeedingModule.Install(Container);
         DaoModule.Install(Container);
         RepositoryModule.Install(Container);
         UseCaseModule.Install(Container);
