@@ -31,14 +31,8 @@ public class EnemyDaoImpl : IEnemyDao, IInitializable
         Debug.Log("Enemy Dao Initialized");
     }
 
-    
-
     public Task<EnemyStatsEntity> ReadEnemyEntity()
     {
-        // var enemyEntity = _db.Table<EnemyStatsEntity>().First();
-        // Debug.Log("Enemy Dao - ReadEnemyDetails: " + enemyEntity.id);
-        // return Task.Run(() => _db.Table<EnemyStatsEntity>().First());
-
         return Task.Run(() =>
         {
             string query = "SELECT * FROM enemyStats LIMIT 1";
@@ -53,16 +47,11 @@ public class EnemyDaoImpl : IEnemyDao, IInitializable
 
     public Task<EnemyWaveEntity> ReadEnemyWaveEntity()
     {
-        // var enemyEntity = _db.Table<EnemyWaveEntity>().First();
-        // Debug.Log("Enemy Dao - ReadEnemyDetails: " + enemyEntity.id);
-        // return Task.Run(() => _db.Table<EnemyWaveEntity>().First());
-
         return Task.Run(() =>
         {
             string query = "SELECT * FROM enemyWaves LIMIT 1";
             return _db.Query<EnemyWaveEntity>(query).First();
         });
-        
     }
 
     public Task UpdateEnemyWaveEntity(EnemyWaveEntity enemyWaveEntity)
@@ -72,7 +61,6 @@ public class EnemyDaoImpl : IEnemyDao, IInitializable
 
     public Task<BossStatsEntity> ReadBossStatsEntity()
     {
-        // return Task.Run(() => _db.Table<BossStatsEntity>().First());
         return Task.Run(() =>
         {
             string query = "SELECT * FROM bossStats LIMIT 1";

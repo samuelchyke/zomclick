@@ -24,7 +24,6 @@ public class PlayerShopDaoImpl : IPlayerShopDao, IInitializable
         this.databaseManager = databaseManager;
     }
 
-
     public void Initialize()
     {
         _db = databaseManager.dbConnection;

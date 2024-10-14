@@ -79,41 +79,16 @@ public class PlayerDaoImpl : IPlayerDao, IInitializable
     {
         return Task.Run(() => 
         {
-            // SQL query to update totalGold directly in the PlayerStatsEntity table
-            // string query = @"
-            //                 UPDATE PlayerStatsEntity
-            //                 SET totalGold = totalGold + ?
-            //                 WHERE id = (
-            //                     SELECT id
-            //                     FROM PlayerStatsEntity
-            //                     LIMIT 1
-            //                 )";
-        
-            // Execute the SQL query
-            _db.Execute(
-                $@"
-                    UPDATE PlayerStatsEntity
-                    SET totalGold = totalGold + {goldToAdd}
-                    WHERE id = (
-                        SELECT id
-                        FROM PlayerStatsEntity
-                        LIMIT 1
-                    )"
-            );
+            string query = @"
+                UPDATE playerStats
+                SET totalGold = totalGold + ?
+                WHERE id = (
+                    SELECT id
+                    FROM playerStats
+                    LIMIT 1
+                )";
 
-//             string query = @"
-//     UPDATE PlayerStatsEntity
-//     SET totalGold = totalGold + ?
-//     WHERE id = (
-//         SELECT id
-//         FROM PlayerStatsEntity
-//         LIMIT 1
-//     )";
-
-// _db.Execute(query, goldToAdd);
-
-            // Optionally return the updated PlayerStatsEntity
-            // return playerStats;
+            _db.Execute(query, goldToAdd);
         });
     }
 }
