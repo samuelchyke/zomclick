@@ -2,9 +2,10 @@ using System;
 using UnityEngine;
 using Zenject;
 using R3;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.PlayerSkills;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
+using Com.Studio.Zomclick.Assets.Scripts.Data.Core.Enums;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
     public interface IPlayerSkillsViewModel

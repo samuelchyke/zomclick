@@ -6,6 +6,7 @@ using Zenject;
 using UnityEngine.UI;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
 using Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel;
+using Com.Studio.Zomclick.Assets.Scripts.Data.Core.Enums;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.State.PlayerShop.Skills {
     public class MidasRoundsSkill : MonoBehaviour

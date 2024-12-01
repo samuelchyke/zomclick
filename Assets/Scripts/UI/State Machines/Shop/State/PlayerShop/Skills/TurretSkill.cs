@@ -5,10 +5,9 @@ using R3;
 using Zenject;
 using UnityEngine.UI;
 using Unity.VisualScripting;
-using Zenject.SpaceFighter;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
 using Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Player.Skills;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.State.PlayerShop.Skills {

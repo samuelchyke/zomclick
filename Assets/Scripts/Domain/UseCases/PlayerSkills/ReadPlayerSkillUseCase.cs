@@ -2,12 +2,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Zenject;
 using Debug = UnityEngine.Debug;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Repositories;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.PlayerSkills {
     public interface IReadPlayerSkillUseCase {
-        public Task<PlayerSkill> Invoke(string playerSkillId);
+        public Task<Repositories.Models.PlayerSkill> Invoke(string playerSkillId);
     }
 
     public class ReadPlayerSkillUseCaseImpl : IReadPlayerSkillUseCase, IInitializable
@@ -25,7 +24,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.PlayerSkills {
             Debug.Log("ReadPlayerSkillUseCase Initialized");
         }
 
-        public Task<PlayerSkill> Invoke(string playerSkillId)
+        public Task<Repositories.Models.PlayerSkill> Invoke(string playerSkillId)
         {
             return playerSkillsRepository.ReadPlayerSkill(playerSkillId);
         }

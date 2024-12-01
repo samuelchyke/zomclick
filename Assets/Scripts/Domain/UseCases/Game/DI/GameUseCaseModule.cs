@@ -1,4 +1,4 @@
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Repositories;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories;
 using Zenject;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Game.DI {

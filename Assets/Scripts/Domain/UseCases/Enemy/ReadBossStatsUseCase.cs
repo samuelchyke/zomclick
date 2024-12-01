@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Repositories;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Zenject;
 using Debug = UnityEngine.Debug;
 

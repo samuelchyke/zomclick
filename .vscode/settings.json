@@ -51,5 +51,7 @@
         "temp/": true,
         "Temp/": true
     },
+    "unityExplorer.testSourceFileRegex": "\\w+/UnitTests/\\w+?\\.cs",
+    "unityExplorer.testCaseRegex": "public\\s*async\\s*Task\\s+(.*)\\s*\\(",
     "dotnet.defaultSolution": "ZomClickPrototype.sln"
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 using R3;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Enemy;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
 

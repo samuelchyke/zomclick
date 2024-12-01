@@ -3,7 +3,7 @@ using Zenject;
 using TMPro;
 using System.Collections;
 using Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Game {

@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 using R3;
 using System.Collections.Generic;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.PlayerUpgradeShop;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.PlayerSkills;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;

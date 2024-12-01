@@ -1,0 +1,17 @@
+{
+    "name": "Domain",
+    "rootNamespace": "Com.Studio.Zomclick",
+    "references": [
+        "GUID:d6e7b1016b05d4badaac0f8a40b55f0f",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

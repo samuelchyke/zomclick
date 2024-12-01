@@ -1,0 +1,19 @@
+{
+    "name": "ViewModel",
+    "rootNamespace": "Com.Studio.Zomclick",
+    "references": [
+        "GUID:6da3e100df21b4216b6752ded334208e",
+        "GUID:27735e020370a4708859018f021d0aec",
+        "GUID:3020a95b2e06346a0b5f1300281fc4d0",
+        "GUID:d6e7b1016b05d4badaac0f8a40b55f0f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

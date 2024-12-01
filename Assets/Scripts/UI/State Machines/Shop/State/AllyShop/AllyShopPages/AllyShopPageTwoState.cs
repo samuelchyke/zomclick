@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using R3;
 using System;
 using System.Collections.Generic;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllyShop.AllyShopPages {

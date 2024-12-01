@@ -1,10 +1,10 @@
 {
     "name": "UnitTests",
-    "rootNamespace": "",
+    "rootNamespace": "Com.Studio.ZomClick",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Data"
+        "Database"
     ],
     "includePlatforms": [
         "Editor"

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using R3;
 using System;
 using System.Collections.Generic;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerShop.PlayerShopPages {
     public class PlayerShopPageTwoState : ShopBaseState

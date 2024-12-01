@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using R3;
 using Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
-using Com.Studio.Zomclick.Assets.Scripts.Domain.Models;
+using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Ally {
     public class AllySpawnManager : MonoBehaviour
