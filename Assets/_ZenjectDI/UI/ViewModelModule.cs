@@ -1,4 +1,5 @@
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Ally;
+using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Artifact;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Enemy;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Game;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Player;
@@ -98,6 +99,21 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel.DI {
                     readPlayerSkillUseCase: ctx.Container.Resolve<IReadPlayerSkillUseCase>(),
                     toggleSkillActiveUseCase: ctx.Container.Resolve<IToggleSkillActiveUseCase>(),
                     increasePlayerGoldUseCase: ctx.Container.Resolve<IIncreasePlayerGoldUseCase>(),
+                    eventsManager: ctx.Container.Resolve<EventsManager>()
+                );
+            })
+            .AsSingle()
+            .NonLazy();
+
+            Container.BindInterfacesAndSelfTo<ArtifactShopViewModelImpl>()
+            .FromMethod(ctx =>
+            {
+                return new ArtifactShopViewModelImpl(
+                    readArtifactShopDetailsUseCase: ctx.Container.Resolve<IReadArtifactShopDetailsUseCase>(), 
+                    readUnlockedArtifactsUseCase: ctx.Container.Resolve<IReadUnlockedArtifactsUseCase>(),
+                    readArtifactUseCase: ctx.Container.Resolve<IReadArtifactUseCase>(),
+                    unlockArtifactUseCase: ctx.Container.Resolve<IUnlockArtifactUseCase>(),
+                    upgradeArtifactUseCase: ctx.Container.Resolve<IUpgradeArtifactUseCase>(),
                     eventsManager: ctx.Container.Resolve<EventsManager>()
                 );
             })

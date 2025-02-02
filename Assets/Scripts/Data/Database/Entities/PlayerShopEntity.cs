@@ -9,7 +9,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities {
     [Table(PlayerShopEntity.TableName)]
     public class PlayerShopEntity : SeedEntity
     {
-        public const string TableName = "playerShopDetails";
+        public const string TableName = "playerShop";
 
         [PrimaryKey]
         public string id { get; set; }

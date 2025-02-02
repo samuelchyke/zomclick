@@ -18,6 +18,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database {
         IPlayerDao PlayerDao();
         IPlayerShopDao PlayerShopDao();
         IEnemyDao EnemyDao();
+        IArtifactDao ArtifactDao();
 
         void Close();
         Task RunInTransaction(System.Action action);
@@ -39,6 +40,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database {
         public IPlayerDao PlayerDao() => new PlayerDaoImpl(dbConnection);
         public IPlayerShopDao PlayerShopDao() => new PlayerShopDaoImpl(dbConnection);
         public IEnemyDao EnemyDao() => new EnemyDaoImpl(dbConnection);
+        public IArtifactDao ArtifactDao() => new ArtifactDaoImpl(dbConnection);
 
         private const int CurrentDbVersion = 1;
 
@@ -90,6 +92,8 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database {
             dbConnection.CreateTable<PlayerShopEntity>();
             dbConnection.CreateTable<AllyStatsEntity>();
             dbConnection.CreateTable<AllySkillEntity>();
+            dbConnection.CreateTable<ArtifactEntity>();
+            dbConnection.CreateTable<ArtifactShopEntity>();
         }
 
         void ResetDb(string dbPath, bool resetDb)
@@ -118,6 +122,8 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database {
             dbConnection.DropTable<EnemyWaveEntity>();
             dbConnection.DropTable<AllyStatsEntity>();
             dbConnection.DropTable<AllySkillEntity>();
+            dbConnection.DropTable<ArtifactEntity>();
+            dbConnection.DropTable<ArtifactShopEntity>();
         }
 
         // Expose the SQLite connection close method

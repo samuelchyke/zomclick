@@ -1,7 +1,7 @@
 using System;
 using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities;
 
-namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
+namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed.Dto {
     [Serializable]
     public class PlayerStatsDto : SeedDto
     {
@@ -12,6 +12,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
         public float critMultiplier;
         public int totalDamage;
         public int totalGold;
+        public int totalRelics;
 
         public SeedEntity toEntity()
         {
@@ -23,7 +24,8 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
                 critRate = critRate,
                 critMultiplier = critMultiplier,
                 totalDamage = totalDamage,
-                totalGold = totalGold
+                totalGold = totalGold,
+                totalRelics = totalRelics
             };
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
+namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed.Dto {
     public interface SeedDto
     {
         SeedEntity toEntity();

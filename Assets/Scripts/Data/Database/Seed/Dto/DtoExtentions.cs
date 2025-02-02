@@ -1,6 +1,6 @@
 using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities;
 
-namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
+namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed.Dto {
     public static class DtoExtensions {
         public static AllySkillEntity ToEntity(this AllySkillDto dto) {
             return new AllySkillEntity {
@@ -69,7 +69,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
             };
         }
 
-        public static PlayerShopEntity ToEntity(this PlayerShopDetailsDto dto) {
+        public static PlayerShopEntity ToEntity(this PlayerShopDto dto) {
             return new PlayerShopEntity {
                 id = dto.id,
                 wallHealthCost = dto.wallHealthCost,

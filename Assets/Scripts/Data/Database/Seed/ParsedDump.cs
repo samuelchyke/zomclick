@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed.Dto;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
     [Serializable]
@@ -12,7 +13,9 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
     public class ParsedDump {   
         public PlayerStatsDto playerStats;
         public List<PlayerSkillDto> playerSkills;
-        public PlayerShopDetailsDto playerShopDetails;
+        public PlayerShopDto playerShop;
+        public ArtifactShopDto artifactShop;
+        public List<ArtifactDto> artifacts;
         public EnemyStatsDto enemyStats;
         public EnemyWaveDto enemyWaves;
         public BossStatsDto bossStats;

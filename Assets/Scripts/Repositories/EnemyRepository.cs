@@ -45,9 +45,9 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
             return new EnemyStatsBuilder().ToDomain(entity);
         }
 
-        public async Task UpdateEnemyStats(EnemyStats playerStats)
+        public async Task UpdateEnemyStats(EnemyStats enemyStats)
         {
-            EnemyStatsEntity entity = new EnemyStatsBuilder().ToEntity(playerStats);
+            EnemyStatsEntity entity = new EnemyStatsBuilder().ToEntity(enemyStats);
             await enemyDao.UpdateEnemyStats(entity);
         }
 

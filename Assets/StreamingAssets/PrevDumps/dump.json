@@ -1,0 +1,240 @@
+{
+  "metadata": {
+    "dataVersion": 1
+  },
+  "data": {
+    "playerStats": {
+      "id": "unique_player_id",
+      "level": 1,
+      "baseDamage": 1,
+      "critRate": 1,
+      "critMultiplier": 1,
+      "totalDamage": 1,
+      "totalGold": 5000
+    },
+    "playerSkills": [
+      {
+        "id": "big_betty_id",
+        "isUnlocked": false,
+        "unlockLevel": 10,
+        "level": 1,
+        "duration": 10,
+        "coolDown": 30,
+        "buff": 10,
+        "unlockCost": 100,
+        "upgradeCost": 10,
+        "isActive": false
+      },
+      {
+        "id": "turret_id",
+        "isUnlocked": false,
+        "unlockLevel": 10,
+        "level": 1,
+        "duration": 10,
+        "coolDown": 30,
+        "buff": 10,
+        "unlockCost": 200,
+        "upgradeCost": 10,
+        "isActive": false
+      },
+      {
+        "id": "lightning_rounds_id",
+        "isUnlocked": false,
+        "unlockLevel": 10,
+        "level": 1,
+        "duration": 10,
+        "coolDown": 30,
+        "buff": 10,
+        "unlockCost": 300,
+        "upgradeCost": 10,
+        "isActive": false
+      },
+      {
+        "id": "rally_allies_id",
+        "isUnlocked": false,
+        "unlockLevel": 10,
+        "level": 1,
+        "duration": 10,
+        "coolDown": 30,
+        "buff": 10,
+        "unlockCost": 100,
+        "upgradeCost": 10,
+        "isActive": false
+      },
+      {
+        "id": "incendiary_rounds_id",
+        "isUnlocked": false,
+        "unlockLevel": 10,
+        "level": 1,
+        "duration": 10,
+        "coolDown": 30,
+        "buff": 10,
+        "unlockCost": 200,
+        "upgradeCost": 10,
+        "isActive": false
+      },
+      {
+        "id": "midas_rounds_id",
+        "isUnlocked": false,
+        "unlockLevel": 10,
+        "level": 1,
+        "duration": 10,
+        "coolDown": 30,
+        "buff": 10,
+        "unlockCost": 300,
+        "upgradeCost": 10,
+        "isActive": false
+      }
+    ],
+    "playerShopDetails": {
+      "id": "unique_shop_id",
+      "wallHealthCost": 10,
+      "damageCost": 10,
+      "critRateCost": 10,
+      "critDamageCost": 10
+    },
+    "enemyStats": {
+      "id": "unique_enemy_id",
+      "totalHealth": 2,
+      "damage": 1,
+      "attackSpeed": 1,
+      "movementSpeed": 1,
+      "goldDropAmount": 10
+    },
+    "enemyWaves": {
+      "id": "unique_wave_id",
+      "round": 1,
+      "spawnLimit": 3,
+      "spawnTotal": 0,
+      "enemiesKilled": 0
+    },
+    "bossStats": {
+      "id": "unique_boss_id",
+      "totalHealth": 100,
+      "damage": 1,
+      "attackSpeed": 1,
+      "movementSpeed": 1,
+      "goldDropAmount": 100
+    },
+    "allyStats": [
+      {
+        "id": "john_id",
+        "name": "John",
+        "attackSpeed": 15,
+        "level": 1,
+        "baseDamage": 10,
+        "critRate": 5,
+        "critMultiplier": 1.5,
+        "totalDamage": 10,
+        "unlockCost": 100,
+        "upgradeCost": 10,
+        "isUnlocked": false,
+        "lore": "John the gunslinger came from texas"
+      },
+      {
+        "id": "doe_id",
+        "name": "Doe",
+        "level": 1,
+        "attackSpeed": 12,
+        "baseDamage": 15,
+        "critRate": 10,
+        "critMultiplier": 1.2,
+        "totalDamage": 15,
+        "unlockCost": 200,
+        "upgradeCost": 10,
+        "isUnlocked": false,
+        "lore": "John's partner in crime"
+      },
+      {
+        "id": "rod_id",
+        "name": "Rod",
+        "attackSpeed": 15,
+        "level": 1,
+        "baseDamage": 10,
+        "critRate": 5,
+        "critMultiplier": 1.5,
+        "totalDamage": 10,
+        "unlockCost": 100,
+        "upgradeCost": 10,
+        "isUnlocked": false,
+        "lore": "John the gunslinger came from texas"
+      },
+      {
+        "id": "don_id",
+        "name": "Don",
+        "level": 1,
+        "attackSpeed": 12,
+        "baseDamage": 15,
+        "critRate": 10,
+        "critMultiplier": 1.2,
+        "totalDamage": 15,
+        "unlockCost": 200,
+        "upgradeCost": 10,
+        "isUnlocked": false,
+        "lore": "John's partner in crime"
+      },
+      {
+        "id": "joe_id",
+        "name": "Joe",
+        "attackSpeed": 15,
+        "level": 1,
+        "baseDamage": 10,
+        "critRate": 5,
+        "critMultiplier": 1.5,
+        "totalDamage": 10,
+        "unlockCost": 100,
+        "upgradeCost": 10,
+        "isUnlocked": false,
+        "lore": "John the gunslinger came from texas"
+      },
+      {
+        "id": "doen_id",
+        "name": "Doen",
+        "level": 1,
+        "attackSpeed": 12,
+        "baseDamage": 15,
+        "critRate": 10,
+        "critMultiplier": 1.2,
+        "totalDamage": 15,
+        "unlockCost": 200,
+        "upgradeCost": 10,
+        "isUnlocked": false,
+        "lore": "John's partner in crime"
+      }
+    ],
+    "allySkills": [
+      {
+        "id": "unique_skill_id_1",
+        "allyId": "john_id",
+        "isUnlocked": false,
+        "description": "Unlock John's Unlimited Power",
+        "unlockLevel": 10,
+        "buff": 10
+      },
+      {
+        "id": "unique_skill_id_2",
+        "allyId": "john_id",
+        "isUnlocked": false,
+        "description": "Unlock John's Unlimited Power 2",
+        "unlockLevel": 25,
+        "buff": 10
+      },
+      {
+        "id": "unique_skill_id_3",
+        "allyId": "doe_id",
+        "isUnlocked": false,
+        "description": "Unlock Doe's Unlimited Power",
+        "unlockLevel": 10,
+        "buff": 10
+      },
+      {
+        "id": "unique_skill_id_4",
+        "allyId": "doe_id",
+        "isUnlocked": false,
+        "description": "Unlock Doe's Unlimited Power 2",
+        "unlockLevel": 25,
+        "buff": 10
+      }
+    ]
+  }
+}

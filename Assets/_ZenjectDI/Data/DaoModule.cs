@@ -41,6 +41,11 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Dao.DI {
             {
                 return ctx.Container.Resolve<IAppDatabase>().AllyDao();
             }).AsSingle().NonLazy();
+
+            Container.BindInterfacesAndSelfTo<IArtifactDao>().FromMethod(ctx =>
+            {
+                return ctx.Container.Resolve<IAppDatabase>().ArtifactDao();
+            }).AsSingle().NonLazy();
         }
     }
 }

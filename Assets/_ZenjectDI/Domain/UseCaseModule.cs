@@ -1,4 +1,5 @@
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Ally.DI;
+using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Artifact.DI;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Enemy.DI;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Game.DI;
 using Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Player.DI;
@@ -17,6 +18,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.DI {
             PlayerUpgradeShopUseCaseModule.Install(Container);
             AllyUseCaseModule.Install(Container);
             EnemyUseCaseModule.Install(Container);
+            ArtifactUseCaseModule.Install(Container);
         }
     }
 }

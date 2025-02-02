@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities;
+using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed.Dto;
 using SQLite4Unity3d;
 using Debug = UnityEngine.Debug;
 

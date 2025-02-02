@@ -70,6 +70,17 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Domain.Repositories.DI {
                     })
                 .AsSingle()
                 .NonLazy();
+
+            Container.BindInterfacesAndSelfTo<ArtifactRepositoryImpl>()
+                .FromMethod( ctx =>
+                    {
+                        return new ArtifactRepositoryImpl(
+                            playerDao: ctx.Container.Resolve<IPlayerDao>(),
+                            artifactDao: ctx.Container.Resolve<IArtifactDao>()
+                        );
+                    })
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

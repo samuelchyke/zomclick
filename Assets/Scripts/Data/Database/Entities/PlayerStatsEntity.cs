@@ -19,6 +19,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities {
         public float critMultiplier { get; set; }
         public int totalDamage { get; set; }
         public int totalGold { get; set; }
+        public int totalRelics { get; set; }
 
         public PlayerStatsEntity()
         {
