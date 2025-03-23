@@ -20,7 +20,6 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerS
             SwitchSubStates(shopContext, shopContext.playerShopPageOneState);
 
             playerUpgradeCostText = GameObject.Find("player_upgrade_gold_text").GetComponent<TextMeshProUGUI>();
-
             playerUpgradeBuyButton = GameObject.Find("player_upgrade_buy_button").GetComponent<Button>();
             
             shopContext.playerShopViewModel.shopDetails

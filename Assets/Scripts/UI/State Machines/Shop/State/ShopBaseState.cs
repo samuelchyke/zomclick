@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllyShop;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllyShop.AllyShopPages;
+using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.ArtifactShop;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerShop;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerShop.PlayerShopPages;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.State.PlayerShop.Skills;
@@ -104,5 +105,20 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
         {
             return Create<ShopTabState>();
         }
+
+        public ArtifactShopState CreateArtifactShopState()
+        {
+            return Create<ArtifactShopState>();
+        }
+
+        public ArtifactShopLockedPageState CreateArtifactLockedPageState()
+        {
+            return Create<ArtifactShopLockedPageState>();
+        }
+
+        public ArtifactShopUnlockedPageState CreateArtifactUnlockedPageState()
+        {
+            return Create<ArtifactShopUnlockedPageState>();
+        }
     }
-    }
+}
