@@ -7,6 +7,8 @@ MonoImporter:
   - EnemyUIPrefab: {fileID: 4057345471806928213, guid: bda67e7f38a9541029394d742908bfdf, type: 3}
   - BossUIPrefab: {fileID: 4057345471806928213, guid: 658b8dbb41ed543faa60b7656918371f, type: 3}
   - ProjectilePrefab: {fileID: 5024385586675017722, guid: c12eabf6a6d7d4ffe93b4736152f0039, type: 3}
+  - JohnPrefab: {fileID: 7364902216528723371, guid: 092253bd676f64756a3eb36c4652a4de, type: 3}
+  - DoePrefab: {fileID: 3173417621823977274, guid: 7967467e2fb7045b59d20ca844da17f7, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

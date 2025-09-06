@@ -144,11 +144,11 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllySho
                 .Subscribe(allies => UpdateUI(allies));
                 // .AddTo(_disposables);
 
-            shopContext.johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
-            shopContext.johnStatsButton.onClick.AddListener(() => showStats(shopContext, "john_id"));
+            johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
+            johnStatsButton.onClick.AddListener(() => showStats(shopContext, "john_id"));
 
-            // doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
-            // doeStatsButton.onClick.AddListener(() => showStats(shopContext, "doe_id"));
+            doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
+            doeStatsButton.onClick.AddListener(() => showStats(shopContext, "doe_id"));
 
             nextPageButton = GameObject.Find("next_page_button").GetComponent<Button>();
             nextPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.allyShopPageTwoState));

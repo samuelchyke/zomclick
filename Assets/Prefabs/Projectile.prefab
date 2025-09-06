@@ -101,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 10
   targetTag: EnemyHead
+  upwardForce: 0.1
+  fadeOutTime: 2
   spinSpeed: 720
   bulletDropRate: 9.81
 --- !u!61 &1164877789902917210

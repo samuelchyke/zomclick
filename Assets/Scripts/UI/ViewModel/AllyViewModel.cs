@@ -42,8 +42,6 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
             Debug.Log("Ally View Model Initialized");
             eventsManager.StartListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES, () => UpdateAllyStats(_allyId));
             eventsManager.TriggerEvent(GameEvent.AllyShopViewModelEvent.SHOP_VM_SETUP_COMPLETE);
-            // eventsManager.StartListening(GameEvent.EnemyViewModelEvent.INFLICT_DAMAGE_ON_ALLY, TakeDamage);
-            // More event subscriptions can be added as needed
         }
 
         async void UpdateAllyStats(string allyId)
@@ -55,7 +53,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
 
         public void Cleanup()
         {
-            eventsManager.StopListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES,() => UpdateAllyStats("john_id"));
+            eventsManager.StopListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES,() => UpdateAllyStats(_allyId));
         }
     }
 }

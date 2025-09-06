@@ -34,7 +34,6 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database {
             InitializeDatabase();
         }
 
-
         public IStubDao StubDao() => new StubDaoImpl(dbConnection);
         public IAllyDao AllyDao() => new AllyDaoImpl(dbConnection);
         public IPlayerDao PlayerDao() => new PlayerDaoImpl(dbConnection);

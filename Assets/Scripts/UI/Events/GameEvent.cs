@@ -32,6 +32,15 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.Events {
             public const string UPDATE_TEXT = eventId + "UPDATE_TEXT";
         }
 
+        public static class ArtifactShopViewModelEvent
+        {
+            const string eventId = "ArtifactShopViewModelEvent/";
+            public const string SHOP_VM_SETUP_COMPLETE = eventId + "SHOP_VM_SETUP_COMPLETE";
+            public const string UPDATE_ARTIFACT = eventId + "UPDATE_ARTIFACT";
+            public const string UPDATE_PLAYER_STATS = eventId + "UPDATE_PLAYER_STATS";
+            public const string UPDATE_TEXT = eventId + "UPDATE_TEXT";
+        }
+
         public static class PlayerViewModelEvent
         {
             const string eventId = "PlayerViewModelEvent/";

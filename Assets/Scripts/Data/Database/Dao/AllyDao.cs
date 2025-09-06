@@ -71,7 +71,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao {
         {
             return Task.Run(() => 
             {
-                string query = $"SELECT * FROM allySkills WHERE id = ?";
+                string query = $"SELECT * FROM allyStats WHERE id = ?";
                 return _db.Query<AllyStatsEntity>(query, allyId).First();
             });
         }

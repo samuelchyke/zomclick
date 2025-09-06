@@ -58,12 +58,8 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
             _artifactsShopDetails.Value = await readArtifactShopDetailsUseCase.Invoke();
             _artifacts.Value = await readUnlockedArtifactsUseCase.Invoke();
 
-            Debug.Log("Shop ViewModel Initialized");
-            eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.SHOP_VM_SETUP_COMPLETE);
-            eventsManager.StartListening(GameEvent.PlayerSkillViewModelEvent.ON_MIDAS_ROUNDS_HIT, UpdateShopDetails);
-            eventsManager.StartListening(GameEvent.EnemyViewModelEvent.ON_DEATH, UpdateShopDetails);
-            eventsManager.StartListening(GameEvent.BossViewModelEvent.ON_DEATH, UpdateShopDetails);
-            eventsManager.StartListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES, UpdateShopDetails);
+            Debug.Log("Arfticat Shop View Model Initialized");
+            eventsManager.TriggerEvent(GameEvent.ArtifactShopViewModelEvent.SHOP_VM_SETUP_COMPLETE);
         }
 
         async void UpdateShopDetails()
@@ -75,7 +71,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
         {
             await upgradeArtifactUseCase.Invoke(artifactId);
             UpdateShopDetails();
-            // eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_STATS);
+            eventsManager.TriggerEvent(GameEvent.ArtifactShopViewModelEvent.UPDATE_PLAYER_STATS);
         }
 
         public async void UnlockArtifact()
@@ -83,14 +79,11 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
             await unlockArtifactUseCase.Invoke();
             UpdateArtifacts();
             UpdateShopDetails();
-            // eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UPDATE_PLAYER_SKILL, playerSkillId);
-            // eventsManager.TriggerEvent(GameEvent.PlayerShopViewModelEvent.UNLOCK_PLAYER_SKILL, playerSkillId);
         }
 
         async void UpdateArtifacts()
         {
             _artifacts.Value = await readUnlockedArtifactsUseCase.Invoke();
-            // eventsManager.TriggerEvent(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES);
         }
 
         public void Dispose()
@@ -98,11 +91,6 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
             _disposables.Dispose();
         }
 
-        public void Cleanup()
-        {
-            // eventsManager.StopListening(GameEvent.EnemyViewModelEvent.ON_DEATH, UpdateShopDetails);
-            // eventsManager.StopListening(GameEvent.BossViewModelEvent.ON_DEATH, UpdateShopDetails);
-            // eventsManager.StopListening(GameEvent.AllyShopViewModelEvent.UPDATE_ALLIES, UpdateShopDetails);
-        }
+        public void Cleanup(){}
     }
 }
