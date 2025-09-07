@@ -37,8 +37,10 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
 
         public AllyShopState allyShopState;
         public AllyShopPageOneState allyShopPageOneState;
+        public AllyShopPageOneView allyShopPageOneView;
         public AllyShopPageTwoState allyShopPageTwoState;
         public AllyShopPageThreeState allyShopPageThreeState;
+        public AllyStatsView allyStatsView;
 
         public ArtifactShopState artifactShopState;
         public ArtifactShopUnlockedPageState artifactShopPageUnlockedState;

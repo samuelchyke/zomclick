@@ -132,8 +132,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2648120}
+  - component: {fileID: 2648121}
   m_Layer: 5
-  m_Name: ally_shop_page_1
+  m_Name: ally_shop_page_one_view
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,6 +164,26 @@ RectTransform:
   m_AnchoredPosition: {x: -1.1081046, y: -2.0800264}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2648121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2648119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1a0303124ab45edb9a288ec127ca5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _root: {fileID: 2648119}
+  _nextPageButton: {fileID: 879809457}
+  _johnCostText: {fileID: 2000680906}
+  _johnBuyButton: {fileID: 288267382}
+  _johnStatsButton: {fileID: 30030022}
+  _doeCostText: {fileID: 400429536}
+  _doeBuyButton: {fileID: 774879733}
+  _doeStatsButton: {fileID: 1377121766}
 --- !u!1 &7697935
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +409,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1498333702}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5543,7 +5564,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1190842651}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5851,7 +5872,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1190842651}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12997,6 +13018,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1065981187}
+  - component: {fileID: 1065981188}
   m_Layer: 5
   m_Name: ally_stats
   m_TagString: Untagged
@@ -13025,6 +13047,28 @@ RectTransform:
   m_AnchoredPosition: {x: -0.1, y: -0.8}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1065981188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065981186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feeda45ce07f1444ba00437b4823f9f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _allyStatsRoot: {fileID: 1065981186}
+  _allyStatsBackground: {fileID: 1988956602}
+  _allyStatsNameText: {fileID: 1146084023}
+  _allyStatsLevelText: {fileID: 733784276}
+  _allyStatsDamageText: {fileID: 1487178902}
+  _allyStatsLoreText: {fileID: 1486314889}
+  _level10DescriptionText: {fileID: 1730786437}
+  _level25DescriptionText: {fileID: 918205300}
+  _level10Cover: {fileID: 195343737}
+  _level25Cover: {fileID: 1068762316}
 --- !u!1 &1068762316
 GameObject:
   m_ObjectHideFlags: 0
@@ -14595,8 +14639,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 400429535}
   - {fileID: 482185032}
+  - {fileID: 400429535}
   - {fileID: 774879732}
   - {fileID: 1377121764}
   m_Father: {fileID: 2648120}
@@ -18710,8 +18754,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2000680905}
   - {fileID: 38391241}
+  - {fileID: 2000680905}
   - {fileID: 288267381}
   - {fileID: 30030021}
   m_Father: {fileID: 2648120}
@@ -24927,7 +24971,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1498333702}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25176,6 +25220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf85e290d783a4cbaba69f9dc624e155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allyShopPageOneView: {fileID: 2648121}
+  allyStatsView: {fileID: 1065981188}
   goldText: {fileID: 1218215932}
   playerUpgradeShopButton: {fileID: 80674802}
   allyShopButton: {fileID: 797324887}
