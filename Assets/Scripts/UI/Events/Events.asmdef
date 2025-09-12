@@ -1,3 +1,4 @@
 {
-	"name": "Events"
+	"name": "Events",
+	"rootNamespace": "Com.Studio.Zomclick"
 }

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using R3;
 using System.Collections.Generic;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
+using Com.Studio.Zomclick.Assets.Scripts.UI.Views;
+using Com.Studio.Zomclick.Assets.Scripts.UI.Views.AllyShop;
+using Com.Studio.Zomclick.Assets.Scripts.UI.Views.ArtifactShop;
 using Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerShop.PlayerShopPages;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerShop;
@@ -44,8 +47,12 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
         public ArtifactShopUnlockedPageState artifactShopPageUnlockedState;
         public ArtifactShopLockedPageState artifactShopPageLockedState;
 
-        [Header("Shop Tabs")]
+        [Header("Shop Tabs View")]
         public ShopTabsView shopTabsView;
+
+        [Header("Artifact Shop Views")]
+        public ArtifactShopView artifactShopView;
+        public ArtifactShopLockedPageView artifactShopLockedPageView;
 
         public GameObject artifactShop;
         public GameObject artifactShopLockedPage;
@@ -57,11 +64,6 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
 
         public GameObject allyShop;
 
-        public TextMeshProUGUI johnCostText;
-        public Button johnBuyButton;
-        public Button johnStatsButton;
-
-        public GameObject allyShopPage1;
         public GameObject allyShopPage2;
         public GameObject allyShopPage3;
         public GameObject allyStats;

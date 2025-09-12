@@ -11,6 +11,7 @@ using Com.Studio.Zomclick.Assets.Scripts.Repositories.Builders;
 namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
     public interface IPlayerShopRepository
     {
+        Observable<PlayerShopDetails> ObserveShopDetails();
         Task<PlayerShopDetails> ReadShopDetails();
 
         Task UpgradePlayerStats();
@@ -50,13 +51,28 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
                 totalGold: playerStats.totalGold
             );
         }
+        
+        public Observable<PlayerShopDetails> ObserveShopDetails()
+        {
+            return Observable.CombineLatest(
+                playerShopDao.ObserveShopDetails(),
+                playerStatsDao.ObservePlayerStats(),
+                (shopEntity, statsEntity) =>
+            {
+                Debug.Log("Shop Repository - ReadShopDetails - PLAYER GOLD: " + statsEntity.totalGold);
+                return new PlayerShopDetailsBuilder().ToDomain(
+                    shopEntity: shopEntity,
+                    totalGold: statsEntity.totalGold
+                );
+            });
+        }
 
         public async Task UpgradePlayerStats()
         {
             Debug.Log("Shop Repository - UpgradePlayerStats");
             var playerStats = await playerStatsDao.ReadPlayerStats();
             var playerShop = await playerShopDao.ReadShopDetails();
-            if (playerStats.totalGold >= playerShop.damageCost) 
+            if (playerStats.totalGold >= playerShop.damageCost)
             {
                 playerStats.totalGold -= playerShop.damageCost;
                 Debug.Log(playerStats.totalGold);

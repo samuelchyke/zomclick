@@ -5,10 +5,12 @@ using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
 using System.Linq;
 using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities;
+using R3;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao {
     public interface IPlayerDao 
     {
+        Observable<PlayerStatsEntity> ObservePlayerStats();
         Task<PlayerStatsEntity> ReadPlayerStats();
         Task<List<PlayerSkillEntity>> ReadPlayerSkills();
         Task<PlayerSkillEntity> ReadPlayerSkill(string playerSkillId);
@@ -21,26 +23,34 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao {
 
     public class PlayerDaoImpl : IPlayerDao, IInitializable
     {
-        SQLiteConnection _db;
-        AppDatabaseImpl databaseManager;
+        readonly SQLiteConnection _db;
+        
+        private BehaviorSubject<PlayerStatsEntity> _playerStats;
 
-        public PlayerDaoImpl (SQLiteConnection databaseManager)
+        public PlayerDaoImpl(SQLiteConnection databaseManager)
         {
-            this._db = databaseManager;
+            _db = databaseManager;
+            _ = InitializeObservables();
         }
 
         public void Initialize()
         {
-            // _db = databaseManager.dbConnection;
             Debug.Log("Player Dao Initialized");
+        }
+
+        private async Task InitializeObservables()
+        {
+            var entity = await ReadPlayerStats();
+            _playerStats = new BehaviorSubject<PlayerStatsEntity>(entity);
+        }
+
+        public Observable<PlayerStatsEntity> ObservePlayerStats()
+        {
+            return _playerStats;
         }
     
         public Task<PlayerStatsEntity> ReadPlayerStats()
         {
-            // var playerStats = _db.Table<PlayerStatsEntity>().First();
-            // Debug.Log("Player Dao - Read Player Stats: " + playerStats.id);
-            // return Task.Run(() => playerStats);
-
             return Task.Run(() =>
             {
                 string query = "SELECT * FROM playerStats LIMIT 1";
@@ -52,7 +62,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao {
         {
             return Task.Run(() => 
             {
-                string query = $"SELECT * FROM playerSkills";
+                string query = "SELECT * FROM playerSkills";
                 return _db.Query<PlayerSkillEntity>(query);
             });
         }
@@ -66,9 +76,10 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao {
             });
         }
 
-        public Task UpdatePlayerStats(PlayerStatsEntity playerStats)
+        public async Task UpdatePlayerStats(PlayerStatsEntity playerStats)
         {
-            return Task.Run(() => _db.Update(playerStats));
+            await Task.Run(() => _db.Update(playerStats)).ConfigureAwait(false);
+            _playerStats.OnNext(await ReadPlayerStats().ConfigureAwait(false));
         }
 
         public Task UpdatePlayerSkill(PlayerSkillEntity playerSkillEntity)
@@ -76,9 +87,9 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao {
             return Task.Run(() => _db.Update(playerSkillEntity));
         }
 
-        public Task IncreasePlayerGold(int goldToAdd)
+        public async Task IncreasePlayerGold(int goldToAdd)
         {
-            return Task.Run(() => 
+            await Task.Run(() =>
             {
                 string query = @"
                     UPDATE playerStats
@@ -90,7 +101,8 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao {
                     )";
 
                 _db.Execute(query, goldToAdd);
-            });
+            }).ConfigureAwait(false);
+            _playerStats.OnNext(await ReadPlayerStats().ConfigureAwait(false));
         }
     }
 }

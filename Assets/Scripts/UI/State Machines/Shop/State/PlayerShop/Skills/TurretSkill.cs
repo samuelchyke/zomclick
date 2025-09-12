@@ -4,7 +4,7 @@ using UnityEngine;
 using R3;
 using Zenject;
 using UnityEngine.UI;
-using Unity.VisualScripting;
+// using Unity.VisualScripting;
 using Com.Studio.Zomclick.Assets.Scripts.UI.Events;
 using Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel;
 using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;

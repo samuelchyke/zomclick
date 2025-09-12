@@ -21,21 +21,21 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.Artifac
                 shopContext.shopTabsView.currencyText.text = details.totalRelics.ToString()
             );
 
+            shopContext.artifactShopViewModel.artifactsShopDetails.Subscribe( details => 
+                shopContext.artifactShopView.artifactUnlockCostText.text = details.artifactUnlockCost.ToString()
+            );
+
             SwitchSubStates(shopContext, shopContext.artifactShopPageLockedState);
 
-            artifactUnlockCostText = GameObject.Find("artifact_unlock_cost_text").GetComponent<TextMeshProUGUI>();
-            artifactBuyButton = GameObject.Find("artifact_unlock_button").GetComponent<Button>();
-            
-            shopContext.artifactShopViewModel.artifactsShopDetails
-                .Subscribe(details => UpdateUI(details))
-                .AddTo(_disposables);
+            artifactUnlockCostText = shopContext.artifactShopView.artifactUnlockCostText;
+            artifactBuyButton = shopContext.artifactShopView.artifactBuyButton;
 
             artifactBuyButton.onClick.AddListener(shopContext.artifactShopViewModel.UnlockArtifact);
         }
 
         public override void ExitState(ShopStateManager shopContext)
         {
-            shopContext.artifactShop.SetActive(false);
+            shopContext.artifactShopView.HideView();
             shopContext.SubscribeGold();
             Dispose();
         }

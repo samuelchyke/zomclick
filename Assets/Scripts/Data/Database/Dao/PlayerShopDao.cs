@@ -4,24 +4,37 @@ using Zenject;
 using Debug = UnityEngine.Debug;
 using System.Linq;
 using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities;
+using R3;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao
 {
     public interface IPlayerShopDao 
     {
+        Observable<PlayerShopEntity> ObserveShopDetails();
         Task<PlayerShopEntity> ReadShopDetails();
         public Task UpdateShopDetails(PlayerShopEntity shopEntity);
     }
 
     public class PlayerShopDaoImpl : IPlayerShopDao, IInitializable
     {
+        readonly SQLiteConnection _db;
+        private BehaviorSubject<PlayerShopEntity> _playerShop;
 
-        SQLiteConnection _db;
-        AppDatabaseImpl databaseManager;
-
-        public PlayerShopDaoImpl (SQLiteConnection databaseManager)
+        public PlayerShopDaoImpl(SQLiteConnection databaseManager)
         {
-            this._db = databaseManager;
+            _db = databaseManager;
+            _ = InitializeObservables();
+        }
+
+        private async Task InitializeObservables()
+        {
+            var entity = await ReadShopDetails();
+            _playerShop = new BehaviorSubject<PlayerShopEntity>(entity);
+        }
+
+        public Observable<PlayerShopEntity> ObserveShopDetails()
+        {
+            return _playerShop;
         }
 
         public void Initialize()
@@ -39,9 +52,10 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao
             });
         }
 
-        public Task UpdateShopDetails(PlayerShopEntity shopEntity)
+        public async Task UpdateShopDetails(PlayerShopEntity shopEntity)
         {
-            return Task.Run(() => _db.Update(shopEntity));
+            await Task.Run(() => _db.Update(shopEntity)).ConfigureAwait(false);
+            _playerShop.OnNext(await ReadShopDetails().ConfigureAwait(false));
         }
     }
 }

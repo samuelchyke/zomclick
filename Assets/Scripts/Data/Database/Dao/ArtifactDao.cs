@@ -39,7 +39,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao
         {
             return Task.Run(() =>
             {
-                string query = "SELECT * FROM artifact WHERE id = ?";
+                string query = "SELECT * FROM artifacts WHERE id = ?";
                 return _db.Query<ArtifactEntity>(query, artifactId).First();
             });
         }
@@ -48,7 +48,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao
         {
             return Task.Run(() =>
             {
-                string query = "SELECT * FROM artifact WHERE isUnlocked = 1";
+                string query = "SELECT * FROM artifacts WHERE isUnlocked = 1";
                 return _db.Query<ArtifactEntity>(query);
             });
         }
@@ -66,7 +66,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao
         {
             return Task.Run(() =>
             {
-                string query = "SELECT * FROM artifact ORDER BY RANDOM() LIMIT 1";
+                string query = "SELECT * FROM artifacts ORDER BY RANDOM() LIMIT 1";
                 return _db.Query<ArtifactEntity>(query).FirstOrDefault();
             });
         }

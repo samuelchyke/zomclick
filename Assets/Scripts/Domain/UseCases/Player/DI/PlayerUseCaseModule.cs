@@ -7,9 +7,19 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Player.DI {
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<ReadPlayerStatsUseCaseImpl>()
-                .FromMethod( ctx =>
+                .FromMethod(ctx =>
                     {
                         return new ReadPlayerStatsUseCaseImpl(
+                            playerRepository: ctx.Container.Resolve<PlayerRepositoryImpl>()
+                        );
+                    })
+                .AsSingle()
+                .NonLazy();
+                
+            Container.BindInterfacesAndSelfTo<ObservePlayerStatsUseCaseImpl>()
+                .FromMethod( ctx =>
+                    {
+                        return new ObservePlayerStatsUseCaseImpl(
                             playerRepository: ctx.Container.Resolve<PlayerRepositoryImpl>()
                         );
                     })

@@ -1,12 +1,12 @@
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 using Zenject;
-using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
 using Com.Studio.Zomclick.Assets.Scripts.Repositories;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.Domain.UseCases.Player {
-    public interface IReadPlayerStatsUseCase {
+    public interface IReadPlayerStatsUseCase
+    {
         public Task<PlayerStats> Invoke();
     }
 

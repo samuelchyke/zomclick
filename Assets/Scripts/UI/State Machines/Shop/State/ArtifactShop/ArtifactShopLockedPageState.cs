@@ -15,12 +15,12 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.Artifac
 
         public override void EnterSubState(ShopStateManager shopContext)
         {
-            shopContext.artifactShopLockedPage.SetActive(true);
+            shopContext.artifactShopLockedPageView.ShowView();
         }
 
         public override void ExitSubState(ShopStateManager shopContext)
         {
-            shopContext.artifactShopLockedPage.SetActive(false);
+            shopContext.artifactShopLockedPageView.HideView();
         }
     }
 }

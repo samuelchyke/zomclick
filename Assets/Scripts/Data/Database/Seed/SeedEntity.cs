@@ -5,7 +5,7 @@ using System.Reflection;
 using SQLite4Unity3d;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
-    public abstract class SeedEntity
+    public abstract record SeedEntity
     {
         public string tableName { get; protected set; }
 
@@ -19,13 +19,13 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
         public string Identifier => string.Join("", Keys.Select(k => k.GetValue(this)?.ToString()));
 
         // Lazy loading the filtered members to get only properties that exist in Columns
-        private readonly Lazy<List<string>> _coloumns;
+        private readonly Lazy<List<string>> _columns;
         private readonly Lazy<List<PropertyInfo>> _filteredMembers;
 
 
-        public SeedEntity()
+        protected SeedEntity()
         {
-            _coloumns = new Lazy<List<string>>(() => 
+            _columns = new Lazy<List<string>>(() =>
                 GetType().GetProperties()
                 .Where(p => p.CanRead && p.CanWrite && !p.Name.Equals("tableName", StringComparison.OrdinalIgnoreCase))
                 .Select(p => p.Name)
@@ -34,16 +34,30 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed {
             // Initialize the lazy-loaded _filteredMembers list
             _filteredMembers = new Lazy<List<PropertyInfo>>(() =>
                 GetType().GetProperties()
-                    .Where(p => _coloumns.Value.Contains(p.Name))  // Use the instance property Columns
+                    .Where(p => _columns.Value.Contains(p.Name))  // Use the instance property Columns
                     .ToList());
         }
 
+        protected SeedEntity(SeedEntity other)
+        {
+            tableName = other.tableName;
+            _columns = other._columns;
+            _filteredMembers = other._filteredMembers;
+        }
 
         // Columns that correspond to the database columns
-        public List<string> Columns => _coloumns.Value;
+        public List<string> Columns => _columns.Value;
 
         // Public property to access filteredMembers lazily
         public List<PropertyInfo> FilteredMembers => _filteredMembers.Value;
+
+        public virtual bool Equals(SeedEntity other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            return string.Equals(tableName, other.tableName, StringComparison.Ordinal);
+        }
+
+        public override int GetHashCode() => tableName.GetHashCode();
 
         // Method to bind properties to the SQLite statement
         public void BindStatement(SQLiteCommand command, List<PropertyInfo> filteredMembers)

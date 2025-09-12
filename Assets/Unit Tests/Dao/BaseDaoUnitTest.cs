@@ -1,8 +1,6 @@
 using SQLite4Unity3d;
 using NUnit.Framework;
-using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities;
 using Com.Studio.Zomclick.Assets.Scripts.Data.Database;
-using System.Threading.Tasks;
 
 internal abstract class BaseDaoUnitTest
 {

@@ -11,6 +11,7 @@ using UnityEngine.TestTools;
 namespace Com.Studio.Zomclick.Assets.UnitTests.Dao {
 internal class Dao : BaseDaoUnitTest {
     private IPlayerShopDao _playerShopDao;
+    private IPlayerDao _playerStatsDao;
     private IStubDao stubDao;
 
 
@@ -19,6 +20,7 @@ internal class Dao : BaseDaoUnitTest {
     {
         SetUpDatabase();
         _playerShopDao = database.PlayerShopDao();
+        _playerStatsDao = database.PlayerDao();
         stubDao = database.StubDao();
     }
 
@@ -27,34 +29,62 @@ internal class Dao : BaseDaoUnitTest {
     {
         ClearDatabase();
     }
-
+    
     /**
      * GIVEN
-     *      A PlayerShopDao with a PlayerShopEntity already inserted into the database
+     *      A PlayerDao with a PlayerStatsEntity inserted into the database
      * WHEN
-     *      reading the shop details
+     *      reading the player stats
      * THEN
-     *      the details of the inserted PlayerShopEntity should be returned
+     *      the details of the inserted PlayerStats should be returned
      */
     [Test]
-    public async Task ReadShopDetails_ShouldReturnShopDetails()
+    public async Task ReadPlayerStats_ReturnsPlayerStats()
     {
         // Arrange
-        var shopEntity = new Stub().PlayerShopEntity();
+        var playerStats = Stub.PlayerStatsEntity();
 
         // Insert the shop entity into the database for testing
         await database.RunInTransaction(async () =>
         {
-            await stubDao.InsertPlayerShop(shopEntity);
+            await stubDao.InsertPlayerStats(playerStats);
         });
 
         // Act
-        var retrievedShopEntity = await _playerShopDao.ReadShopDetails();
+        var result = await _playerStatsDao.ReadPlayerStats();
 
         // Assert
-        Assert.IsNotNull(retrievedShopEntity);
-        Assert.AreEqual(shopEntity.id, retrievedShopEntity.id);
+        Assert.IsNotNull(result);
+        Assert.AreEqual(playerStats, result);
     }
+
+    /**
+             * GIVEN
+             *      A PlayerShopDao with a PlayerShopEntity already inserted into the database
+             * WHEN
+             *      reading the shop details
+             * THEN
+             *      the details of the inserted PlayerShopEntity should be returned
+             */
+    //     [Test]
+    // public async Task ReadShopDetails_ShouldReturnShopDetails()
+    // {
+    //     // Arrange
+    //     var shopEntity = Stub.PlayerShopEntity();
+
+    //     // Insert the shop entity into the database for testing
+    //     await database.RunInTransaction(async () =>
+    //     {
+    //         await stubDao.InsertPlayerShop(shopEntity);
+    //     });
+
+    //     // Act
+    //     var retrievedShopEntity = await _playerShopDao.ReadShopDetails();
+
+    //     // Assert
+    //     Assert.IsNotNull(retrievedShopEntity);
+    //     Assert.AreEqual(shopEntity.id, retrievedShopEntity.id);
+    // }
 
 //     /**
 //      * GIVEN

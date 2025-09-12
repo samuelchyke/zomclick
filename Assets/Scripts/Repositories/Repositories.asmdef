@@ -3,7 +3,9 @@
     "rootNamespace": "Com.Studio.Zomclick",
     "references": [
         "GUID:e9997ce9a93e84e4c87c44055bee8d9a",
-        "GUID:3020a95b2e06346a0b5f1300281fc4d0"
+        "GUID:3020a95b2e06346a0b5f1300281fc4d0",
+        "GUID:77221876cc6b8244180b96e320b1bcd4",
+        "GUID:f8c68d614fe30d647996098360b5e0d5"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

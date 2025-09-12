@@ -7,7 +7,7 @@ using Com.Studio.Zomclick.Assets.Scripts.Data.Database.Seed;
 namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Entities {
     [SuppressMessage("Style", "IDE0002:Simplify name")]
     [Table(BossStatsEntity.TableName)]
-    public class BossStatsEntity : SeedEntity
+    public record BossStatsEntity : SeedEntity
     {
         public const string TableName = "bossStats";
 

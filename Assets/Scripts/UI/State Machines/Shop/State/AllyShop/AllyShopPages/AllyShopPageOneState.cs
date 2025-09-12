@@ -5,12 +5,12 @@ using R3;
 using System;
 using System.Collections.Generic;
 using Com.Studio.Zomclick.Assets.Scripts.Repositories.Models;
-using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State;
+using Com.Studio.Zomclick.Assets.Scripts.UI.Views.AllyShop;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllyShop.AllyShopPages {
     public class AllyShopPageOneState : ShopBaseState
     {
-        AllyShopPageOneView pageView;
+        AllyShopPageOneView view;
         AllyStatsView allyStatsView;
 
         Dictionary<string, TextMeshProUGUI> allyCostTexts;
@@ -90,38 +90,37 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllySho
 
         public override void ExitState(ShopStateManager shopContext)
         {
-            // shopContext.displayAllyPage1 = false;
-            pageView.HidePage();
+            view.HideView();
             shopContext.allyShop.SetActive(false);
         }
 
         public override void EnterSubState(ShopStateManager shopContext)
         {
-            pageView = shopContext.allyShopPageOneView;
+            view = shopContext.allyShopPageOneView;
             allyStatsView = shopContext.allyStatsView;
-            pageView.ShowPage();
+            view.ShowView();
 
             allyCostTexts = new Dictionary<string, TextMeshProUGUI>
             {
-                { "john_id", pageView.johnCostText },
-                { "doe_id", pageView.doeCostText }
+                { "john_id", view.johnCostText },
+                { "doe_id", view.doeCostText }
             };
 
             shopContext.allyShopViewModel.allies
                 .Subscribe(allies => UpdateUI(allies));
 
-            pageView.johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
-            pageView.johnStatsButton.onClick.AddListener(() => showStats(shopContext, "john_id"));
+            view.johnBuyButton.onClick.AddListener(() => onBuy(shopContext, "john_id"));
+            view.johnStatsButton.onClick.AddListener(() => showStats(shopContext, "john_id"));
 
-            pageView.doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
-            pageView.doeStatsButton.onClick.AddListener(() => showStats(shopContext, "doe_id"));
+            view.doeBuyButton.onClick.AddListener(() => onBuy(shopContext, "doe_id"));
+            view.doeStatsButton.onClick.AddListener(() => showStats(shopContext, "doe_id"));
 
-            pageView.nextPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.allyShopPageTwoState));
+            view.nextPageButton.onClick.AddListener(() => SwitchSubStates(shopContext, shopContext.allyShopPageTwoState));
         }
 
         public override void ExitSubState(ShopStateManager shopContext)
         {
-            pageView.HidePage();
+            view.HideView();
         }
     }
 }
