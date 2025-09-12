@@ -16,13 +16,11 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
     #nullable enable
     public class ShopStateManager : MonoBehaviour
     {
-
         [Inject] EventsManager eventsManager;
         [Inject] readonly ShopStateFactory states;
         [Inject] public IPlayerShopViewModel playerShopViewModel;
         [Inject] public IAllyShopViewModel allyShopViewModel; 
         [Inject] public IArtifactShopViewModel artifactShopViewModel; 
-
 
         private ShopBaseState _currentState;
         public ShopBaseState currentState { get => _currentState; set { _currentState = value;} }
@@ -46,11 +44,8 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
         public ArtifactShopUnlockedPageState artifactShopPageUnlockedState;
         public ArtifactShopLockedPageState artifactShopPageLockedState;
 
-        // Shop Tabs
-        public TextMeshProUGUI goldText;
-        public Button playerUpgradeShopButton;
-        public Button allyShopButton;
-        public Button artifactShopButton;
+        [Header("Shop Tabs")]
+        public ShopTabsView shopTabsView;
 
         public GameObject artifactShop;
         public GameObject artifactShopLockedPage;
@@ -75,7 +70,6 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
 
         Dictionary<ShopType, GameObject> shopTabs;
         
-
         void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -112,7 +106,12 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
 
         private void InitializeShopUI()
         {
-            playerShopViewModel.shopDetails.Subscribe(details => goldText.text = details.totalGold.ToString());
+            SubscribeGold();
+        }
+
+        public void SubscribeGold() 
+        {
+            playerShopViewModel.shopDetails.Subscribe(details => shopTabsView.currencyText.text = details.totalGold.ToString());
         }
 
         void Start()
@@ -120,11 +119,9 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
             currentState = shopTabState;
             currentState.EnterState(this);
 
-            // currentSubState = allyShopPageOneState;
-
-            playerUpgradeShopButton.onClick.AddListener(() => SwitchStates(playerShopState)); 
-            allyShopButton.onClick.AddListener(() => SwitchStates(allyShopState)); 
-            artifactShopButton.onClick.AddListener(() => SwitchStates(artifactShopState));
+            shopTabsView.playerUpgradeShopButton.onClick.AddListener(() => SwitchStates(playerShopState)); 
+            shopTabsView.allyShopButton.onClick.AddListener(() => SwitchStates(allyShopState)); 
+            shopTabsView.artifactShopButton.onClick.AddListener(() => SwitchStates(artifactShopState));
         }
 
         public void Cleanup()

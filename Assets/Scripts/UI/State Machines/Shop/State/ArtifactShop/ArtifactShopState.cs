@@ -17,6 +17,10 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.Artifac
         public override void EnterState(ShopStateManager shopContext)
         {
             shopContext.artifactShop.SetActive(true);
+            shopContext.artifactShopViewModel.artifactsShopDetails.Subscribe( details => 
+                shopContext.shopTabsView.currencyText.text = details.totalRelics.ToString()
+            );
+
             SwitchSubStates(shopContext, shopContext.artifactShopPageLockedState);
 
             artifactUnlockCostText = GameObject.Find("artifact_unlock_cost_text").GetComponent<TextMeshProUGUI>();
@@ -32,6 +36,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.Artifac
         public override void ExitState(ShopStateManager shopContext)
         {
             shopContext.artifactShop.SetActive(false);
+            shopContext.SubscribeGold();
             Dispose();
         }
 

@@ -2,7 +2,9 @@
     "files.exclude": {
         "**/.DS_Store": true,
         "**/.git": true,
+        "**/.vs": true,
         "**/.gitmodules": true,
+        "**/.vsconfig": true,
         "**/*.booproj": true,
         "**/*.pidb": true,
         "**/*.suo": true,
@@ -47,11 +49,22 @@
         "library/": true,
         "obj/": true,
         "Obj/": true,
+        "Logs/": true,
+        "logs/": true,
         "ProjectSettings/": true,
+        "UserSettings/": true,
         "temp/": true,
         "Temp/": true
     },
-    "unityExplorer.testSourceFileRegex": "\\w+/UnitTests/\\w+?\\.cs",
-    "unityExplorer.testCaseRegex": "public\\s*async\\s*Task\\s+(.*)\\s*\\(",
+    "files.associations": {
+        "*.asset": "yaml",
+        "*.meta": "yaml",
+        "*.prefab": "yaml",
+        "*.unity": "yaml",
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.sln": "*.csproj",
+    },
     "dotnet.defaultSolution": "ZomClickPrototype.sln"
 }
