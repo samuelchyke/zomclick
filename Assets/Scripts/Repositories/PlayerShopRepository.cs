@@ -46,7 +46,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
             var playerShop = await playerShopDao.ReadShopDetails();
             var playerStats = await playerStatsDao.ReadPlayerStats();
             Debug.Log("Shop Repository - ReadShopDetails - PLAYER GOLD: " + playerStats.totalGold);
-            return new PlayerShopDetailsBuilder().ToDomain(
+            return new PlayerShopDetailsBuilder().buildFrom(
                 shopEntity: playerShop,
                 totalGold: playerStats.totalGold
             );
@@ -60,7 +60,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
                 (shopEntity, statsEntity) =>
             {
                 Debug.Log("Shop Repository - ReadShopDetails - PLAYER GOLD: " + statsEntity.totalGold);
-                return new PlayerShopDetailsBuilder().ToDomain(
+                return new PlayerShopDetailsBuilder().buildFrom(
                     shopEntity: shopEntity,
                     totalGold: statsEntity.totalGold
                 );

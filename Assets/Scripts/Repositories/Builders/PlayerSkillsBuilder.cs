@@ -14,14 +14,14 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories.Builders {
             )
         {
             return new PlayerSkills
-            {
-                turret = new PlayerSkillBuilder().ToDomain(turret),
-                bigBetty = new PlayerSkillBuilder().ToDomain(bigBetty),
-                lightningRounds = new PlayerSkillBuilder().ToDomain(lightningRounds),
-                rallyAllies = new PlayerSkillBuilder().ToDomain(rallyAllies),
-                incendiaryRounds = new PlayerSkillBuilder().ToDomain(incendiaryRounds),
-                midasRounds = new PlayerSkillBuilder().ToDomain(midasRounds)
-            };
+            (
+                turret: new PlayerSkillBuilder().buildFrom(turret),
+                bigBetty: new PlayerSkillBuilder().buildFrom(bigBetty),
+                lightningRounds: new PlayerSkillBuilder().buildFrom(lightningRounds),
+                rallyAllies: new PlayerSkillBuilder().buildFrom(rallyAllies),
+                incendiaryRounds: new PlayerSkillBuilder().buildFrom(incendiaryRounds),
+                midasRounds: new PlayerSkillBuilder().buildFrom(midasRounds)
+            );
         }
     }
 }

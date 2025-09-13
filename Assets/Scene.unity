@@ -3565,13 +3565,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 258954571}
+  - component: {fileID: 258954572}
   m_Layer: 0
-  m_Name: player_shop
+  m_Name: player_shop_view
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &258954571
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3597,6 +3598,21 @@ RectTransform:
   m_AnchoredPosition: {x: 190, y: -13.5}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &258954572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258954570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde76fb42a4a94ddba307ea6ee64637c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 258954570}
+  _playerUpgradeCostText: {fileID: 1993111204}
+  _playerUpgradeBuyButton: {fileID: 115508240}
 --- !u!1 &267262924
 GameObject:
   m_ObjectHideFlags: 0
@@ -12709,7 +12725,7 @@ GameObject:
   - component: {fileID: 1021716581}
   - component: {fileID: 1021716582}
   m_Layer: 0
-  m_Name: ally_shop
+  m_Name: ally_shop_view
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23765,7 +23781,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1910692697
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24925,7 +24941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.1263199, y: 0.123687744}
+  m_AnchoredPosition: {x: 0.005, y: 0.221}
   m_SizeDelta: {x: 0.59, y: 0.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1993111204
@@ -24948,7 +24964,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: afb5fa9bfb4c8459b99730b4bd365330, type: 2}
   m_sharedMaterial: {fileID: 5943522982843870902, guid: afb5fa9bfb4c8459b99730b4bd365330, type: 2}
@@ -25305,6 +25321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf85e290d783a4cbaba69f9dc624e155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerShopView: {fileID: 258954572}
   allyShopPageOneView: {fileID: 2648121}
   allyStatsView: {fileID: 1065981188}
   shopTabsView: {fileID: 1132065232}

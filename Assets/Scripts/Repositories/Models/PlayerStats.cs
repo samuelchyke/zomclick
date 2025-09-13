@@ -1,23 +1,23 @@
 namespace Com.Studio.Zomclick.Assets.Scripts.Repositories.Models {
     public interface IPlayerStats
     {
-        string id { get; set; }
-        int level { get; set; }
-        int baseDamage { get; set; }
-        int critRate { get; set; }
-        float critMultiplier { get; set; }
-        int totalDamage { get; set; }
-        int totalGold { get; set; }
+        string id { get; init; }
+        int level { get; init; }
+        int baseDamage { get; init; }
+        int critRate { get; init; }
+        float critMultiplier { get; init; }
+        int totalDamage { get; init; }
+        int totalGold { get; init; }
     }
 
-    public record PlayerStats : IPlayerStats
-    {
-        public string id { get; set; }
-        public int level { get; set; }
-        public int baseDamage { get; set; }
-        public int critRate { get; set; }
-        public float critMultiplier { get; set; }
-        public int totalDamage { get; set; }
-        public int totalGold { get; set; }
-    }
+    public record PlayerStats 
+    (
+        string id,
+        int level,
+        int baseDamage,
+        int critRate,
+        float critMultiplier,
+        int totalDamage,
+        int totalGold
+     ) : IPlayerStats;
 }

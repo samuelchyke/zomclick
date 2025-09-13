@@ -24,14 +24,14 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
         public Observable<PlayerStats> ObservePlayerStats()
         {
             return playerStatsDao.ObservePlayerStats().Select(entity =>
-                new PlayerStatsBuilder().ToDomain(entity)
+                new PlayerStatsBuilder().buildFrom(entity)
             );
         }
 
         public async Task<PlayerStats> ReadPlayerStats()
         {
             PlayerStatsEntity entity = await playerStatsDao.ReadPlayerStats();
-            return new PlayerStatsBuilder().ToDomain(entity);
+            return new PlayerStatsBuilder().buildFrom(entity);
         }
     }
 }

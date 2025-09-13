@@ -1,33 +1,32 @@
 namespace Com.Studio.Zomclick.Assets.Scripts.Repositories.Models {
     public interface IAllyStats
     {
-        string id { get; set; }
-        string name { get; set; }
-        int level { get; set; }
-        int attackSpeed { get; set; }
-        int baseDamage { get; set; }
-        int critRate { get; set; }
-        float critMultiplier { get; set; }
-        int totalDamage { get; set; }
-        int unlockCost { get; set; }
-        int upgradeCost { get; set; }
-        bool isUnlocked { get; set; }
-        string lore { get; set; }
+        string id { get; init; }
+        string name { get; init; }
+        int level { get; init; }
+        int attackSpeed { get; init; }
+        int baseDamage { get; init; }
+        int critRate { get; init; }
+        float critMultiplier { get; init; }
+        int totalDamage { get; init; }
+        int unlockCost { get; init; }
+        int upgradeCost { get; init; }
+        bool isUnlocked { get; init; }
+        string lore { get; init; }
     }
 
-    public record AllyStats : IAllyStats
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public int level { get; set; }
-        public int attackSpeed { get; set; }
-        public int baseDamage { get; set; }
-        public int critRate { get; set; }
-        public float critMultiplier { get; set; }
-        public int totalDamage { get; set; }
-        public int unlockCost { get; set; }
-        public int upgradeCost { get; set; }
-        public bool isUnlocked { get; set; }
-        public string lore { get; set; }
-    }
+    public record AllyStats(
+        string id,
+        string name,
+        int level,
+        int attackSpeed,
+        int baseDamage,
+        int critRate,
+        float critMultiplier,
+        int totalDamage,
+        int unlockCost,
+        int upgradeCost,
+        bool isUnlocked,
+        string lore
+    ) : IAllyStats;
 }

@@ -7,14 +7,14 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories.Builders {
         public AllySkill ToDomain(AllySkillEntity entity)
         {
             return new AllySkill
-            {
-                id = entity.id,
-                allyId = entity.allyId,
-                isUnlocked = entity.isUnlocked, 
-                description = entity.description,
-                unlockLevel = entity.unlockLevel,
-                buff = entity.buff
-            };
+            (
+                id: entity.id,
+                allyId: entity.allyId,
+                isUnlocked: entity.isUnlocked, 
+                description: entity.description,
+                unlockLevel: entity.unlockLevel,
+                buff: entity.buff
+            );
         }
 
         public AllySkillEntity ToEntity(AllySkill skill)

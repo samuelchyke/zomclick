@@ -7,20 +7,20 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories.Builders {
         public AllyStats ToDomain(AllyStatsEntity entity)
         {
             return new AllyStats
-            {
-                id = entity.id,
-                name = entity.name,
-                level = entity.level,
-                attackSpeed = entity.attackSpeed,
-                baseDamage = entity.baseDamage,
-                critRate = entity.critRate,
-                critMultiplier = entity.critMultiplier,
-                totalDamage = entity.totalDamage,
-                unlockCost = entity.unlockCost,
-                upgradeCost = entity.upgradeCost,
-                isUnlocked = entity.isUnlocked,
-                lore = entity.lore
-            };
+            (
+                id: entity.id,
+                name: entity.name,
+                level: entity.level,
+                attackSpeed: entity.attackSpeed,
+                baseDamage: entity.baseDamage,
+                critRate: entity.critRate,
+                critMultiplier: entity.critMultiplier,
+                totalDamage: entity.totalDamage,
+                unlockCost: entity.unlockCost,
+                upgradeCost: entity.upgradeCost,
+                isUnlocked: entity.isUnlocked,
+                lore: entity.lore
+            );
         }
 
         public AllyStatsEntity ToEntity(AllyStats allyStats)

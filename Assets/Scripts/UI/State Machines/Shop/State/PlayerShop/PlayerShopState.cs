@@ -19,8 +19,8 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerS
             shopContext.playerUpgradeShop.SetActive(true);
             SwitchSubStates(shopContext, shopContext.playerShopPageOneState);
 
-            playerUpgradeCostText = GameObject.Find("player_upgrade_gold_text").GetComponent<TextMeshProUGUI>();
-            playerUpgradeBuyButton = GameObject.Find("player_upgrade_buy_button").GetComponent<Button>();
+            playerUpgradeCostText = shopContext.playerShopView.playerUpgradeCostText;
+            playerUpgradeBuyButton = shopContext.playerShopView.playerUpgradeBuyButton;
             
             shopContext.playerShopViewModel.shopDetails
                 .Subscribe(details => UpdateUI(details))

@@ -73,15 +73,6 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.ViewModel {
             _shopDetails.Value = await readShopDetailsUseCase.Invoke();
         }
 
-        public bool SpendGold(int amount){
-            if (_shopDetails.Value.totalGold >= amount)
-            {
-                _shopDetails.Value.totalGold -= amount;
-                return true;
-            }
-            return false;
-        }
-
         public async void UpgradePlayerStats()
         {
             await upgradePlayerStatsUseCase.Invoke();

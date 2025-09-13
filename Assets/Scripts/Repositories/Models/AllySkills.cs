@@ -1,21 +1,20 @@
 namespace Com.Studio.Zomclick.Assets.Scripts.Repositories.Models {
     public interface IAllySkill
     {
-        string id { get; set; }
-        string allyId { get; set; }
-        bool isUnlocked { get; set; }
-        string description { get; set; }
-        int unlockLevel { get; set; }
-        int buff { get; set; }
+        string id { get; init; }
+        string allyId { get; init; }
+        bool isUnlocked { get; init; }
+        string description { get; init; }
+        int unlockLevel { get; init; }
+        int buff { get; init; }
     }
 
-    public record AllySkill : IAllySkill
-    {
-        public string id { get; set; }
-        public string allyId { get; set; }
-        public bool isUnlocked { get; set; }
-        public string description { get; set; }
-        public int unlockLevel { get; set; }
-        public int buff { get; set; }
-    }
+    public record AllySkill(
+        string id,
+        string allyId,
+        bool isUnlocked,
+        string description,
+        int unlockLevel,
+        int buff
+    ) : IAllySkill;
 }

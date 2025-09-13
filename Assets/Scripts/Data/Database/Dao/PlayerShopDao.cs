@@ -47,7 +47,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Data.Database.Dao
         {
             return Task.Run(() =>
             {
-                string query = "SELECT * FROM playerShopDetails LIMIT 1";
+                string query = "SELECT * FROM playerShop LIMIT 1";
                 return _db.Query<PlayerShopEntity>(query).First();
             });
         }

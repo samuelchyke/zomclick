@@ -35,7 +35,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
         {
             var entity = await artifactDao.ReadArtifactShop();
             var playerStats = await playerDao.ReadPlayerStats();
-            return new ArtifactShopDetailsBuilder().ToDomain(
+            return new ArtifactShopDetailsBuilder().buildFrom(
                 shopEntity: entity,
                 totalRelics: playerStats.totalRelics
             );
@@ -44,13 +44,13 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
         public async Task<Artifact> ReadArtifact(string artifactId)
         {
             ArtifactEntity entity = await artifactDao.ReadArtifact(artifactId);
-            return new ArtifactBuilder().ToDomain(entity);
+            return new ArtifactBuilder().buildFrom(entity);
         }
 
         public async Task<List<Artifact>> ReadUnlockedArtifacts()
         {
             var entities = await artifactDao.ReadUnlockedArtifacts();
-            List<Artifact> artifacts = entities.Select(artifact => new ArtifactBuilder().ToDomain(artifact)).ToList();
+            List<Artifact> artifacts = entities.Select(artifact => new ArtifactBuilder().buildFrom(artifact)).ToList();
             return artifacts;
         }
 

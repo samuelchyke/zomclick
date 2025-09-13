@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-
 namespace Com.Studio.Zomclick.Assets.Scripts.Repositories.Models {
     public interface IArtifactShopDetails
     {
-        string id { get; set; }
-        public int artifactUnlockCost { get; set; }
-        public int totalRelics { get; set; }
+        string id { get; init; }
+        public int artifactUnlockCost { get; init; }
+        public int totalRelics { get; init; }
 
     }
 
-    public record ArtifactShopDetails : IArtifactShopDetails
-    {
-        public string id { get; set; }
-        public int artifactUnlockCost { get; set; }
-        public int totalRelics { get; set; }
-    }
+    public record ArtifactShopDetails(
+        string id,
+        int artifactUnlockCost,
+        int totalRelics
+    ) : IArtifactShopDetails;
 }

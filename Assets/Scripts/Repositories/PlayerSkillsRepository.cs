@@ -38,7 +38,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.Repositories {
         public async Task<PlayerSkill> ReadPlayerSkill(string playerSkillId)
         {
             var playerSkill = await playerStatsDao.ReadPlayerSkill(playerSkillId);
-            return new PlayerSkillBuilder().ToDomain(playerSkill);
+            return new PlayerSkillBuilder().buildFrom(playerSkill);
         }
 
         public async Task<PlayerSkills> ReadPlayerSkills()

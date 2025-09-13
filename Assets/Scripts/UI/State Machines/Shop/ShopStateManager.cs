@@ -14,6 +14,7 @@ using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.PlayerShop;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllyShop;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.AllyShop.AllyShopPages;
 using Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State.ArtifactShop;
+using Com.Studio.Zomclick.Assets.Scripts.UI.Views.PlayerShop;
 
 namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
     #nullable enable
@@ -32,10 +33,14 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
         public ShopBaseState? currentSubState { get => _currentSubState; set { _currentSubState = value;} }
 
         public ShopTabState shopTabState;
+
+        [Header("Player Shop View")]
+        public PlayerShopView playerShopView;
         public PlayerShopState playerShopState;
         public PlayerShopPageOneState playerShopPageOneState;
         public PlayerShopPageTwoState playerShopPageTwoState;
 
+        [Header("Ally Shop View")]
         public AllyShopState allyShopState;
         public AllyShopPageOneState allyShopPageOneState;
         public AllyShopPageOneView allyShopPageOneView;
@@ -50,7 +55,7 @@ namespace Com.Studio.Zomclick.Assets.Scripts.UI.StateMachines.Shop.State {
         [Header("Shop Tabs View")]
         public ShopTabsView shopTabsView;
 
-        [Header("Artifact Shop Views")]
+        [Header("Artifact Shop View")]
         public ArtifactShopView artifactShopView;
         public ArtifactShopLockedPageView artifactShopLockedPageView;
 

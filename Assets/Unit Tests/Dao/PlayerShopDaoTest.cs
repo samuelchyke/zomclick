@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace Com.Studio.Zomclick.Assets.UnitTests.Dao {
-internal class Dao : BaseDaoUnitTest {
+internal class PlayerShopDaoTestDao : BaseDaoUnitTest {
     private IPlayerShopDao _playerShopDao;
     private IPlayerDao _playerStatsDao;
     private IStubDao stubDao;
